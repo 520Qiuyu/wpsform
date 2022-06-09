@@ -1,20 +1,90 @@
 <template>
-  <div>这是表单列表组件</div>
-  <router-link to="/app/new-from-create">点我进入新建表单</router-link>
-  <router-link to="/app/new-form-result">点击进入表单详情</router-link>
+  <div class="form-list">
+    <div class="form-list-aside" :style="{ height: adideHeight }">
+      <div class="form-list-aside-top">
+        <router-link to="/app/new-form-create" class="form-create-btn"
+          >新建表单</router-link
+        >
+      </div>
+      <span class="form-list-title">表单列表</span>
+    </div>
+    <div class="form-list-container">
+      <router-link to="/app/new-form-result">
+        <p class="form-list-item">点击进入表单1详情</p>
+      </router-link>
+      <router-link to="/app/new-form-result">
+        <p class="form-list-item">点击进入表单2详情</p>
+      </router-link>
+      <router-link to="/app/new-form-result">
+        <p class="form-list-item">点击进入表单3详情</p>
+      </router-link>
+      <router-link to="/app/new-form-result">
+        <p class="form-list-item">点击进入表单4详情</p>
+      </router-link>
+    </div>
+  </div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "FormList",
   components: {},
   props: {},
   setup(props, ctx) {
-    return {};
+    const adideHeight = ref(window.innerHeight - 115 + "px");
+    return {
+      adideHeight,
+    };
   },
 });
 </script>
 
 <style scoped>
+.form-list {
+  display: flex;
+  justify-content: space-between;
+}
+.form-list-aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 15%;
+  border: 1px solid #ccc;
+  border-top: 0;
+}
+.form-list-aside-top {
+  padding: 40px;
+}
+
+.form-create-btn {
+  text-align: center;
+  color: black;
+  padding: 10px 30px;
+  border: 1px solid #ccc;
+}
+
+.form-list-title {
+  text-align: center;
+  border: 1px solid #ccc;
+  border-left: 0;
+  border-right: 0;
+  width: 100%;
+  padding: 30px 0;
+}
+.form-list-container {
+  flex: 1;
+  margin: 20px;
+  margin-bottom: 100px;
+  border: 1px solid #ccc;
+  padding: 30px;
+}
+
+.form-list-item {
+  width: 100%;
+  line-height: 40px;
+  border: 1px solid #333;
+  margin-bottom: 10px;
+  padding: 0 20px;
+}
 </style>
