@@ -16,14 +16,14 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       // 首页，展示表单列表
       {
-        path: "from-list",
+        path: "form-list",
         name: "form-list",
         component: () => import("../views/FormList.vue"),
       },
       // 新建表单
       {
-        path: "new-from-create",
-        name: "new-from-create",
+        path: "new-form-create",
+        name: "new-form-create",
         component: () => import("../views/NewformCreate.vue"),
       },
       // 填写详情
