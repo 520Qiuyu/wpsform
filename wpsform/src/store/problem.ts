@@ -1,4 +1,4 @@
-import { Problem } from "@/types/types";
+import { IProblem } from "@/types/types";
 export default {
   namespaced: true,
   actions: {},
