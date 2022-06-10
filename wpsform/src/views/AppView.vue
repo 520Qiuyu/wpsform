@@ -51,7 +51,7 @@ export default defineComponent({
   props: {},
   setup(props, ctx) {
     // 登录状态
-    const loginState = ref(true);
+    const loginState = ref(false);
     // 点击头像后显示下拉栏
     const selectedAvatar = ref(false);
     const stretchOption = () => {}

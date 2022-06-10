@@ -1,4 +1,4 @@
-import { Form } from "../types/types";
+import { IForm } from "../types/types";
 export default {
   namespaced: true,
   actions: {},
