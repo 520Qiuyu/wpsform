@@ -1,0 +1,7 @@
+node_modules
+dist
+src/**/*.txt
+src/*.txt
+*.md
+!README.md
+qqq.txt

@@ -5,6 +5,10 @@
 
 a {
   text-decoration: none;
+  color: black;
+}
+html,body,#app{
+  height: 100%;
 }
 body {
   color: rgba(0, 0, 0, 0.65);
@@ -16,7 +20,4 @@ body {
   background-color: #fff;
   -webkit-font-feature-settings: "tnum";
   font-feature-settings: "tnum";
-}
-#app{
-  width: 100%;
 }

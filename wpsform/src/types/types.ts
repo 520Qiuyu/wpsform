@@ -1,11 +1,12 @@
-export interface User {
+export interface IUser {
+  [index: string]:string,
   account: string;
   pwd: string;
   nickname: string;
   avatar: string;
 }
 
-export interface Form {
+export interface IForm {
   formId: string;
   offset?: number;
   limit?: number;
@@ -32,7 +33,7 @@ export interface Form {
   }[];
 }
 
-export interface Problem {
+export interface IProblem {
   title: string;
   type:
     | "input"
@@ -49,4 +50,7 @@ export interface Problem {
       status: 1 | 2;
     }[];
   };
+  [props:string]:any
 }
+
+export 

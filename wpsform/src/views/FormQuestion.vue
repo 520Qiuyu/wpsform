@@ -1,5 +1,5 @@
 <template>
-  <div>这是表单问题组件</div>
+  <div></div>
 </template>
 
 <script>
