@@ -17,15 +17,16 @@
       <!-- 用户信息 -->
       <div class="app-user">
         <!-- 用户头像 -->
-        <div class="app-user-icon" v-if="loginState">
+        <div
+          class="app-user-icon"
+          v-if="loginState"
+          @click="selectedAvatar = !selectedAvatar"
+          @blur="selectedAvatar = false"
+        >
           <img src="../assets/imgs/logo.svg" alt="" />
         </div>
         <!-- 展开栏：登出，个人信息等-->
-        <div
-          v-if="selectedAvatar"
-          class="app-user-option"
-          @click="stretchOption"
-        >
+        <div v-if="selectedAvatar" class="app-user-option">
           <!-- 用户昵称 -->
           <div class="app-user-title" v-if="loginState">邱宇</div>
           <ul class="app-user-option-list">
@@ -54,7 +55,7 @@ export default defineComponent({
     const loginState = ref(true);
     // 点击头像后显示下拉栏
     const selectedAvatar = ref(false);
-    const stretchOption = () => {}
+    const stretchOption = () => {};
     const usericon = "../assets/imgs/logo.svg";
     return {
       loginState,
