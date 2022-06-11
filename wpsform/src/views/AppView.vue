@@ -4,36 +4,43 @@
     <el-header class="app-top">
       <!-- 左侧区域 -->
       <!-- 首页显示logo -->
-      <router-link to="/" class="app-logo" v-if="appStatus==1">
+      <router-link to="/" class="app-logo" v-if="appStatus == 1">
         <!-- logo图片 -->
         <img src="../assets/imgs/logo.svg" alt="" />
         <!-- logo文字：金山表单 -->
         <span class="logo-name">金山表单</span>
       </router-link>
       <!-- 新建表单页面显示返回图标+新建表单 -->
-      <div class="app-logoArea" v-if="appStatus==2">
+      <div class="app-logoArea" v-if="appStatus == 2">
         <!-- <el-page-header content="新建表单" @back="goBack" /> -->
-        <el-icon><icon-arrowleftbold @click="goBack"/></el-icon>
+        <el-icon><icon-arrowleftbold @click="goBack" /></el-icon>
         <span>新建表单</span>
       </div>
       <!-- 表单详情页面显示返回图标+当前表单名 -->
-      <div class="app-logoArea" v-if="appStatus==3">
-        <el-icon><icon-arrowleftbold @click="goBack"/></el-icon>
+      <div class="app-logoArea" v-if="appStatus == 3">
+        <el-icon><icon-arrowleftbold @click="goBack" /></el-icon>
         <span>xxx表单名称</span>
       </div>
       <!-- 右侧个人信息显示：头像昵称 -->
       <div class="app-user-info">
         <!-- 登录按钮 -->
-        <router-link to="/login" v-if="!loginState" class="app-login-btn">
+        <router-link
+          to="/login"
+          v-if="!$store.state.loginState"
+          class="app-login-btn"
+        >
           登录
         </router-link>
         <!-- 用户信息 -->
-        <div class="app-user" v-if="loginState">
+        <div class="app-user" v-if="$store.state.loginState">
           <!-- 用户名 -->
           <span class="app-user-title">邱宇</span>
           <el-dropdown>
             <!-- 用户头像 -->
-            <div class="app-user-icon el-dropdown-link" v-if="loginState">
+            <div
+              class="app-user-icon el-dropdown-link"
+              v-if="$store.state.loginState"
+            >
               <img src="../assets/imgs/logo.svg" alt="" />
             </div>
             <!-- 头像悬浮显示下拉框内容 -->
@@ -56,9 +63,9 @@
 </template>
 
 <script>
-import { defineComponent, ref, computed} from 'vue'
-import {useStore} from 'vuex'
-import {useRouter} from 'vue-router'
+import { defineComponent, ref, computed,onBeforeMount } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'AppView',
@@ -67,20 +74,29 @@ export default defineComponent({
   setup(props, ctx) {
     const store = useStore()
     const router = useRouter()
-    // 登录状态
-    const loginState = ref(true)
     const usericon = '../assets/imgs/logo.svg'
-    const appStatus = computed(()=>store.state.appStatus)
+    const appStatus = computed(() => store.state.appStatus)
 
-    const goBack = ()=>{
+    const goBack = () => {
       router.go(-1)
     }
 
+    const logout = () => {
+      store.commit('setLoginState', false)
+      window.sessionStorage.removeItem('login')
+      window.sessionStorage.removeItem('user')
+      // console.log(store.state.loginState)
+    }
+
+    onBeforeMount(()=>{
+      console.log(store.state.loginState)
+    })
+
     return {
-      loginState,
       usericon,
       appStatus,
-      goBack
+      goBack,
+      logout,
     }
   },
 })
