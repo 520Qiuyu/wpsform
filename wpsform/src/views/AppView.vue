@@ -97,6 +97,7 @@ export default defineComponent({
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  height: 100%;
 }
 .app-login-btn {
   color: #1488ed;
@@ -116,6 +117,7 @@ export default defineComponent({
   position: relative;
   margin-right: 10px;
 }
+
 .app-user-icon {
   width: 30px;
   height: 30px;
@@ -139,7 +141,7 @@ export default defineComponent({
 }
 /* .app-user-option {
   position: absolute;
-  top: 36px;
+  top: 50px;
   right: 0;
   padding: 12px;
   box-sizing: border-box;
@@ -147,8 +149,11 @@ export default defineComponent({
   box-shadow: 0 2px 12px 0 rgb(56 56 56 / 20%);
   border-radius: 2px;
   border: 1px solid #d3d3d3;
-  display: flex;
+  display: none;
   flex-direction: column;
+}
+.app-user:hover .app-user-option {
+  display: flex;
 }
 .app-user-title {
   width: 80px;
@@ -169,7 +174,9 @@ export default defineComponent({
   flex-direction: column;
   justify-content: space-evenly;
 }
-.app-user-option-item {
+.app-user-option-item:hover {
+  background-color: #FAFAFA;
+  transition: all 0.2s;
 }
 .app-user-option-item a {
   padding: 0 10px;
