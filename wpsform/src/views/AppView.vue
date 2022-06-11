@@ -1,71 +1,74 @@
 <template>
-  <!-- APP顶部栏 -->
-  <div class="app-top">
-    <!-- 左侧logo -->
-    <router-link to="/" class="app-logo">
-      <!-- logo图片 -->
-      <img src="../assets/imgs/logo.svg" alt="" />
-      <!-- logo文字：金山表单 -->
-      <span class="logo-name">金山表单</span>
-    </router-link>
-    <!-- 右侧个人信息显示：头像昵称 -->
-    <div class="app-user-info">
-      <!-- 登录按钮 -->
-      <router-link to="/login" v-if="!loginState" class="app-login-btn">
-        登录
+  <el-container class="app-container">
+    <!-- APP顶部栏 -->
+    <el-header class="app-top">
+      <!-- 左侧logo -->
+      <router-link to="/" class="app-logo">
+        <!-- logo图片 -->
+        <img src="../assets/imgs/logo.svg" alt="" />
+        <!-- logo文字：金山表单 -->
+        <span class="logo-name">金山表单</span>
       </router-link>
-      <!-- 用户信息 -->
-      <div class="app-user">
-        <!-- 用户头像 -->
-        <div class="app-user-icon" v-if="loginState">
-          <img src="../assets/imgs/logo.svg" alt="" />
-        </div>
-        <!-- 展开栏：登出，个人信息等-->
-        <div
-          v-if="selectedAvatar"
-          class="app-user-option"
-          @click="stretchOption"
-        >
-          <!-- 用户昵称 -->
-          <div class="app-user-title" v-if="loginState">邱宇</div>
-          <ul class="app-user-option-list">
-            <li class="app-user-option-item">
-              <router-link to="/user-center">个人信息</router-link>
-            </li>
-            <li class="app-user-option-item">
-              <a @click="logout">退出账号</a>
-            </li>
-          </ul>
+      <!-- 右侧个人信息显示：头像昵称 -->
+      <div class="app-user-info">
+        <!-- 登录按钮 -->
+        <router-link to="/login" v-if="!loginState" class="app-login-btn">
+          登录
+        </router-link>
+        <!-- 用户信息 -->
+        <div class="app-user" v-if="loginState">
+          <!-- 用户名 -->
+          <span class="app-user-title">邱宇</span>
+          <el-dropdown>
+            <!-- 用户头像 -->
+            <div class="app-user-icon el-dropdown-link" v-if="loginState">
+              <img src="../assets/imgs/logo.svg" alt="" />
+            </div>
+            <!-- 头像悬浮显示下拉框内容 -->
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <router-link to="/user-center">个人信息</router-link>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <a @click="logout">退出账号</a>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
       </div>
-    </div>
-  </div>
-  <router-view></router-view>
+    </el-header>
+    <router-view></router-view>
+  </el-container>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref } from 'vue'
 export default defineComponent({
-  name: "AppView",
+  name: 'AppView',
   components: {},
   props: {},
   setup(props, ctx) {
     // 登录状态
-    const loginState = ref(false);
+    const loginState = ref(true)
     // 点击头像后显示下拉栏
-    const selectedAvatar = ref(false);
+    const selectedAvatar = ref(true)
     const stretchOption = () => {}
-    const usericon = "../assets/imgs/logo.svg";
+    const usericon = '../assets/imgs/logo.svg'
     return {
       loginState,
       usericon,
       selectedAvatar,
-    };
+    }
   },
-});
+})
 </script>
 
 <style scoped>
+.app-container {
+  height: 100%;
+}
 .app-top {
   padding: 0 16px;
 }
@@ -74,7 +77,7 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
 
-  height: 56px;
+  /* height: 56px; */
   box-sizing: border-box;
   border: 1px solid #ccc;
 }
@@ -111,6 +114,7 @@ export default defineComponent({
   align-items: center;
   cursor: pointer;
   position: relative;
+  margin-right: 10px;
 }
 .app-user-icon {
   width: 30px;
@@ -122,7 +126,18 @@ export default defineComponent({
 .app-user-icon img {
   width: 100%;
 }
-.app-user-option {
+.app-user-title {
+  width: 80px;
+  font-size: 16px;
+  color: #3d4757;
+  font-weight: 600;
+  text-align: right;
+  padding-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* .app-user-option {
   position: absolute;
   top: 36px;
   right: 0;
@@ -164,5 +179,5 @@ export default defineComponent({
   white-space: nowrap;
   cursor: pointer;
   margin-top: 4px;
-}
+} */
 </style>
