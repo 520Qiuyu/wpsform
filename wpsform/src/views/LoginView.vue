@@ -39,6 +39,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import { useRouter } from "vue-router";
+import {useStore} from 'vuex'
 import * as api from "@/services/api";
 import { ElMessage } from "element-plus";
 
@@ -52,6 +53,7 @@ export default defineComponent({
   components: {},
   props: {},
   setup(props, ctx) {
+    const store = useStore()
     const router = useRouter();
     const form = reactive(<ILoginReq>{ account: "", password: "" });
     const goRegister = () => {
@@ -63,6 +65,19 @@ export default defineComponent({
         if (res.stat === "ok") {
           ElMessage.success("登录成功");
           router.push("/app");
+          // 修改登录状态
+          store.commit('setLoginState',true)
+          window.sessionStorage.setItem('login','true')
+          // 记录用户信息
+          const userInfo = {
+            account: form.account,
+            password: form.password,
+            nickname: '',
+            avatar: '',
+          }
+          store.commit('setUserInfo',userInfo)
+          window.sessionStorage.setItem('user',JSON.stringify(userInfo))
+          
         } else {
            ElMessage.error(res.message);
         }

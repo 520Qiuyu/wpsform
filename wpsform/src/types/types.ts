@@ -1,4 +1,5 @@
 export interface IUser {
+  [index: string]:string,
   account: string;
   pwd: string;
   nickname: string;
