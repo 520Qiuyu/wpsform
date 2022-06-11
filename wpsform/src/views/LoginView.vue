@@ -1,20 +1,38 @@
 <template>
-  <div class="login">
-    <h2>登录</h2>
-    <input
-      type="text"
-      class="text-input"
-      placeholder="用户名"
-      v-model="form.account"
-    />
-    <input
-      type="password"
-      class="text-input"
-      placeholder="密码"
-      v-model="form.password"
-    />
-    <button class="register-btn" @click="goRegister">还没注册？</button>
-    <button class="login-btn" @click="login">登录</button>
+  <div class="page">
+    <!-- 左侧图片 -->
+    <div class="page-left">
+      <span class="top-logo"></span>
+      <span class="bottom-logo"></span>
+    </div>
+    <!-- 右侧登录主体 -->
+    <div class="page-right">
+      <div class="login-box">
+        <div class="login-box-top">
+          <div class="login-title">欢迎使用WPS！</div>
+        </div>
+        <el-input
+          class="text-input"
+          placeholder="用户名"
+          v-model="form.account"
+        ></el-input>
+        <el-input
+          class="text-input"
+          placeholder="密码"
+          v-model="form.password"
+          show-password
+        ></el-input>
+        <div class="operate-box">
+          <el-button class="login-btn" type="primary" @click="login"
+            >立即登录</el-button
+          >
+          <div class="goregister">
+            <span>没有账号？</span>
+          <router-link to="/register">立即注册></router-link>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -22,6 +40,7 @@
 import { defineComponent, reactive } from "vue";
 import { useRouter } from "vue-router";
 import * as api from "@/services/api";
+import { ElMessage } from "element-plus";
 
 interface ILoginReq {
   account: string;
@@ -40,53 +59,95 @@ export default defineComponent({
     };
     const login = async () => {
       try {
-        const res = await api.login(form.account,form.password);
+        const res = await api.login(form.account, form.password);
         if (res.stat === "ok") {
-          console.log("登录成功");
+          ElMessage.success("登录成功");
           router.push("/app");
         } else {
-          console.log(res.message)
+           ElMessage.error(res.message);
         }
-        }
-       catch (err) {
+      } catch (err) {
         console.trace(err);
       }
     };
     return {
       form,
       goRegister,
-      login
+      login,
     };
   },
 });
 </script>
 
 <style scoped>
-.login {
+.page {
+  display: flex;
+  background-color: #fff;
+  height: 100%;
+}
+.page-left {
+  width: 580px;
+  height: 100%;
+  /* background: url(https://js2.epy.wpscdn.cn/security/da_banner.png); */
+  background: url("../assets/imgs/Login_banner.png");
+  background-size: cover;
+  background-position: -230px 0;
+  background-repeat: no-repeat;
+}
+.top-logo {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  width: 312px;
+  height: 28px;
+  background-image: url(https://ee.wpscdn.cn/wpscn/images/home/logo-dah.2e5a4add.svg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.page-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  /* background: linear-gradient(#87CEFA, #fff); */
+  font-family: Helvetica, Tahoma, Arial, "Heiti SC", "Microsoft YaHei",
+    "WenQuanYi Micro Hei";
+  /* background-color: #B0E2FF; */
+}
+.login-box {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: start;
+  margin-top: 150px;
+}
+.login-box-top {
+  display: flex;
   align-items: center;
-  width: 500px;
-  height: 250px;
-  border: 1px solid black;
-  margin: 150px auto;
+  margin-bottom: 40px;
+}
+.login-title {
+  font-size: 42px;
+  font-weight: 600;
+  color: #000;
 }
 .text-input {
-  width: 200px;
-  margin: 5px 0;
+  width: 450px;
+  height: 50px;
+  margin: 20px 0;
+  font-size: 20px;
 }
-.register-btn {
-  border: none;
-  background-color: #fff;
-  color: blue;
-}
-.register-btn:hover {
-  cursor: pointer;
+.operate-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
 }
 .login-btn {
-  width: 50px;
-  margin: 5px 0;
-  cursor: pointer;
+  width: 200px;
+  height: 50px;
+  font-size: 18px;
 }
 </style>
