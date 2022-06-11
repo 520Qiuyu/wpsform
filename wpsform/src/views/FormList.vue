@@ -2,9 +2,12 @@
   <el-container class="form-list">
     <el-aside class="form-list-aside" width="15%">
       <div class="form-list-aside-top">
-        <router-link to="/app/new-form-create" class="form-create-btn"
-          >新建表单</router-link
+        <router-link 
+          to="/app/new-form-create" 
+          class="form-create-btn"
         >
+        新建表单
+        </router-link>
       </div>
       <span class="form-list-title">表单列表</span>
     </el-aside>
@@ -40,16 +43,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref, reactive,onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 import * as api from '@/services/api'
 import { IUser, IForm, IProblem } from '../types/types'
+import {useStore} from 'vuex'
 
 export default defineComponent({
   name: 'FormList',
   components: {},
   props: {},
   setup(props, ctx) {
+    const store = useStore()
     const router = useRouter()
     // 三个表单状态，草稿，收集中，已结束
     let formState = ref('草稿')
@@ -68,14 +73,17 @@ export default defineComponent({
         star: 'nostar'
       },
     ]
-
-    const goFormDetail = ()=>{
+    const goFormDetail = () => {
       router.push('/app/new-form-result')
     }
+
+    onBeforeMount(() => {
+      store.commit('setAppStatus',1)
+    })
     return {
       formState,
       tableData,
-      goFormDetail
+      goFormDetail,
     }
   },
 })

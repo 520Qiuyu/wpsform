@@ -2,17 +2,24 @@
   <div>这是新建表单组件</div>
 </template>
 
-<script>
-import { defineComponent } from "vue";
+<script lang="ts">
+import { defineComponent, onBeforeMount } from 'vue'
+import { useStore } from 'vuex'
+
 export default defineComponent({
-  name: "NewformCreate.vue",
+  name: 'NewformCreate.vue',
   components: {},
   props: {},
   setup(props, ctx) {
-    return {};
+    const store = useStore()
+
+    onBeforeMount(() => {
+      store.commit('setAppStatus',2)
+    })
+
+    return {}
   },
-});
+})
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

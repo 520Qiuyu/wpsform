@@ -1,39 +1,57 @@
 <template>
   <div class="newform-result-containner">
-    <div class="newform-result-title"><h1>这是数据详情组件</h1></div>
-    <ul class="option-list">
-      <li class="option-list-item">
-        <router-link to="/app/new-form-result/statistical-details"
-          >数据统计分析
-        </router-link>
-      </li>
-      <li class="option-list-item">
-        <router-link to="/app/new-form-result/form-question"
-          >表单问题
-        </router-link>
-      </li>
-      <li class="option-list-item">
-        <router-link to="/app/new-form-result/share">分享 </router-link>
-      </li>
-    </ul>
-
-    <router-view></router-view>
+    <el-tabs v-model="activeName" class="newform-result-tabs">
+      <el-tab-pane label="数据详情&统计" name="statistical-details">
+        <StatisticalDetails></StatisticalDetails>
+      </el-tab-pane>
+      <el-tab-pane label="表单问题" name="form-question">
+        <FormQuestion></FormQuestion>
+      </el-tab-pane>
+      <el-tab-pane label="分享" name="share">
+        <FormShare></FormShare>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
-<script>
-import { defineComponent } from "vue";
+<script lang="ts">
+import { defineComponent, onBeforeMount, ref, reactive } from 'vue'
+import { useStore } from 'vuex'
+import { useStore } from 'vue-router'
+import StatisticalDetails from './StatisticalDetails'
+import FormQuestion from './FormQuestion'
+import FormShare from './FormShare'
+
 export default defineComponent({
-  name: "NewformResult",
-  components: {},
+  name: 'NewformResult',
+  components: {
+    StatisticalDetails,
+    FormQuestion,
+    FormShare,
+  },
   props: {},
   setup(props, ctx) {
-    return {};
+    const store = useStore()
+    const router = useStore()
+    const activeName = ref('statistical-details')
+
+    onBeforeMount(() => {
+      store.commit('setAppStatus', 3)
+    })
+    return {
+      activeName,
+    }
   },
-});
+})
 </script>
 
-<style scoped>
-.newform-result-containner {
+<style>
+.newform-result-tabs {
+  padding-top: 10px;
+}
+
+.newform-result-tabs .el-tabs__nav {
+  height: 56px;
+  padding-left: 30px;
 }
 </style>
