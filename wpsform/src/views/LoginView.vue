@@ -74,6 +74,8 @@ export default defineComponent({
       account: [{ required: true, message: "请输入账号！", trigger: "blur" }],
       password: [{ required: true, message: "请输入密码！", trigger: "blur" }],
     });
+
+    //跳转至注册页面
     const goRegister = () => {
       router.push("/Register");
     };
@@ -104,7 +106,7 @@ export default defineComponent({
         console.trace(err);
       }
     };
-    
+
     //提交验证
     const submitForm = () => {
       ruleFormRef.value?.validate(async (validate) => {

@@ -25,27 +25,37 @@
               class="text-input"
               placeholder="用户名"
               v-model="ruleForm.account"
+              @focus="onAccount"
+              @focusout="outAccount"
             ></el-input>
           </el-form-item>
+          <span class="accountTip tip" v-show="accountTip">6~18个字符，可使用字母、数字、下划线</span>
+
           <el-form-item prop="password">
             <el-input
               class="text-input"
               placeholder="密码"
               type="password"
               v-model="ruleForm.password"
+              @focus="onPassword"
+              @focusout="outPassword"
               autocomplete="off"
               show-password
             ></el-input>
           </el-form-item>
+          <span class="passwordTip tip" v-show="passwordTip">必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-20之间</span>
           <el-form-item prop="confirm_password">
             <el-input
               class="text-input"
               placeholder="确认密码"
               v-model="ruleForm.confirm_password"
+              @focus="onConfirmPwd"
+              @focusout="outConfirmPwd"
               autocomplete="off"
               show-password
             ></el-input>
           </el-form-item>
+          <span class="confirmPwdTip tip" v-show="confirmPwdTip">请再输入一次密码</span>
           <el-form-item>
             <el-button class="register-btn" type="primary" @click="submitForm"
               >立即注册</el-button
@@ -82,14 +92,40 @@ export default defineComponent({
       password: "",
       confirm_password: "",
     });
+    const accountTip = ref(false);
+    const passwordTip = ref(false);
+    const confirmPwdTip = ref(false);
 
-    //自定义验证
+    //输入框获得焦点时显示提示信息并清除验证信息
+    const onAccount = () => {
+      accountTip.value=true;
+      ruleFormRef.value?.clearValidate("account")
+    };
+    const outAccount = ()=> {
+      accountTip.value=false;
+    }
+    const onPassword = () => {
+      passwordTip.value=true;
+      ruleFormRef.value?.clearValidate("password")
+    };
+    const outPassword = ()=> {
+      passwordTip.value=false;
+    }
+    const onConfirmPwd = () => {
+      confirmPwdTip.value=true;
+      ruleFormRef.value?.clearValidate("confirm_password")
+    };
+    const outConfirmPwd = ()=> {
+      confirmPwdTip.value=false;
+    }
+
+    //自定义验证函数
     const validateAccount = (rule: any, value: any, callback: any) => {
       let accountReg = /^[a-zA-Z0-9_]{6,18}$/; //由字母或数字或下划线组成的6-18位字符串
       if (!value) {
         return callback(new Error("请输入账号"));
       } else if (!accountReg.test(value)) {
-        callback(new Error("6~18个字符，可使用字母、数字、下划线"));
+        callback(new Error("请按要求输入账号"));
       } else {
         callback();
       }
@@ -101,7 +137,7 @@ export default defineComponent({
       } else if (!passwordReg.test(value)) {
         callback(
           new Error(
-            "必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-20之间"
+            "请按要求输入密码"
           )
         );
       } else {
@@ -115,7 +151,7 @@ export default defineComponent({
       } else if (!ConfirmPwdReg.test(value)) {
         callback(
           new Error(
-            "必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-20之间"
+            "请按要求输入确认密码"
           )
         );
       } else if (value !== ruleForm.password) {
@@ -131,6 +167,8 @@ export default defineComponent({
       password: [{ validator: validatePassword, trigger: "blur" }],
       confirm_password: [{ validator: validateConfirmPwd, trigger: "blur" }],
     });
+
+    //跳转至登录页面
     const goLogin = () => {
       router.push("/Login");
     };
@@ -153,7 +191,7 @@ export default defineComponent({
         console.trace(err);
       }
     };
-    
+
     //提交验证
     const submitForm = () => {
       ruleFormRef.value?.validate(async (validate) => {
@@ -165,6 +203,15 @@ export default defineComponent({
       });
     };
     return {
+      accountTip,
+      passwordTip,
+      confirmPwdTip,
+      onAccount,
+      outAccount,
+      onPassword,
+      outPassword,
+      onConfirmPwd,
+      outConfirmPwd,
       ruleForm,
       ruleFormRef,
       rules,
@@ -213,6 +260,7 @@ export default defineComponent({
 }
 .register-box {
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: start;
@@ -244,8 +292,25 @@ export default defineComponent({
   margin: 15px 0;
   font-size: 20px;
 }
+.tip{
+  position: absolute;
+  font-size: 14px;
+  color: #8B8989;
+}
+.accountTip {
+  top: 178px;
+  left: 0;
+}
+.passwordTip {
+  top: 275px;
+  left: 0;
+}
+.confirmPwdTip {
+  top: 374px;
+  left: 0;
+}
 .register-btn {
-  width: 200px;
+  width: 450px;
   height: 50px;
   margin-top: 20px;
   font-size: 18px;
