@@ -2,11 +2,8 @@
   <el-container class="form-list">
     <el-aside class="form-list-aside" width="15%">
       <div class="form-list-aside-top">
-        <router-link 
-          to="/app/new-form-create" 
-          class="form-create-btn"
-        >
-        新建表单
+        <router-link to="/app/new-form-create" class="form-create-btn">
+          新建表单
         </router-link>
       </div>
       <span class="form-list-title">表单列表</span>
@@ -43,11 +40,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive,onBeforeMount } from 'vue'
+import { defineComponent, ref, reactive, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 import * as api from '@/services/api'
 import { IUser, IForm, IProblem } from '../types/types'
-import {useStore} from 'vuex'
+import { useStore } from 'vuex'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'FormList',
@@ -58,32 +56,85 @@ export default defineComponent({
     const router = useRouter()
     // 三个表单状态，草稿，收集中，已结束
     let formState = ref('草稿')
-    // let formList = reactive([] as IForm[])
+    const userInfo = reactive({} as IUser)
+    // 表单列表
+    const formList = reactive([] as IForm[])
     let tableData = [
       {
         date: '2022年6月11日18:00',
         name: '表单1',
         state: '草稿',
-        star: 'star'
+        star: 'star',
       },
       {
         date: '2022年6月10日19:00',
         name: '表单2',
         state: '收集中',
-        star: 'nostar'
+        star: 'nostar',
       },
     ]
+
+    const getFormList = async () => {
+      try {
+        const res = await api.getFormList()
+        if(res.stat == 'ok') {
+          for(const item of res.data.items) {
+            formList.push(item)
+          }
+          console.log(res.data);
+        }
+
+      } catch (err) {
+        console.trace(err);
+      }
+    }
+
+    const getForm = async (id: string) => {
+      const res = await api.getForm(id)
+      if(res.stat == 'ok') {
+        console.log(res.data);
+      }
+    }
+
+    const getUserInfo = async ()=>{
+      const res = await api.getUserInfo()
+      if(res.stat == 'ok') {
+        console.log(res.data.user);
+        console.log(dayjs(res.data.user.ctime).format('YYYY-MM-DD HH:mm:ss'));
+      }
+    }
+
+    //表单填写api测试
+    const writeForm = async (formId: string,problems: [])=>{
+      const res = await api.inputForm(formId,problems)
+      if(res.stat == 'ok') {
+        console.log(res);
+      }
+    } 
+
+    const getProblemType = async ()=>{
+      const res = await api.getBasicProblem()
+      if(res.stat == 'ok') {
+        console.log(res.data.basicProblems[0]);
+      }
+    }
+
+    //前往表单详情页面
     const goFormDetail = () => {
       router.push('/app/new-form-result')
     }
 
     onBeforeMount(() => {
-      store.commit('setAppStatus',1)
+      store.commit('setAppStatus', 1)
+      // getProblemType()
+      // getForm('1a32c9ef-a809-4838-aec9-22c847de0006')
+      // getFormList()
     })
     return {
       formState,
       tableData,
       goFormDetail,
+      formList,
     }
   },
 })
