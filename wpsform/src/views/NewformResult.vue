@@ -17,10 +17,10 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { useStore } from 'vue-router'
-import StatisticalDetails from './StatisticalDetails'
-import FormQuestion from './FormQuestion'
-import FormShare from './FormShare'
+import { useRouter } from 'vue-router'
+import StatisticalDetails from './StatisticalDetails.vue'
+import FormQuestion from './FormQuestion.vue'
+import FormShare from './FormShare.vue'
 
 export default defineComponent({
   name: 'NewformResult',
