@@ -11,24 +11,34 @@
         <div class="login-box-top">
           <div class="login-title">欢迎使用WPS！</div>
         </div>
-        <el-input
-          class="text-input"
-          placeholder="用户名"
-          v-model="form.account"
-        ></el-input>
-        <el-input
-          class="text-input"
-          placeholder="密码"
-          v-model="form.password"
-          show-password
-        ></el-input>
+        <el-form
+          :model="ruleForm"
+          :rules="rules"
+          ref="ruleFormRef"
+        >
+          <el-form-item prop="account">
+            <el-input
+              class="text-input"
+              placeholder="用户名"
+              v-model="ruleForm.account"
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input
+              class="text-input"
+              placeholder="密码"
+              v-model="ruleForm.password"
+              show-password
+            ></el-input>
+          </el-form-item>
+        </el-form>
         <div class="operate-box">
-          <el-button class="login-btn" type="primary" @click="login"
+          <el-button class="login-btn" type="primary" @click="submitForm"
             >立即登录</el-button
           >
           <div class="goregister">
             <span>没有账号？</span>
-          <router-link to="/register">立即注册></router-link>
+            <router-link to="/register">立即注册></router-link>
           </div>
         </div>
       </div>
@@ -37,11 +47,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import {useStore} from 'vuex'
+import { useStore } from "vuex";
 import * as api from "@/services/api";
 import { ElMessage } from "element-plus";
+import type { FormInstance } from "element-plus";
 
 interface ILoginReq {
   account: string;
@@ -53,42 +64,64 @@ export default defineComponent({
   components: {},
   props: {},
   setup(props, ctx) {
-    const store = useStore()
+    const store = useStore();
     const router = useRouter();
-    const form = reactive(<ILoginReq>{ account: "", password: "" });
+    const ruleFormRef = ref<FormInstance>();
+    const ruleForm = reactive(<ILoginReq>{ account: "", password: "" });
+
+    //验证规则
+    const rules = reactive({
+      account: [{ required: true, message: "请输入账号！", trigger: "blur" }],
+      password: [{ required: true, message: "请输入密码！", trigger: "blur" }],
+    });
     const goRegister = () => {
       router.push("/Register");
     };
+    
+    //登录请求
     const login = async () => {
       try {
-        const res = await api.login(form.account, form.password);
+        const res = await api.login(ruleForm.account, ruleForm.password);
         if (res.stat === "ok") {
           ElMessage.success("登录成功");
           router.push("/app");
           // 修改登录状态
-          store.commit('setLoginState',true)
-          window.sessionStorage.setItem('login','true')
+          store.commit("setLoginState", true);
+          window.sessionStorage.setItem("login", "true");
           // 记录用户信息
           const userInfo = {
-            account: form.account,
-            password: form.password,
-            nickname: '',
-            avatar: '',
-          }
-          store.commit('setUserInfo',userInfo)
-          window.sessionStorage.setItem('user',JSON.stringify(userInfo))
-          
+            account: ruleForm.account,
+            password: ruleForm.password,
+            nickname: "",
+            avatar: "",
+          };
+          store.commit("setUserInfo", userInfo);
+          window.sessionStorage.setItem("user", JSON.stringify(userInfo));
         } else {
-           ElMessage.error(res.message);
+          ElMessage.error("账号或密码错误");
         }
       } catch (err) {
         console.trace(err);
       }
     };
+    
+    //提交验证
+    const submitForm = () => {
+      ruleFormRef.value?.validate(async (validate) => {
+        if (validate) {
+          await login();
+        } else {
+          ElMessage.error("请按要求填写信息！");
+        }
+      });
+    };
     return {
-      form,
+      rules,
+      ruleForm,
+      ruleFormRef,
       goRegister,
       login,
+      submitForm
     };
   },
 });
