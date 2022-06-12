@@ -12,14 +12,13 @@
       </router-link>
       <!-- 新建表单页面显示返回图标+新建表单 -->
       <div class="app-logoArea" v-if="appStatus == 2">
-        <!-- <el-page-header content="新建表单" @back="goBack" /> -->
-        <el-icon><icon-arrowleftbold @click="goBack" /></el-icon>
-        <span>新建表单</span>
+        <el-page-header content="新建表单" @back="goBack" />
+        <!-- <el-icon><ArrowLeftBold @click="goBack" /></el-icon>
+        <span>新建表单</span> -->
       </div>
       <!-- 表单详情页面显示返回图标+当前表单名 -->
       <div class="app-logoArea" v-if="appStatus == 3">
-        <el-icon><icon-arrowleftbold @click="goBack" /></el-icon>
-        <span>xxx表单名称</span>
+        <el-page-header content="xxx表单名称" @back="goBack" />
       </div>
       <!-- 右侧个人信息显示：头像昵称 -->
       <div class="app-user-info">
@@ -89,7 +88,7 @@ export default defineComponent({
     }
 
     onBeforeMount(()=>{
-      console.log(store.state.loginState)
+      // console.log(store.state.loginState)
     })
 
     return {
@@ -129,15 +128,6 @@ export default defineComponent({
 .app-logo img {
   vertical-align: top;
   margin-right: 10px;
-}
-.app-logoArea {
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-  font-size: 14px;
-}
-.app-logoArea span {
-  margin-left: 5px;
 }
 
 .app-user-info {
