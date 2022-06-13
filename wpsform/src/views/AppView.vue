@@ -33,14 +33,14 @@
         <!-- 用户信息 -->
         <div class="app-user" v-if="$store.state.loginState">
           <!-- 用户名 -->
-          <span class="app-user-title">邱宇</span>
+          <span class="app-user-title">{{userInfo.nickname}}</span>
           <el-dropdown>
             <!-- 用户头像 -->
             <div
               class="app-user-icon el-dropdown-link"
               v-if="$store.state.loginState"
             >
-              <img src="../assets/imgs/logo.svg" alt="" />
+              <img :src="userInfo.avatar" alt="" />
             </div>
             <!-- 头像悬浮显示下拉框内容 -->
             <template #dropdown>
@@ -61,10 +61,12 @@
   </el-container>
 </template>
 
-<script>
-import { defineComponent, ref, computed,onBeforeMount } from 'vue'
+<script lang="ts">
+import { defineComponent, ref,reactive, computed,onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import * as api from '@/services/api'
+import { IUser, IForm, IProblem } from '../types/types'
 
 export default defineComponent({
   name: 'AppView',
@@ -73,12 +75,14 @@ export default defineComponent({
   setup(props, ctx) {
     const store = useStore()
     const router = useRouter()
-    const usericon = '../assets/imgs/logo.svg'
+    // const usericon = '../assets/imgs/logo.svg'
     const appStatus = computed(() => store.state.appStatus)
+    const userInfo = computed(() => store.state.userInfo)
 
     const goBack = () => {
       router.go(-1)
     }
+
 
     const logout = () => {
       store.commit('setLoginState', false)
@@ -88,14 +92,14 @@ export default defineComponent({
     }
 
     onBeforeMount(()=>{
-      // console.log(store.state.loginState)
+      // console.log(typeof store.state.userInfo)
     })
 
     return {
-      usericon,
       appStatus,
       goBack,
       logout,
+      userInfo
     }
   },
 })

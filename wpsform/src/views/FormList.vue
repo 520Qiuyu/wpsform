@@ -1,5 +1,6 @@
 <template>
   <el-container class="form-list">
+    <!-- 侧边栏 -->
     <el-aside class="form-list-aside" width="15%">
       <div class="form-list-aside-top">
         <router-link to="/app/new-form-create" class="form-create-btn">
@@ -8,8 +9,11 @@
       </div>
       <span class="form-list-title">表单列表</span>
     </el-aside>
+    <!-- 主要内容 -->
     <el-main class="form-list-container">
+      <!-- 过滤表单中带星 -->
       <div class="form-list-filter">仅展示星标</div>
+      <!-- 表单列表 -->
       <el-table 
         :data="tableData" 
         cell-class-name="form-table-cell" 
@@ -185,14 +189,6 @@ export default defineComponent({
   font-size: 14px;
   cursor: pointer;
 }
-
-/* .form-list-item {
-  width: 100%;
-  line-height: 40px;
-  border: 1px solid #333;
-  margin-bottom: 10px;
-  padding: 0 20px;
-} */
 
 .form-table-cell {
   height: 60px;

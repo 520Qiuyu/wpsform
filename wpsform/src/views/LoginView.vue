@@ -91,14 +91,11 @@ export default defineComponent({
           store.commit("setLoginState", true);
           window.sessionStorage.setItem("login", "true");
           // 记录用户信息
-          const userInfo = {
-            account: ruleForm.account,
-            password: ruleForm.password,
-            nickname: "",
-            avatar: "",
-          };
-          store.commit("setUserInfo", userInfo);
-          window.sessionStorage.setItem("user", JSON.stringify(userInfo));
+          const userRes = await api.getUserInfo()
+          if(userRes.stat == 'ok') {
+            store.commit("setUserInfo", userRes.data.user);
+            window.sessionStorage.setItem("user", JSON.stringify(userRes.data.user));
+          }
         } else {
           ElMessage.error("账号或密码错误");
         }

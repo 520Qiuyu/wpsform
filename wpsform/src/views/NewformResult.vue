@@ -1,5 +1,5 @@
 <template>
-  <div class="newform-result-containner">
+  <div class="newform-result-container">
     <el-tabs v-model="activeName" class="newform-result-tabs">
       <el-tab-pane label="数据详情&统计" name="statistical-details">
         <StatisticalDetails></StatisticalDetails>
@@ -46,6 +46,24 @@ export default defineComponent({
 </script>
 
 <style>
+.newform-result-container {
+  height: 100%;
+}
+.newform-result-tabs {
+  height: 100%;
+}
+.el-tabs__header {
+  margin-bottom: 0;
+}
+.el-tabs__content {
+  height: 100%;
+  background-color: #f2f4f7;
+}
+
+.el-tab-pane {
+  height: 100%;
+}
+
 .newform-result-tabs {
   padding-top: 10px;
 }

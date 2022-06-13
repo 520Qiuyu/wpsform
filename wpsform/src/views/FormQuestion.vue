@@ -1,12 +1,20 @@
 <template>
-  <div>这是表单问题组件</div>
+  <div class="form-question-main">
+    <div class="form-question-content">
+      <FormItem></FormItem>
+    </div>
+  </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
+import FormItem from '../components/FormItem.vue'
+
 export default defineComponent({
   name: "FormQuestion",
-  components: {},
+  components: {
+    FormItem
+  },
   props: {},
   setup(props, ctx) {
     return {};
@@ -15,4 +23,16 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.form-question-main {
+  width: 60%;
+  height: 100%;
+  /* background-color: #f2f4f7; */
+  margin: 0 auto;
+}
+.form-question-content {
+  height: 100%;
+  background-color: #fff;
+  padding: 48px 120px 90px;
+}
+
 </style>
