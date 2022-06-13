@@ -178,7 +178,7 @@ export default defineComponent({
     };
     // 取消题目预设
     const cancelDefaultAnswer = () => {
-      defaultAnswer.value = -1;
+      defaultAnswer.value = [];
       setDefaultAnswer();
       defaultAnswerVisible.value = false;
     };
