@@ -1,45 +1,59 @@
 <template>
   <div class="question">
     <MultiSelect
-      v-if="type === 'multiSelect'"
+      v-if="problem.type === 'multiSelect'"
       :problem="problem"
+      :disableAnswer="true"
+      :index="index"
       @setProblem="setProblem"
     ></MultiSelect>
     <DateQuestion
-      v-else-if="type == 'date'"
+      v-else-if="problem.type == 'date'"
       :problem="problem"
+      :disableAnswer="true"
+      :index="index"
       @setProblem="setProblem"
     ></DateQuestion>
     <InputQuestion
-      v-else-if="type == 'input'"
+      v-else-if="problem.type == 'input'"
       :problem="problem"
+      :disableAnswer="true"
+      :index="index"
       @setProblem="setProblem"
     ></InputQuestion>
     <SingleSelect
-      v-else-if="type == 'singleSelect'"
+      v-else-if="problem.type == 'singleSelect'"
       :problem="problem"
+      :disableAnswer="true"
+      :index="index"
       @setProblem="setProblem"
     ></SingleSelect>
     <ScoreQuestion
-      v-else-if="type == 'score'"
+      v-else-if="problem.type == 'score'"
       :problem="problem"
+      :disableAnswer="true"
+      :index="index"
       @setProblem="setProblem"
     ></ScoreQuestion>
     <PullSelect
-      v-else-if="type == 'pullSelect'"
+      v-else-if="problem.type == 'pullSelect'"
       :problem="problem"
+      :disableAnswer="true"
+      :index="index"
       @setProblem="setProblem"
     ></PullSelect>
     <TimeQuestion
-      v-else-if="type == 'time'"
+      v-else-if="problem.type == 'time'"
       :problem="problem"
+      :disableAnswer="true"
+      :index="index"
       @setProblem="setProblem"
     ></TimeQuestion>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from "vue";
+import { defineComponent, ref, reactive, PropType, computed } from "vue";
 import { IProblem } from "../types/types";
 import MultiSelect from "./MultiSelect.vue";
 import DateQuestion from "./DateQuestion.vue";
@@ -60,42 +74,33 @@ export default defineComponent({
     TimeQuestion,
   },
   props: {
-    type: {
-      type: String,
-      default: "input",
-      validator(value: string) {
-        // 这个值必须与下列字符串中的其中一个相匹配
-        return [
-          "input",
-          "singleSelect",
-          "multiSelect",
-          "pullSelect",
-          "date",
-          "time",
-          "score",
-        ].includes(value);
-      },
+    ques: {
+      type: Object as PropType<IProblem>,
+      required: true,
+    },
+    index: {
+      type: Number,
+      required: true,
     },
   },
   setup(props, ctx) {
     // 问题
-    const problem = reactive({
-      title: "",
-      type: props.type,
-      required: false,
-    } as IProblem);
+    // const problem = computed(() => props.ques);
+    const problem = ref<IProblem>(props.ques);
     // 设置问题
-    const setProblem = (problem) => {
-      
+    const setProblem = (problem_: IProblem) => {
+      /* for (const key in problem) {
+        problem[key] = problem_[key];
+      } */
+      problem.value = problem_;
     };
     return {
       problem,
       setProblem,
     };
   },
-  created(){
-    console.log(this.problem)
-  }
+  created() {
+  },
 });
 </script>
 

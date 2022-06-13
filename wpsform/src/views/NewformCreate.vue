@@ -35,11 +35,11 @@
             我的常用题
             <ul class="my-common-use">
               <li
-                v-for="(formwork, index) in questionFormworks"
-                :key="formwork + index"
+                v-for="(ques, index) in myCommonUse"
+                :key="ques + index"
                 class="my-common-use-item"
               >
-                <a>{{ formwork }}</a>
+                <a>{{ ques.title }}</a>
               </li>
             </ul>
           </div>
@@ -49,8 +49,10 @@
       <div class="question-list">
         <MyQuestion
           v-for="(ques, index) in questionList"
-          :key="ques.title + index"
-          :type="ques.type"
+          :key="ques.id"
+          :ques="ques"
+          :index="index"
+          @addQuesToQuesList="addQuesToQuesList"
         ></MyQuestion>
       </div>
       <!-- 右侧其他配置 -->
@@ -60,101 +62,58 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, computed } from "vue";
+import { useStore } from "vuex";
 import MyQuestion from "../components/MyQuestion.vue";
 import { IProblem } from "../types/types";
+import { nanoid } from "nanoid";
 export default defineComponent({
   name: "NewformCreate.vue",
   components: { MyQuestion },
   props: {},
   setup(props, ctx) {
-    // 题目类型
-    const quesTypes = reactive([
-      {
-        type: "input",
-        typeName: "填空题",
-      },
-      {
-        type: "singleSelect",
-        typeName: "单选题",
-      },
-      {
-        type: "multiSelect",
-        typeName: "多选题",
-      },
-      {
-        type: "pullSelect",
-        typeName: "下拉选择",
-      },
-      {
-        type: "date",
-        typeName: "日期题",
-      },
-      {
-        type: "time",
-        typeName: "时间题",
-      },
-      {
-        type: "score",
-        typeName: "分数题",
-      },
-    ]);
+    const Store = useStore();
+    // 可添加的题目类型
+    const quesTypes = computed(() => Store.state.problem.quesTypes);
     // 题目模板
-    const questionFormworks = reactive(["姓名", "性别"] as string[]);
-    // 右侧题目信息列表
-    const questionList = reactive([
-      {
-        type: "input",
-        title: "",
-        required: true,
-      },
-      {
-        type: "singleSelect",
-        title: "",
-        required: true,
-      },
-      {
-        type: "multiSelect",
-        title: "",
-        required: true,
-      },
-      {
-        type: "pullSelect",
-        title: "",
-        required: true,
-      },
-      {
-        type: "date",
-        title: "",
-        required: true,
-      },
-      {
-        type: "time",
-        title: "",
-        required: true,
-      },
-      {
-        type: "score",
-        title: "",
-        required: true,
-      },
-    ] as IProblem[]);
-    // 向右侧添加一个题目
+    const questionFormworks = computed(
+      () => Store.state.form.questionFormworks
+    );
+    // 我的常用题
+    const myCommonUse = computed(() => Store.state.problem.commonUseQues)
+    // 中间题目列表
+    const questionList = computed<IProblem[]>(
+      () => Store.state.form.questionList
+    );
+    // 向中间添加一个题目
     const addQuesToQuesList = (type: string) => {
-      console.log(typeof questionList);
-      questionList.push({
-        title: "",
+      const problem = {
         type,
-        required: true,
-      });
+        title: "",
+        required: false,
+        isNew: false,
+      } as IProblem;
+      console.log(problem);
+      Store.commit("form/addQuesToQuesList", { problem, index: -1 });
       console.log(questionList);
+    };
+    const test = () => {
+      const type = { a: 1 };
+      const aa = { type };
+      console.log(aa.type === type);
     };
     return {
       quesTypes,
       questionFormworks,
+      myCommonUse,
       questionList,
       addQuesToQuesList,
+      test,
     };
+  },
+
+  created() {
+    this.test();
   },
 });
 </script>
@@ -209,6 +168,9 @@ export default defineComponent({
   font-weight: 600;
   margin-bottom: 30px;
 }
+.title:last-child {
+  margin-bottom: 0;
+}
 .add-question,
 .question-formwork,
 .my-common-use {
@@ -252,7 +214,6 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
 }
-.other-option{
-
-} 
+.other-option {
+}
 </style>

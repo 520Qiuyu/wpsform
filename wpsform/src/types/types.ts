@@ -1,5 +1,5 @@
 export interface IUser {
-  [index: string]:string,
+  [index: string]: string;
   account: string;
   pwd: string;
   nickname: string;
@@ -34,6 +34,7 @@ export interface IForm {
 }
 
 export interface IProblem {
+  id?: string;
   title: string;
   type:
     | "input"
@@ -44,13 +45,31 @@ export interface IProblem {
     | "time"
     | "score";
   required: boolean;
+  isNew: boolean;
   setting?: {
     options: {
       title: string;
       status: 1 | 2;
     }[];
   };
-  [props:string]:any
+  [propName: string]: any;
 }
 
-export 
+// export class Problem implements IProblem {
+//   [props: string]: any;
+//   id?: string | undefined;
+//   title: string;
+//   type:
+//     | "input"
+//     | "singleSelect"
+//     | "multiSelect"
+//     | "pullSelect"
+//     | "date"
+//     | "time"
+//     | "score";
+//   required: boolean;
+//   isNew: boolean;
+//   setting?: { options: { title: string; status: 1 | 2 }[] } | undefined;
+
+//   constructor(id)
+// }

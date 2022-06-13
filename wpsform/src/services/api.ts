@@ -213,3 +213,4 @@ export function starProblem(problem: IProblem) {
 export function cancelStarProblem(id: string) {
   return request.post<BaseRes>("/api/problem/cancelStar");
 }
+
