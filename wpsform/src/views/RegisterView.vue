@@ -14,36 +14,65 @@
           </el-icon>
           <div class="register-title">WPS注册</div>
         </div>
-        <el-input
-          class="text-input"
-          placeholder="用户名"
-          v-model="form.account"
-        ></el-input>
-        <el-input
-          class="text-input"
-          placeholder="密码"
-          v-model="form.password"
-          show-password
-        ></el-input>
-        <el-input
-          class="text-input"
-          placeholder="确认密码"
-          v-model="form.confirm_password"
-          show-password
-        ></el-input>
-        <el-button class="register-btn" type="primary" @click="register"
-          >立即注册</el-button
+        <el-form
+          :model="ruleForm"
+          :rules="rules"
+          ref="ruleFormRef"
+          status-icon="true"
         >
+          <el-form-item prop="account">
+            <el-input
+              class="text-input"
+              placeholder="用户名"
+              v-model="ruleForm.account"
+              @focus="onAccount"
+              @focusout="outAccount"
+            ></el-input>
+          </el-form-item>
+          <span class="accountTip tip" v-show="accountTip">6~18个字符，可使用字母、数字、下划线</span>
+
+          <el-form-item prop="password">
+            <el-input
+              class="text-input"
+              placeholder="密码"
+              type="password"
+              v-model="ruleForm.password"
+              @focus="onPassword"
+              @focusout="outPassword"
+              autocomplete="off"
+              show-password
+            ></el-input>
+          </el-form-item>
+          <span class="passwordTip tip" v-show="passwordTip">必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-20之间</span>
+          <el-form-item prop="confirm_password">
+            <el-input
+              class="text-input"
+              placeholder="确认密码"
+              v-model="ruleForm.confirm_password"
+              @focus="onConfirmPwd"
+              @focusout="outConfirmPwd"
+              autocomplete="off"
+              show-password
+            ></el-input>
+          </el-form-item>
+          <span class="confirmPwdTip tip" v-show="confirmPwdTip">请再输入一次密码</span>
+          <el-form-item>
+            <el-button class="register-btn" type="primary" @click="submitForm"
+              >立即注册</el-button
+            >
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import * as api from "@/services/api";
 import { ElMessage } from "element-plus";
+import type { FormInstance } from "element-plus";
 import { ArrowLeftBold } from "@element-plus/icons-vue";
 
 interface IRegisterReq {
@@ -57,35 +86,137 @@ export default defineComponent({
   props: {},
   setup(props, ctx) {
     const router = useRouter();
-    const form = reactive(<IRegisterReq>{
+    const ruleFormRef = ref<FormInstance>();
+    const ruleForm = reactive(<IRegisterReq>{
       account: "",
       password: "",
       confirm_password: "",
     });
+    const accountTip = ref(false);
+    const passwordTip = ref(false);
+    const confirmPwdTip = ref(false);
+
+    //输入框获得焦点时显示提示信息并清除验证信息
+    const onAccount = () => {
+      accountTip.value=true;
+      ruleFormRef.value?.clearValidate("account")
+    };
+    const outAccount = ()=> {
+      accountTip.value=false;
+    }
+    const onPassword = () => {
+      passwordTip.value=true;
+      ruleFormRef.value?.clearValidate("password")
+    };
+    const outPassword = ()=> {
+      passwordTip.value=false;
+    }
+    const onConfirmPwd = () => {
+      confirmPwdTip.value=true;
+      ruleFormRef.value?.clearValidate("confirm_password")
+    };
+    const outConfirmPwd = ()=> {
+      confirmPwdTip.value=false;
+    }
+
+    //自定义验证函数
+    const validateAccount = (rule: any, value: any, callback: any) => {
+      let accountReg = /^[a-zA-Z0-9_]{6,18}$/; //由字母或数字或下划线组成的6-18位字符串
+      if (!value) {
+        return callback(new Error("请输入账号"));
+      } else if (!accountReg.test(value)) {
+        callback(new Error("请按要求输入账号"));
+      } else {
+        callback();
+      }
+    };
+    const validatePassword = (rule: any, value: any, callback: any) => {
+      let passwordReg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/; //必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-20之间
+      if (!value) {
+        return callback(new Error("请输入密码"));
+      } else if (!passwordReg.test(value)) {
+        callback(
+          new Error(
+            "请按要求输入密码"
+          )
+        );
+      } else {
+        callback();
+      }
+    };
+    const validateConfirmPwd = (rule: any, value: any, callback: any) => {
+      let ConfirmPwdReg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
+      if (!value) {
+        callback(new Error("请输入确认密码"));
+      } else if (!ConfirmPwdReg.test(value)) {
+        callback(
+          new Error(
+            "请按要求输入确认密码"
+          )
+        );
+      } else if (value !== ruleForm.password) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
+
+    //验证规则
+    const rules = reactive({
+      account: [{ validator: validateAccount, trigger: "blur" }],
+      password: [{ validator: validatePassword, trigger: "blur" }],
+      confirm_password: [{ validator: validateConfirmPwd, trigger: "blur" }],
+    });
+
+    //跳转至登录页面
     const goLogin = () => {
       router.push("/Login");
     };
+
+    //发送注册请求
     const register = async () => {
       try {
         const res = await api.register(
-          form.account,
-          form.password,
-          form.confirm_password
+          ruleForm.account,
+          ruleForm.password,
+          ruleForm.confirm_password
         );
         if (res.stat === "ok") {
           ElMessage.success("注册成功");
           router.push("/login");
         } else {
-          ElMessage.info(res.message);
+          ElMessage.info("注册失败");
         }
       } catch (err) {
         console.trace(err);
       }
     };
+
+    //提交验证
+    const submitForm = () => {
+      ruleFormRef.value?.validate(async (validate) => {
+        if (validate) {
+          await register();
+        } else {
+          ElMessage.error("请按要求填写信息！");
+        }
+      });
+    };
     return {
-      form,
+      accountTip,
+      passwordTip,
+      confirmPwdTip,
+      onAccount,
+      outAccount,
+      onPassword,
+      outPassword,
+      onConfirmPwd,
+      outConfirmPwd,
+      ruleForm,
+      ruleFormRef,
+      rules,
       goLogin,
-      register,
+      submitForm,
     };
   },
 });
@@ -103,7 +234,7 @@ export default defineComponent({
   /* background: url(https://js2.epy.wpscdn.cn/security/da_banner.png); */
   background: url("../assets/imgs/Login_banner.png");
   background-size: cover;
-  background-position: -230px 0;
+  background-position: -300px 0;
   background-repeat: no-repeat;
 }
 .top-logo {
@@ -129,6 +260,7 @@ export default defineComponent({
 }
 .register-box {
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: start;
@@ -157,11 +289,28 @@ export default defineComponent({
 .text-input {
   width: 450px;
   height: 50px;
-  margin: 20px 0;
+  margin: 15px 0;
   font-size: 20px;
 }
+.tip{
+  position: absolute;
+  font-size: 14px;
+  color: #8B8989;
+}
+.accountTip {
+  top: 178px;
+  left: 0;
+}
+.passwordTip {
+  top: 275px;
+  left: 0;
+}
+.confirmPwdTip {
+  top: 374px;
+  left: 0;
+}
 .register-btn {
-  width: 200px;
+  width: 450px;
   height: 50px;
   margin-top: 20px;
   font-size: 18px;

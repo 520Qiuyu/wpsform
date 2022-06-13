@@ -1,5 +1,5 @@
 <template>
-  <div class="newform-result-containner">
+  <div class="newform-result-container">
     <el-tabs v-model="activeName" class="newform-result-tabs">
       <el-tab-pane label="数据详情&统计" name="statistical-details">
         <StatisticalDetails></StatisticalDetails>
@@ -15,15 +15,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref, reactive } from "vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-import StatisticalDetails from "./StatisticalDetails.vue";
-import FormQuestion from "./FormQuestion.vue";
-import FormShare from "./FormShare.vue";
+import { defineComponent, onBeforeMount, ref, reactive } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import StatisticalDetails from './StatisticalDetails.vue'
+import FormQuestion from './FormQuestion.vue'
+import FormShare from './FormShare.vue'
 
 export default defineComponent({
-  name: "NewformResult",
+  name: 'NewformResult',
   components: {
     StatisticalDetails,
     FormQuestion,
@@ -31,21 +31,39 @@ export default defineComponent({
   },
   props: {},
   setup(props, ctx) {
-    const store = useStore();
-    const router = useRouter();
-    const activeName = ref("statistical-details");
+    const store = useStore()
+    const router = useStore()
+    const activeName = ref('statistical-details')
 
     onBeforeMount(() => {
-      store.commit("setAppStatus", 3);
-    });
+      store.commit('setAppStatus', 3)
+    })
     return {
       activeName,
-    };
+    }
   },
-});
+})
 </script>
 
 <style>
+.newform-result-container {
+  height: 100%;
+}
+.newform-result-tabs {
+  height: 100%;
+}
+.el-tabs__header {
+  margin-bottom: 0;
+}
+.el-tabs__content {
+  height: 100%;
+  background-color: #f2f4f7;
+}
+
+.el-tab-pane {
+  height: 100%;
+}
+
 .newform-result-tabs {
   padding-top: 10px;
 }

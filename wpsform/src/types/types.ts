@@ -7,13 +7,14 @@ export interface IUser {
 }
 
 export interface IForm {
-  formId: string;
-  offset?: number;
-  limit?: number;
-  isStar?: boolean;
-  title: string;
-  subTitle: string;
-  problems: {
+  formId: string;       //表单ID
+  offset?: number;      //
+  limit?: number;       //
+  isStar?: boolean;     //表单是否标星
+  title: string;        //表单标题
+  subTitle: string;     //表单副标题
+  ctime: number;        //表单创建时间
+  problems: {           //表单问题
     title: string;
     type:
       | "input"
