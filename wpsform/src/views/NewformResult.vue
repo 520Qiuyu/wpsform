@@ -36,7 +36,7 @@ export default defineComponent({
     const activeName = ref('statistical-details')
 
     onBeforeMount(() => {
-      store.commit('setAppStatus', 3)
+      store.commit('user/setAppStatus', 3)
     })
     return {
       activeName,
