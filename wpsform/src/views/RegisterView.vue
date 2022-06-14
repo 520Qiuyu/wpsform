@@ -234,7 +234,7 @@ export default defineComponent({
   /* background: url(https://js2.epy.wpscdn.cn/security/da_banner.png); */
   background: url("../assets/imgs/Login_banner.png");
   background-size: cover;
-  background-position: -300px 0;
+  background-position: 80% 0;
   background-repeat: no-repeat;
 }
 .top-logo {
