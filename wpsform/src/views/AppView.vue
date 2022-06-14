@@ -83,10 +83,14 @@ export default defineComponent({
       router.go(-1)
     }
 
-    const logout = () => {
-      store.commit('user/setLoginState', false)
-      window.sessionStorage.removeItem('login')
-      window.sessionStorage.removeItem('user')
+    const logout = async () => {
+      const res = await api.logout()
+      if(res.stat == 'ok') {
+        store.commit('user/setLoginState', false)
+        window.sessionStorage.removeItem('login')
+        window.sessionStorage.removeItem('user')
+        router.push('/login')
+      }
       // console.log(store.state.loginState)
     }
 
