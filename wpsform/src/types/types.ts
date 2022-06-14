@@ -47,7 +47,7 @@ export interface IProblem {
     | "time"
     | "score";
   required: boolean;
-  isNew: boolean;
+  isNew?: boolean;
   setting?: {
     options: {
       title: string;

@@ -5,7 +5,7 @@
         <StatisticalDetails></StatisticalDetails>
       </el-tab-pane>
       <el-tab-pane label="表单问题" name="form-question">
-        <FormQuestion></FormQuestion>
+        <!-- <FormQuestion></FormQuestion> -->
       </el-tab-pane>
       <el-tab-pane label="分享" name="share">
         <FormShare></FormShare>

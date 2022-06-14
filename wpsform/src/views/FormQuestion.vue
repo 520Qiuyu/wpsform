@@ -1,7 +1,7 @@
 <template>
   <div class="form-question-main">
     <div class="form-question-content">
-      <FormItem></FormItem>
+      <!-- <FormItem></FormItem> -->
     </div>
     <div class="form-write-area">
       <el-button type="primary" class="form-write-btn">填写表单</el-button>
@@ -9,8 +9,8 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script lang="ts">
+import { defineComponent } from "vue";
 import FormItem from '../components/FormItem.vue'
 
 export default defineComponent({
