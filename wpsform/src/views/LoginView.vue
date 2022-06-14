@@ -89,12 +89,12 @@ export default defineComponent({
           ElMessage.success("登录成功");
           router.push("/app");
           // 修改登录状态
-          store.commit("setLoginState", true);
+          store.commit("user/setLoginState", true);
           window.sessionStorage.setItem("login", "true");
           // 记录用户信息
           const userRes = await api.getUserInfo()
           if(userRes.stat == 'ok') {
-            store.commit("setUserInfo", userRes.data.user);
+            store.commit("user/setUserInfo", userRes.data.user);
             window.sessionStorage.setItem("user", JSON.stringify(userRes.data.user));
           }
         } else {
