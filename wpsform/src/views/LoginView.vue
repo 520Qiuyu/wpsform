@@ -29,6 +29,7 @@
               placeholder="密码"
               v-model="ruleForm.password"
               show-password
+              @keyup.enter.native="submitForm"
             ></el-input>
           </el-form-item>
         </el-form>
