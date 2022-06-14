@@ -11,9 +11,7 @@ export default createStore({
     // 记录登录状态
     loginState: Boolean(window.sessionStorage.getItem("login")) || false,
     // 记录用户信息
-    userInfo: JSON.parse(
-      window.sessionStorage.getItem("user") || JSON.stringify({})
-    ) as IUser,
+    userInfo: JSON.parse(window.sessionStorage.getItem("user")||JSON.stringify({})) as IUser ,
   },
   getters: {},
   mutations: {

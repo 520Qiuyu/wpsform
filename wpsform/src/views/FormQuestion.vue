@@ -1,12 +1,12 @@
 <template>
   <div class="form-question-main">
     <div class="form-question-content">
-      <FormItem></FormItem>
+      <!-- <FormItem></FormItem> -->
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import FormItem from '../components/FormItem.vue'
 
