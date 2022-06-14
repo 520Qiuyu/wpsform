@@ -28,14 +28,15 @@ export default defineComponent({
   components: { ProblemItem },
   props: {},
   setup(props, ctx) {
-    const form = reactive({} as IForm)
+    const form = ref({} as IForm)
 
     const getForm = async (id: string) => {
       const res = await api.getForm(id)
       if (res.stat == 'ok') {
-        for (const key in res.data.item) {
-          form[key] = res.data.item[key]
-        }
+        // for (const key in res.data.item) {
+        //   form[key] = res.data.item[key]
+        // }
+        form.value = JSON.parse(JSON.stringify(res.data.item))
       }
     }
 

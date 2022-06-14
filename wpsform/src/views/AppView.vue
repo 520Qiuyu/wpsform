@@ -117,8 +117,7 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  /* height: 56px; */
+  height: 56px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   position: fixed;

@@ -48,6 +48,7 @@ export default defineComponent({
 <style>
 .newform-result-container {
   height: 100%;
+  margin-top: 56px;
 }
 .newform-result-tabs {
   height: 100%;

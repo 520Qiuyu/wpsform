@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, onBeforeMount } from 'vue'
+import { defineComponent, ref, reactive, onBeforeMount,PropType } from 'vue'
 import { useRouter } from 'vue-router'
 import * as api from '@/services/api'
 import { IUser, IForm, IProblem } from '../types/types'
@@ -20,7 +20,7 @@ export default defineComponent({
   components: {},
   props: {
     index: Number,
-    problem: IProblem,
+    problem:  Object as PropType<IProblem>,
   },
   setup(props, ctx) {
     

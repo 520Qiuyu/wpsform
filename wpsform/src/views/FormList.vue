@@ -145,6 +145,9 @@ export default defineComponent({
 </script>
 
 <style>
+.form-list {
+  margin-top: 56px;
+}
 .form-list-aside {
   display: flex;
   flex-direction: column;
