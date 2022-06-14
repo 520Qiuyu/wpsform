@@ -30,13 +30,19 @@ export default defineComponent({
 .form-write-header {
   display: flex;
   align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  height: 56px;
 }
 .form-write-main {
   background-color: #f2f4f7;
+  margin-top: 56px;
 }
 .form-write-content {
   width: 50%;
-  height: 100%;
+  min-height: 100%;
   background-color: #fff;
   padding: 48px 102px 90px;
   margin: 0 auto;

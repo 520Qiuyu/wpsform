@@ -12,30 +12,72 @@
     <!-- 主要内容 -->
     <el-main class="form-list-container">
       <!-- 过滤表单中带星 -->
-      <div class="form-list-filter">仅展示星标</div>
+      <div class="form-list-filter">
+        <i class="iconfont icon-star-empty" ></i>
+        <span>仅展示星标</span>
+      </div>
       <!-- 表单列表 -->
       <el-table 
-        :data="tableData" 
+        :data="formList" 
         cell-class-name="form-table-cell" 
         @row-click="goFormDetail"
       >
         <el-table-column 
-          prop="name" 
+          prop="title" 
           label="表单名称" 
           width="200"  
         />
-        <el-table-column prop="date" label="创建时间" width="200" align="center" />
-        <el-table-column prop="state" label="状态" width="200" align="center" />
-        <el-table-column prop="star" label=" " width="180" align="center" />
+        <el-table-column label="创建时间" width="200" align="center" >
+          <template #default="scope">
+            {{dayjs(scope.row.ctime).format('YYYY-MM-DD HH:mm:ss')}}
+          </template>
+        </el-table-column>
+        <el-table-column label="状态" width="200" align="center" >
+          <template #default="scope">
+            <span v-if="scope.row.status==2">草稿</span>
+            <span v-if="scope.row.status==3">收集中</span>
+            <span v-if="scope.row.status==4">已结束</span>
+          </template>
+        </el-table-column>>
+        <el-table-column label=" " width="180" align="center">
+          <template #default="scope">
+              <i 
+                class="iconfont icon-star-empty" 
+                v-if="!scope.row.isStar" 
+                @click.stop="starForm(scope.row.id)"
+              >
+              </i>
+              <i 
+                class="iconfont icon-star-full" 
+                v-if="scope.row.isStar"
+                @click.stop="cancelStarForm(scope.row.id)"
+              >
+              </i>
+          </template>
+        </el-table-column>>
         <el-table-column label="操作" align="center">
           <template #default="scope">
-            <el-button @click.stop="handleEdit(scope.$index, scope.row)"
-              >编辑</el-button
-            >
+            <!-- 草稿状态按钮 -->
+            <el-button 
+              @click.stop="handlePublish(scope.$index,scope.row)" 
+              v-if="scope.row.status==2"
+            >发布</el-button>
+            <el-button 
+              @click.stop="handleEdit(scope.$index, scope.row)"
+              v-if="scope.row.status==2"
+            >编辑</el-button>
+            <!-- 收集中状态按钮 -->
+            <el-button 
+              @click.stop="handlePublish(scope.$index,scope.row)" 
+              v-if="scope.row.status==3"
+            >分享</el-button>
+            <el-button 
+              @click.stop="handlePublish(scope.$index,scope.row)" 
+              v-if="scope.row.status==3 || scope.row.status==4"
+            >查看结果</el-button>
             <el-button
               @click.stop="handleDelete(scope.$index, scope.row)"
-              >删除</el-button
-            >
+              >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -63,31 +105,18 @@ export default defineComponent({
     const userInfo = reactive({} as IUser)
     // 表单列表
     const formList = reactive([] as IForm[])
-    let tableData = [
-      {
-        date: '2022年6月11日18:00',
-        name: '表单1',
-        state: '草稿',
-        star: 'star',
-      },
-      {
-        date: '2022年6月10日19:00',
-        name: '表单2',
-        state: '收集中',
-        star: 'nostar',
-      },
-    ]
 
     const getFormList = async () => {
       try {
         const res = await api.getFormList()
         if(res.stat == 'ok') {
           for(const item of res.data.items) {
+            // const formItem = ref({} as IForm)
+            // formItem.value = item
             formList.push(item)
           }
           console.log(res.data);
         }
-
       } catch (err) {
         console.trace(err);
       }
@@ -128,17 +157,39 @@ export default defineComponent({
       router.push('/app/new-form-result')
     }
 
+    // 发布按钮
+    const handlePublish = async (index: number, obj: any)=>{
+      console.log(formList[index].status);
+      console.log(obj);
+    }
+
+    let flag = ref(false)
+    // 表单标星
+    const starForm = async (id: string)=>{
+      const res = await api.starForm(id)
+      flag.value = true
+    }
+    // 表单取消标星
+    const cancelStarForm = async (id: string)=>{
+      const res = await api.cancelStarForm(id)
+      flag.value = false
+    }
+
     onBeforeMount(() => {
       store.commit('setAppStatus', 1)
       // getProblemType()
       // getForm('1a32c9ef-a809-4838-aec9-22c847de0006')
-      // getFormList()
+      getFormList()
     })
     return {
+      dayjs,
       formState,
-      tableData,
       goFormDetail,
       formList,
+      handlePublish,
+      starForm,
+      cancelStarForm,
+      flag,
     }
   },
 })
@@ -184,6 +235,8 @@ export default defineComponent({
 }
 
 .form-list-filter {
+  display: flex;
+  align-items: center;
   position: absolute;
   z-index: 2;
   right: 30px;
@@ -196,5 +249,10 @@ export default defineComponent({
 .form-table-cell {
   height: 60px;
   cursor: pointer;
+}
+
+.icon-star-empty,
+.icon-star-full {
+  font-size: 24px;
 }
 </style>
