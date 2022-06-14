@@ -263,7 +263,7 @@ export default defineComponent({
   position: relative;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   margin-top: 150px;
 }
 .register-box-top {

@@ -166,7 +166,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   margin-top: 150px;
 }
 .login-box-top {

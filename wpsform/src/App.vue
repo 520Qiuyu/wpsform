@@ -2,7 +2,7 @@
   <router-view />
 </template>
 
-<script>
+<script lang="ts">
 import "./assets/styles/reset.css"
 import "./assets/styles/index.css"
 export default {
