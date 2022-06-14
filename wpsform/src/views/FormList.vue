@@ -29,13 +29,13 @@
         <el-table-column prop="star" label=" " width="180" align="center" />
         <el-table-column label="操作" align="center">
           <template #default="scope">
-            <el-button @click.stop="handleEdit(scope.$index, scope.row)"
+            <!-- <el-button @click.stop="handleEdit(scope.$index, scope.row)"
               >编辑</el-button
             >
             <el-button
               @click.stop="handleDelete(scope.$index, scope.row)"
               >删除</el-button
-            >
+            > -->
           </template>
         </el-table-column>
       </el-table>

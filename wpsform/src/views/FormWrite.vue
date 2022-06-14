@@ -3,7 +3,7 @@
     <el-header class="form-write-header">xxx表单名称</el-header>
     <el-main class="form-write-main">
       <div class="form-write-content">
-        <FormItem></FormItem>
+        <!-- <FormItem></FormItem> -->
       </div>
     </el-main>
   </el-container>
