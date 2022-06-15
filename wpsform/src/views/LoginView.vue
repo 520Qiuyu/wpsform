@@ -29,6 +29,7 @@
               placeholder="密码"
               v-model="ruleForm.password"
               show-password
+              @keyup.enter.native="submitForm"
             ></el-input>
           </el-form-item>
         </el-form>
@@ -88,12 +89,12 @@ export default defineComponent({
           ElMessage.success("登录成功");
           router.push("/app");
           // 修改登录状态
-          store.commit("setLoginState", true);
+          store.commit("user/setLoginState", true);
           window.sessionStorage.setItem("login", "true");
           // 记录用户信息
           const userRes = await api.getUserInfo()
           if(userRes.stat == 'ok') {
-            store.commit("setUserInfo", userRes.data.user);
+            store.commit("user/setUserInfo", userRes.data.user);
             window.sessionStorage.setItem("user", JSON.stringify(userRes.data.user));
           }
         } else {
@@ -138,7 +139,7 @@ export default defineComponent({
   /* background: url(https://js2.epy.wpscdn.cn/security/da_banner.png); */
   background: url("../assets/imgs/Login_banner.png");
   background-size: cover;
-  background-position: -300px 0;
+  background-position: 80% 0;
   background-repeat: no-repeat;
 }
 .top-logo {
