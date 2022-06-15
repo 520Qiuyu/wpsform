@@ -33,7 +33,7 @@
         <!-- 用户信息 -->
         <div class="app-user" v-if="$store.state.user.loginState">
           <!-- 用户名 -->
-          <span class="app-user-title">{{userInfo.nickname}}</span>
+          <span class="app-user-title">{{ userInfo.nickname }}</span>
           <el-dropdown>
             <!-- 用户头像 -->
             <div
@@ -62,26 +62,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref,reactive, computed,onBeforeMount } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import * as api from '@/services/api'
-import { IUser, IForm, IProblem } from '../types/types'
+import { defineComponent, ref, reactive, computed, onBeforeMount } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import * as api from "@/services/api";
+import { IUser, IForm, IProblem } from "../types/types";
 
 export default defineComponent({
-  name: 'AppView',
+  name: "AppView",
   components: {},
   props: {},
   setup(props, ctx) {
-    const store = useStore()
-    const router = useRouter()
+    const store = useStore();
+    const router = useRouter();
     // const usericon = '../assets/imgs/logo.svg'
     const appStatus = computed(() => store.state.user.appStatus)
     const userInfo = computed(() => store.state.user.userInfo)
 
     const goBack = () => {
-      router.go(-1)
-    }
+      router.go(-1);
+    };
 
     const logout = async () => {
       const res = await api.logout()
@@ -92,25 +92,25 @@ export default defineComponent({
         router.push('/login')
       }
       // console.log(store.state.loginState)
-    }
+    };
 
-    onBeforeMount(()=>{
+    onBeforeMount(() => {
       // console.log(typeof store.state.userInfo)
-    })
+    });
 
     return {
       appStatus,
       goBack,
       logout,
-      userInfo
-    }
+      userInfo,
+    };
   },
-})
+});
 </script>
 
 <style scoped>
 .app-container {
-  height: 100%;
+  /* height: 100%; */
 }
 .app-top {
   padding: 0 16px;

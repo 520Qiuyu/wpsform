@@ -64,8 +64,26 @@
               >编辑</el-button
             >
             <!-- 收集中状态按钮 -->
-            <el-button @click.stop="goSharePage(scope.row.id)" v-if="scope.row.status == 3"
+            <el-button
+              @click.stop="goSharePage(scope.row.id)"
+              v-if="scope.row.status == 3"
               >分享</el-button
+            >
+            <el-button
+              @click.stop="showResult(scope.row.id)"
+              v-if="scope.row.status == 3 || scope.row.status == 4"
+              >查看结果</el-button
+            >
+            <el-button
+              @click.stop="endCollect(scope.row.id)"
+              v-if="scope.row.status == 3"
+              >停止</el-button
+            >
+            <el-button @click.stop="deleteForm(scope.row.id)">删除</el-button>
+            <el-button
+              @click.stop="writeForm(scope.row.id)"
+              v-if="scope.row.status == 3"
+              >表单填写(测试用)</el-button
             >
             <el-button
               @click.stop="showResult(scope.row.id)"
@@ -106,7 +124,7 @@ import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 
 export default defineComponent({
-  name: 'FormList',
+  name: "FormList",
   components: {},
   props: {},
   setup(props, ctx) {
@@ -134,7 +152,7 @@ export default defineComponent({
       } catch (err) {
         console.trace(err)
       }
-    }
+    };
 
     const getForm = async (id: string) => {
       const res = await api.getForm(id)
@@ -314,7 +332,7 @@ export default defineComponent({
       writeForm,
     }
   },
-})
+});
 </script>
 
 <style>

@@ -18,7 +18,6 @@ export default defineComponent({
   components: {
     FormItem,
   },
-  props: {},
   setup(props, ctx) {
     return {}
   },

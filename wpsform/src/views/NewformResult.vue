@@ -9,7 +9,7 @@
         <!-- <FormQuestion></FormQuestion> -->
       </el-tab-pane>
       <el-tab-pane label="分享" name="share">
-        <FormShare></FormShare>
+        <FormShare :Formid="Formid"></FormShare>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -24,7 +24,7 @@ import FormQuestion from './FormQuestion.vue'
 import FormShare from './FormShare.vue'
 
 export default defineComponent({
-  name: 'NewformResult',
+  name: "NewformResult",
   components: {
     StatisticalDetails,
     FormQuestion,
@@ -44,9 +44,12 @@ export default defineComponent({
     })
     return {
       activeName,
-    }
+      Formid,
+      ChangeId,
+    };
   },
-})
+  // created() {},
+});
 </script>
 
 <style>

@@ -89,8 +89,7 @@ import { IUser, IForm, IProblem } from '../types/types'
 import { useStore } from 'vuex'
 
 export default defineComponent({
-  name: 'ProblemItem',
-  components: {},
+  name: "ProblemItem",
   props: {
     index: Number,
     problem: Object as PropType<IProblem>,
@@ -205,7 +204,8 @@ export default defineComponent({
       singleOptions,
     }
   },
-})
+  // created() {},
+});
 </script>
 
 <style>

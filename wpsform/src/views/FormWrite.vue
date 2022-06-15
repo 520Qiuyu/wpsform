@@ -9,6 +9,11 @@
       </div>
     </el-main>
   </el-container>
+  <div class="form-submit-area">
+    <el-button type="primary" class="form-submit" @click="FormSubmit"
+      >提交</el-button
+    >
+  </div>
 </template>
 
 <script lang="ts">
