@@ -70,11 +70,13 @@ export interface IProblem {
   required: boolean;
   isNew?: boolean;
   setting?: {
-    options: {
+    options?: {
       title: string;
       status: 1 | 2;
       id?: string;
     }[];
+    dateType?: "YM" | "YMD" | "YMDHM"; //年月|年月日|年月日时分
+    timeType?: "HMS" | "HM"; //时分秒|时分
   };
   result?: {
     value:

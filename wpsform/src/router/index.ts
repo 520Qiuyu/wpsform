@@ -27,6 +27,12 @@ const routes: Array<RouteRecordRaw> = [
         name: "new-form-create",
         component: () => import("../views/NewformCreate.vue"),
       },
+      // 预览表单
+      {
+        path: "form-preview",
+        name: "form-preview",
+        component: () => import("../views/FormPreview.vue"),
+      },
       // 填写详情
       {
         path: "new-form-result",
