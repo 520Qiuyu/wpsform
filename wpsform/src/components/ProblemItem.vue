@@ -82,115 +82,130 @@ import {
   onBeforeMount,
   PropType,
   watch,
-} from 'vue'
-import { useRouter } from 'vue-router'
-import * as api from '@/services/api'
-import { IUser, IForm, IProblem } from '../types/types'
-import { useStore } from 'vuex'
+} from "vue";
+import { useRouter } from "vue-router";
+import * as api from "@/services/api";
+import { IUser, IForm, IProblem } from "../types/types";
+import { useStore } from "vuex";
 
 export default defineComponent({
-  name: 'ProblemItem',
+  name: "ProblemItem",
   props: {
     index: Number,
-    problem: Object as PropType<IProblem>,
+    problem: {
+      type: Object as PropType<IProblem>,
+      required: true,
+    },
   },
-  emits: ['setProblemResult'],
+  emits: ["setProblemResult"],
   setup(props, ctx) {
-    const inputValue = ref('')
-    const date = ref('')
-    const time = ref('')
-    const score = ref(null)
+    const inputValue = ref("");
+    const date = ref("");
+    const time = ref("");
+    const score = ref(null);
     const pullSelectValue = reactive({
       value: {
-        id: '',
-        title: '',
+        id: "",
+        title: "",
       },
-    })
+    });
     const singleSelectValue = reactive({
       value: {
-        id: '',
-        title: '',
+        id: "",
+        title: "",
       },
-    })
-    const multiSelectArr = ref([])
+    });
+    const multiSelectArr = ref([]);
     const multiSelectValue = reactive({
       value: [{}],
-    })
+    });
     const options = reactive([
       {
-        value: 'Option1',
-        label: 'Option1',
+        value: "Option1",
+        label: "Option1",
       },
       {
-        value: 'Option2',
-        label: 'Option2',
+        value: "Option2",
+        label: "Option2",
       },
-    ])
+    ]);
 
-    const singleOptions = props.problem ? ref(props.problem.setting) : []
+    const singleOptions = props.problem ? ref(props.problem.setting) : [];
 
     watch(inputValue, (newVal) => {
-      ctx.emit('setProblemResult', newVal, props.problem!.id)
+      ctx.emit("setProblemResult", newVal, props.problem!.id);
       // console.log(newVal);
-    })
+    });
 
     watch(score, (newVal) => {
-      ctx.emit('setProblemResult', newVal, props.problem!.id)
+      ctx.emit("setProblemResult", newVal, props.problem!.id);
       // console.log(newVal);
-    })
+    });
 
     watch(date, (newVal) => {
-      ctx.emit('setProblemResult', newVal, props.problem!.id)
-      console.log(newVal)
-    })
+      ctx.emit("setProblemResult", newVal, props.problem!.id);
+      console.log(newVal);
+    });
 
     watch(time, (newVal) => {
-      ctx.emit('setProblemResult', newVal, props.problem!.id)
-      console.log(newVal)
-    })
+      ctx.emit("setProblemResult", newVal, props.problem!.id);
+      console.log(newVal);
+    });
 
     // 单选题处理
     watch(singleSelectValue, (newVal) => {
       //根据id修改结果的title
-      props.problem!.setting!.options.forEach((option) => {
-        if (option.id == newVal.value.id) {
-          newVal.value.title = option.title
+      (
+        props.problem.setting as {
+          options: { title: string; status: 1 | 2; id: string }[];
         }
-      })
-      ctx.emit('setProblemResult', newVal, props.problem!.id)
+      ).options.forEach((option) => {
+        if (option.id == newVal.value.id) {
+          newVal.value.title = option.title;
+        }
+      });
+      ctx.emit("setProblemResult", newVal, props.problem!.id);
       // console.log(newVal);
-    })
+    });
     // 下拉选择题处理
     watch(pullSelectValue, (newVal) => {
       //根据title修改结果的id
-      props.problem!.setting!.options.forEach((option) => {
-        if (option.title == newVal.value.title) {
-          newVal.value.id = String(option.id)
+      (
+        props.problem.setting as {
+          options: { title: string; status: 1 | 2; id: string }[];
         }
-      })
-      ctx.emit('setProblemResult', newVal, props.problem!.id)
+      ).options.forEach((option) => {
+        if (option.title == newVal.value.title) {
+          newVal.value.id = String(option.id);
+        }
+      });
+      ctx.emit("setProblemResult", newVal, props.problem!.id);
       // console.log(newVal);
-    })
+    });
     //多选题处理
     watch(multiSelectArr, (newVal) => {
       for (let i = 0; i < newVal.length; i++) {
-        props.problem!.setting!.options.forEach((option) => {
+        (
+          props.problem.setting as {
+            options: { title: string; status: 1 | 2; id: string }[];
+          }
+        ).options.forEach((option) => {
           if (option.title == newVal[i]) {
             multiSelectValue.value[i] = {
               title: newVal[i],
               id: option.id,
-            }
+            };
           }
-        })
+        });
       }
-      ctx.emit('setProblemResult', multiSelectValue, props.problem!.id)
+      ctx.emit("setProblemResult", multiSelectValue, props.problem!.id);
       // console.log(multiSelectValue)
-    })
+    });
 
     onBeforeMount(() => {
       // console.log(props.problem);
       // console.log(singleOptions);
-    })
+    });
 
     return {
       inputValue,
@@ -202,10 +217,10 @@ export default defineComponent({
       singleSelectValue,
       multiSelectArr,
       singleOptions,
-    }
+    };
   },
   // created() {},
-})
+});
 </script>
 
 <style>

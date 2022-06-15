@@ -47,7 +47,10 @@ export default defineComponent({
   name: "FormItem",
   components: { ProblemItem },
   props: {
-    formId: String,
+    formId: {
+      type: String,
+      required: true,
+    },
     submitDisabled: Boolean,
   },
   setup(props, ctx) {
@@ -73,7 +76,10 @@ export default defineComponent({
     //确定提交
     const handelConfirm = async () => {
       dialogVisible.value = false;
-      const res = await api.inputForm(props.formId!, form.value.problems);
+      const res = await api.inputForm(
+        props.formId!,
+        (form.value as IForm).problems
+      );
       if (res.stat == "ok") {
         ElMessage({
           message: "表单填写成功，已提交",
@@ -133,12 +139,8 @@ export default defineComponent({
       });
     };
 
-    onBeforeMount(() => {
-      getForm(props.formId!);
-      // console.log(props.formId);
-    });
-
     return {
+      getForm,
       form,
       saveDraft,
       submit,
@@ -146,6 +148,10 @@ export default defineComponent({
       dialogVisible,
       handelConfirm,
     };
+  },
+  beforeMount() {
+    console.log(this);
+    this.getForm(this.formId);
   },
 });
 </script>
