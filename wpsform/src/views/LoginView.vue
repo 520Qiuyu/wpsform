@@ -39,7 +39,7 @@
           >
           <div class="goregister">
             <span>没有账号？</span>
-            <router-link to="/register">立即注册></router-link>
+            <router-link to="/register">立即注册</router-link>
           </div>
         </div>
       </div>
@@ -197,5 +197,48 @@ export default defineComponent({
   width: 200px;
   height: 50px;
   font-size: 18px;
+}
+/* 响应式 */
+@media screen and (max-width: 768px) {
+  .page-left {
+    width: 0;
+  }
+  .top-logo {
+  top: 15px;
+  left: 15px;
+  width: 249px;
+  height: 22.5px;
+}
+  .login-box {
+    margin-top: 120px;
+    align-items: center;
+  }
+  .login-box-top {
+    margin-bottom: 30px;
+  }
+  .login-title {
+    font-size: 35px;
+    font-weight: 600;
+    color: #000;
+  }
+  .text-input {
+    width: 300px;
+    height: 45px;
+    margin: 10px 0;
+    font-size: 16px;
+  }
+  .operate-box {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+  }
+  .login-btn {
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+  }
+  .goregister {
+    margin-top: 15px;
+  }
 }
 </style>
