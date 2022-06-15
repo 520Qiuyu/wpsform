@@ -39,10 +39,28 @@ export default {
         (item: IProblem) => id != item.id
       );
     },
+    // 清空表单
+    clearFormList(state: any) {
+      state.questionList = [];
+    },
+    // 设置表单标题草稿
+    setFormTitleDraft(state: any, value:string){
+      state.formTitleDraft = value
+    },
+    // 设置表单描述草稿
+    setFormSubTitleDraft(state: any, value: string){
+      state.formSubTitleDraft = value
+    },
+    // 保存草稿
+    saveDraft(state: any){
+      state.questionListDraft = state.questionList;
+    },
+    // 使用草稿
+    useDraft(state: any){
+      state.questionList  = state.questionListDraft
+    }
   },
   state: {
-    // 左侧题目模板列表
-    questionFormworks: ["姓名", "性别"] as string[],
     // 中间的问题列表
     questionList: [
       {
@@ -95,7 +113,11 @@ export default {
         id: "jPPf3sMyKi52mKMnODbPF",
       },
     ] as IProblem[],
-    //
+    // 俩标题的草稿
+    formTitleDraft:"",
+    formSubTitleDraft: "",
+    // 草稿
+    questionListDraft: [] as IProblem[],
   },
   getters: {},
 };

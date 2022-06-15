@@ -5,6 +5,7 @@ export default {
   mutations: {
     // 将该问题添加到常用
     addToCommonUse(state: any, value: IProblem) {
+      console.log("addToCommonUse",state.commonUseQues);
       state.commonUseQues.push(value);
     },
   },
@@ -38,6 +39,36 @@ export default {
       {
         type: "score",
         typeName: "分数题",
+      },
+    ],
+
+    // 左侧题目模板列表
+    questionFormworks: [
+      {
+        name: "姓名",
+        problem: {
+          id: "",
+          type: "input",
+          title: "姓名",
+          required: false,
+          isNew: false,
+        },
+      },
+      {
+        name: "性别",
+        problem: {
+          id: "",
+          type: "singleSelect",
+          title: "性别",
+          required: false,
+          isNew: false,
+          setting: {
+            options: [
+              { title: "男", status: 1 },
+              { title: "女", status: 1 },
+            ],
+          },
+        },
       },
     ],
     commonUseQues: [] as IProblem[],

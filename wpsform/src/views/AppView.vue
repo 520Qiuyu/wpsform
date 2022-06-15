@@ -18,7 +18,7 @@
       </div>
       <!-- 表单详情页面显示返回图标+当前表单名 -->
       <div class="app-logoArea" v-if="appStatus == 3">
-        <el-page-header content="xxx表单名称" @back="goBack" />
+        <el-page-header :content="formTitle" @back="goBack" />
       </div>
       <!-- 右侧个人信息显示：头像昵称 -->
       <div class="app-user-info">
@@ -33,7 +33,7 @@
         <!-- 用户信息 -->
         <div class="app-user" v-if="$store.state.user.loginState">
           <!-- 用户名 -->
-          <span class="app-user-title">{{userInfo.nickname}}</span>
+          <span class="app-user-title">{{ userInfo.nickname }}</span>
           <el-dropdown>
             <!-- 用户头像 -->
             <div
@@ -57,31 +57,32 @@
         </div>
       </div>
     </el-header>
-    <router-view></router-view>
+    <router-view @showFormTitle="showFormTitle"></router-view>
   </el-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref,reactive, computed,onBeforeMount } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import * as api from '@/services/api'
-import { IUser, IForm, IProblem } from '../types/types'
+import { defineComponent, ref, reactive, computed, onBeforeMount } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import * as api from "@/services/api";
+import { IUser, IForm, IProblem } from "../types/types";
 
 export default defineComponent({
-  name: 'AppView',
+  name: "AppView",
   components: {},
   props: {},
   setup(props, ctx) {
-    const store = useStore()
-    const router = useRouter()
+    const store = useStore();
+    const router = useRouter();
     // const usericon = '../assets/imgs/logo.svg'
     const appStatus = computed(() => store.state.user.appStatus)
     const userInfo = computed(() => store.state.user.userInfo)
+    const formTitle = ref('')
 
     const goBack = () => {
-      router.go(-1)
-    }
+      router.push('/app');
+    };
 
     const logout = async () => {
       const res = await api.logout()
@@ -92,20 +93,25 @@ export default defineComponent({
         router.push('/login')
       }
       // console.log(store.state.loginState)
+    };
+    const showFormTitle = (value:any)=>{
+      formTitle.value = value
     }
 
-    onBeforeMount(()=>{
+    onBeforeMount(() => {
       // console.log(typeof store.state.userInfo)
-    })
+    });
 
     return {
       appStatus,
       goBack,
       logout,
-      userInfo
-    }
+      userInfo,
+      formTitle,
+      showFormTitle,
+    };
   },
-})
+});
 </script>
 
 <style scoped>

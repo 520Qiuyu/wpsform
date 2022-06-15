@@ -1,26 +1,56 @@
 <template>
   <el-container class="form-write-container">
-    <el-header class="form-write-header">xxx表单名称</el-header>
+    <el-header class="form-write-header">
+      <el-page-header :content="formTitle" @back="goBack" />
+    </el-header>
     <el-main class="form-write-main">
       <div class="form-write-content">
-        <!-- <FormItem></FormItem> -->
+        <FormItem :formId="formId" :submitDisabled="true"></FormItem>
       </div>
     </el-main>
   </el-container>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref, reactive, onBeforeMount } from 'vue'
+import { useRouter,useRoute } from 'vue-router'
+import * as api from '@/services/api'
+import { IUser, IForm, IProblem } from '../types/types'
+import { useStore } from 'vuex'
 import FormItem from '../components/FormItem.vue'
 
 export default defineComponent({
-  name: "FormWrite",
-  components: {FormItem},
+  name: 'FormWrite',
+  components: { FormItem },
   props: {},
   setup(props, ctx) {
-    return {};
+    const route = useRoute()
+    const router = useRouter()
+    const formId = route.params.id as string
+    const formTitle = ref('')
+
+    const getForm =  async (id: string)=>{
+      const res = await api.getForm(id)
+      if(res.stat == 'ok') {
+        formTitle.value = res.data.item.title
+        // console.log(res.data.item.title);
+      }
+    }
+    const goBack = ()=>{
+      router.push('/app')
+    }
+
+    onBeforeMount(()=>{
+      getForm(formId)
+    })
+
+    return {
+      formId,
+      formTitle,
+      goBack,
+    }
   },
-});
+})
 </script>
 
 <style>
@@ -35,6 +65,8 @@ export default defineComponent({
   top: 0;
   z-index: 2;
   height: 56px;
+  font-size: 20px;
+  font-weight: 600;
 }
 .form-write-main {
   background-color: #f2f4f7;
