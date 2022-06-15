@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from "vue";
+import { defineComponent, reactive, computed,onBeforeMount } from "vue";
 import { useStore } from "vuex";
 import MyQuestion from "../components/MyQuestion.vue";
 import { IProblem } from "../types/types";
@@ -102,6 +102,11 @@ export default defineComponent({
       const aa = { type };
       console.log(aa.type === type);
     };
+
+    onBeforeMount(()=>{
+      Store.commit('user/setAppStatus', 2)
+    })
+
     return {
       quesTypes,
       questionFormworks,

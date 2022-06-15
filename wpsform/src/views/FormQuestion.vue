@@ -8,6 +8,9 @@
         >填写表单</el-button
       >
     </div>
+    <div class="form-write-area">
+      <el-button type="primary" class="form-write-btn">填写表单</el-button>
+    </div>
   </div>
 </template>
 
@@ -16,7 +19,7 @@ import { defineComponent, ref } from "vue";
 import FormInfo from "../components/FormInfo.vue";
 import { useRouter } from "vue-router";
 export default defineComponent({
-  name: "FormQuestion",
+  name: 'FormQuestion',
   components: {
     FormInfo,
   },
@@ -37,7 +40,7 @@ export default defineComponent({
       goFormWrite,
     };
   },
-});
+})
 </script>
 
 <style scoped>
@@ -46,9 +49,10 @@ export default defineComponent({
   height: 100%;
   /* background-color: #f2f4f7; */
   margin: 0 auto;
+  overflow: auto;
 }
 .form-question-content {
-  height: 100%;
+  min-height: 100%;
   background-color: #fff;
   padding: 48px 120px 90px;
 }

@@ -25,20 +25,20 @@
         <!-- 登录按钮 -->
         <router-link
           to="/login"
-          v-if="!$store.state.loginState"
+          v-if="!$store.state.user.loginState"
           class="app-login-btn"
         >
           登录
         </router-link>
         <!-- 用户信息 -->
-        <div class="app-user" v-if="$store.state.loginState">
+        <div class="app-user" v-if="$store.state.user.loginState">
           <!-- 用户名 -->
           <span class="app-user-title">{{ userInfo.nickname }}</span>
           <el-dropdown>
             <!-- 用户头像 -->
             <div
               class="app-user-icon el-dropdown-link"
-              v-if="$store.state.loginState"
+              v-if="$store.state.user.loginState"
             >
               <img :src="userInfo.avatar" alt="" />
             </div>
@@ -76,17 +76,21 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     // const usericon = '../assets/imgs/logo.svg'
-    const appStatus = computed(() => store.state.appStatus);
-    const userInfo = computed(() => store.state.userInfo);
+    const appStatus = computed(() => store.state.user.appStatus)
+    const userInfo = computed(() => store.state.user.userInfo)
 
     const goBack = () => {
       router.go(-1);
     };
 
-    const logout = () => {
-      store.commit("setLoginState", false);
-      window.sessionStorage.removeItem("login");
-      window.sessionStorage.removeItem("user");
+    const logout = async () => {
+      const res = await api.logout()
+      if(res.stat == 'ok') {
+        store.commit('user/setLoginState', false)
+        window.sessionStorage.removeItem('login')
+        window.sessionStorage.removeItem('user')
+        router.push('/login')
+      }
       // console.log(store.state.loginState)
     };
 

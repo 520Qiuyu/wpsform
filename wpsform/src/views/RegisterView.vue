@@ -8,12 +8,14 @@
     <!-- 右侧注册主体 -->
     <div class="page-right">
       <div class="register-box">
+        <!-- 返回登录按钮和标题 -->
         <div class="register-box-top">
           <el-icon class="back-icon" @click="goLogin">
             <ArrowLeftBold />
           </el-icon>
           <div class="register-title">WPS注册</div>
         </div>
+        <!-- 输入框和按钮 -->
         <el-form
           :model="ruleForm"
           :rules="rules"
@@ -29,7 +31,9 @@
               @focusout="outAccount"
             ></el-input>
           </el-form-item>
-          <span class="accountTip tip" v-show="accountTip">6~18个字符，可使用字母、数字、下划线</span>
+          <span class="accountTip tip" v-show="accountTip"
+            >6~18个字符，可使用字母、数字、下划线</span
+          >
 
           <el-form-item prop="password">
             <el-input
@@ -43,7 +47,9 @@
               show-password
             ></el-input>
           </el-form-item>
-          <span class="passwordTip tip" v-show="passwordTip">必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-20之间</span>
+          <span class="passwordTip tip" v-show="passwordTip"
+            >必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-20之间</span
+          >
           <el-form-item prop="confirm_password">
             <el-input
               class="text-input"
@@ -51,11 +57,14 @@
               v-model="ruleForm.confirm_password"
               @focus="onConfirmPwd"
               @focusout="outConfirmPwd"
+              @keyup.enter.native="submitForm"
               autocomplete="off"
               show-password
             ></el-input>
           </el-form-item>
-          <span class="confirmPwdTip tip" v-show="confirmPwdTip">请再输入一次密码</span>
+          <span class="confirmPwdTip tip" v-show="confirmPwdTip"
+            >请再输入一次密码</span
+          >
           <el-form-item>
             <el-button class="register-btn" type="primary" @click="submitForm"
               >立即注册</el-button
@@ -98,26 +107,26 @@ export default defineComponent({
 
     //输入框获得焦点时显示提示信息并清除验证信息
     const onAccount = () => {
-      accountTip.value=true;
-      ruleFormRef.value?.clearValidate("account")
+      accountTip.value = true;
+      ruleFormRef.value?.clearValidate("account");
     };
-    const outAccount = ()=> {
-      accountTip.value=false;
-    }
+    const outAccount = () => {
+      accountTip.value = false;
+    };
     const onPassword = () => {
-      passwordTip.value=true;
-      ruleFormRef.value?.clearValidate("password")
+      passwordTip.value = true;
+      ruleFormRef.value?.clearValidate("password");
     };
-    const outPassword = ()=> {
-      passwordTip.value=false;
-    }
+    const outPassword = () => {
+      passwordTip.value = false;
+    };
     const onConfirmPwd = () => {
-      confirmPwdTip.value=true;
-      ruleFormRef.value?.clearValidate("confirm_password")
+      confirmPwdTip.value = true;
+      ruleFormRef.value?.clearValidate("confirm_password");
     };
-    const outConfirmPwd = ()=> {
-      confirmPwdTip.value=false;
-    }
+    const outConfirmPwd = () => {
+      confirmPwdTip.value = false;
+    };
 
     //自定义验证函数
     const validateAccount = (rule: any, value: any, callback: any) => {
@@ -135,11 +144,7 @@ export default defineComponent({
       if (!value) {
         return callback(new Error("请输入密码"));
       } else if (!passwordReg.test(value)) {
-        callback(
-          new Error(
-            "请按要求输入密码"
-          )
-        );
+        callback(new Error("请按要求输入密码"));
       } else {
         callback();
       }
@@ -149,11 +154,7 @@ export default defineComponent({
       if (!value) {
         callback(new Error("请输入确认密码"));
       } else if (!ConfirmPwdReg.test(value)) {
-        callback(
-          new Error(
-            "请按要求输入确认密码"
-          )
-        );
+        callback(new Error("请按要求输入确认密码"));
       } else if (value !== ruleForm.password) {
         callback(new Error("两次输入密码不一致!"));
       } else {
@@ -193,7 +194,13 @@ export default defineComponent({
     };
 
     //提交验证
-    const submitForm = () => {
+    const submitForm = () => { 
+      // 关闭所有提示
+      accountTip.value = false;
+      passwordTip.value = false;
+      confirmPwdTip.value = false;
+      
+      // 判断验证是否都通过
       ruleFormRef.value?.validate(async (validate) => {
         if (validate) {
           await register();
@@ -206,15 +213,15 @@ export default defineComponent({
       accountTip,
       passwordTip,
       confirmPwdTip,
+      ruleForm,
+      ruleFormRef,
+      rules,
       onAccount,
       outAccount,
       onPassword,
       outPassword,
       onConfirmPwd,
       outConfirmPwd,
-      ruleForm,
-      ruleFormRef,
-      rules,
       goLogin,
       submitForm,
     };
@@ -234,7 +241,7 @@ export default defineComponent({
   /* background: url(https://js2.epy.wpscdn.cn/security/da_banner.png); */
   background: url("../assets/imgs/Login_banner.png");
   background-size: cover;
-  background-position: -300px 0;
+  background-position: 80% 0;
   background-repeat: no-repeat;
 }
 .top-logo {
@@ -275,9 +282,9 @@ export default defineComponent({
   font-size: 35px;
   margin-top: -1px;
   color: #a1a1a1;
+  cursor: pointer;
 }
 .back-icon:hover {
-  cursor: pointer;
   color: #409eff;
 }
 .register-title {
@@ -292,10 +299,10 @@ export default defineComponent({
   margin: 15px 0;
   font-size: 20px;
 }
-.tip{
+.tip {
   position: absolute;
   font-size: 14px;
-  color: #8B8989;
+  color: #8b8989;
 }
 .accountTip {
   top: 178px;

@@ -45,6 +45,7 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['setProblemResult'],
   setup(props, ctx) {
     const loog = () => {
       console.log("problem的内容");
