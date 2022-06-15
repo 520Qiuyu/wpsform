@@ -60,7 +60,7 @@
               v-if="scope.row.status == 2"
               >发布</el-button
             >
-            <el-button @click.stop="editForm(scope.row)" v-if="scope.row.status == 2"
+            <el-button @click.stop="editForm" v-if="scope.row.status == 2"
               >编辑</el-button
             >
             <!-- 收集中状态按钮 -->
@@ -215,13 +215,8 @@ export default defineComponent({
     }
 
     //编辑按钮，编辑表单
-    const editForm = (id: string) => {
-      router.push({
-        name: 'new-form-create',
-        params: {
-          id
-        }
-      })
+    const editForm = () => {
+      router.push('/app/new-form-create')
     }
 
     //删除按钮，删除表单

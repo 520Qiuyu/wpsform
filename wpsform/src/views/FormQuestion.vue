@@ -19,7 +19,7 @@ import * as api from '@/services/api'
 import { ElMessage } from 'element-plus'
 
 export default defineComponent({
-  name: 'FormQuestion',
+  name: "FormQuestion",
   components: {
     FormItem,
   },
@@ -50,7 +50,7 @@ export default defineComponent({
       goWriteForm,
     }
   },
-})
+});
 </script>
 
 <style scoped>

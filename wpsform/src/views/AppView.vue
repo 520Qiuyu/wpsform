@@ -40,13 +40,7 @@
               class="app-user-icon el-dropdown-link"
               v-if="$store.state.user.loginState"
             >
-              <!-- <img :src="userInfo.avatar" alt="" /> -->
-              <el-avatar
-                class="avatar"
-                :size="32"
-                :src="userInfo.avatar"
-                fit="filter"
-              />
+              <img :src="userInfo.avatar" alt="" />
             </div>
             <!-- 头像悬浮显示下拉框内容 -->
             <template #dropdown>
@@ -68,45 +62,45 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, onBeforeMount } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import * as api from '@/services/api'
-import { IUser, IForm, IProblem } from '../types/types'
+import { defineComponent, ref, reactive, computed, onBeforeMount } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import * as api from "@/services/api";
+import { IUser, IForm, IProblem } from "../types/types";
 
 export default defineComponent({
-  name: 'AppView',
+  name: "AppView",
   components: {},
   props: {},
   setup(props, ctx) {
-    const store = useStore()
-    const router = useRouter()
+    const store = useStore();
+    const router = useRouter();
     // const usericon = '../assets/imgs/logo.svg'
     const appStatus = computed(() => store.state.user.appStatus)
     const userInfo = computed(() => store.state.user.userInfo)
     const formTitle = ref('')
 
     const goBack = () => {
-      router.push('/app')
-    }
+      router.push('/app');
+    };
 
     const logout = async () => {
       const res = await api.logout()
-      if (res.stat == 'ok') {
+      if(res.stat == 'ok') {
         store.commit('user/setLoginState', false)
         window.sessionStorage.removeItem('login')
         window.sessionStorage.removeItem('user')
         router.push('/login')
       }
       // console.log(store.state.loginState)
-    }
-    const showFormTitle = (value: any) => {
+    };
+    const showFormTitle = (value:any)=>{
       formTitle.value = value
     }
 
     onBeforeMount(() => {
       // console.log(typeof store.state.userInfo)
-    })
+    });
 
     return {
       appStatus,
@@ -115,14 +109,9 @@ export default defineComponent({
       userInfo,
       formTitle,
       showFormTitle,
-    }
+    };
   },
-  mounted() {
-    window.addEventListener('beforeunload', () => {
-      this.logout()
-    })
-  },
-})
+});
 </script>
 
 <style scoped>
