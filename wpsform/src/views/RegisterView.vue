@@ -48,7 +48,7 @@
             ></el-input>
           </el-form-item>
           <span class="passwordTip tip" v-show="passwordTip"
-            >必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-20之间</span
+            >必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-20个字符之间</span
           >
           <el-form-item prop="confirm_password">
             <el-input
@@ -174,7 +174,7 @@ export default defineComponent({
       router.push("/Login");
     };
 
-    //发送注册请求
+    //注册请求
     const register = async () => {
       try {
         const res = await api.register(
@@ -193,7 +193,7 @@ export default defineComponent({
       }
     };
 
-    //提交验证
+    //验证并发送注册请求
     const submitForm = () => { 
       // 关闭所有提示
       accountTip.value = false;
