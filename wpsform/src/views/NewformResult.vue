@@ -12,7 +12,7 @@
         <FormQuestion :formId="formId" @ChangeId="ChangeId"></FormQuestion>
       </el-tab-pane>
       <el-tab-pane label="分享" name="share">
-        <FormShare :formId="formId"></FormShare>
+        <FormShare></FormShare>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -39,7 +39,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const activeName = ref("");
-    const formId = ref(route.params.id);
+    const formId = ref(route.params.id as string);
 
     const handleChange = (tabPaneName: string) => {
       router.push({

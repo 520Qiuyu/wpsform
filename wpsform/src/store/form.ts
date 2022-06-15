@@ -44,25 +44,25 @@ export default {
       state.questionList = [];
     },
     // 设置表单标题草稿
-    setFormTitleDraft(state: any, value:string){
-      state.formTitleDraft = value
+    setFormTitleDraft(state: any, value: string) {
+      state.formTitleDraft = value;
     },
     // 设置表单描述草稿
-    setFormSubTitleDraft(state: any, value: string){
-      state.formSubTitleDraft = value
+    setFormSubTitleDraft(state: any, value: string) {
+      state.formSubTitleDraft = value;
     },
     // 保存草稿
-    saveDraft(state: any){
+    saveDraft(state: any) {
       state.questionListDraft = state.questionList;
     },
     // 使用草稿
-    useDraft(state: any){
-      state.questionList  = state.questionListDraft
-    }
+    useDraft(state: any) {
+      state.questionList = state.questionListDraft;
+    },
   },
   state: {
     // 中间的问题列表
-    questionList: [
+    /* questionList: [
       {
         type: "input",
         title: "",
@@ -112,9 +112,10 @@ export default {
         isNew: true,
         id: "jPPf3sMyKi52mKMnODbPF",
       },
-    ] as IProblem[],
+    ] as IProblem[], */
+    questionList: [] as IProblem[],
     // 俩标题的草稿
-    formTitleDraft:"",
+    formTitleDraft: "",
     formSubTitleDraft: "",
     // 草稿
     questionListDraft: [] as IProblem[],

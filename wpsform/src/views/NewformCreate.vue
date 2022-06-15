@@ -13,7 +13,7 @@
                 :key="type.type + index"
                 class="question-type-item"
               >
-                <a @click="addQuesToQuesList(type.type)">{{ type.typeName }}</a>
+                <a @click="addQuesToQuesList(type.type)">{{ type.title }}</a>
               </li>
             </ul>
           </div>
@@ -25,24 +25,37 @@
                 v-for="(formwork, index) in questionFormworks"
                 :key="index"
                 class="question-formwork-item"
-                @click="addTemplateToQuesList(formwork.problem)"
+                @click="addTemplateToQuesList(formwork)"
               >
-                <a>{{ formwork.name }}</a>
+                <a>{{ formwork.title }}</a>
               </li>
             </ul>
           </div>
           <!-- 我的常用题 -->
           <div class="optionTitle">
+            <div class="manage-common-use">
+              <a @click="manageCommonStar">管理</a>
+            </div>
             我的常用题
             <ul class="my-common-use">
               <li
                 v-for="(ques, index) in myCommonUse"
                 :key="index"
-                class="my-common-use-item"
+                :class="
+                  myCommonUseManage
+                    ? 'my-common-use-item'
+                    : 'my-common-use-item my-common-use-item-no-manage'
+                "
               >
-                <a @click="addTemplateToQuesList(ques._value)">{{
-                  ques._value.title
-                }}</a>
+                <el-icon
+                  v-if="myCommonUseManage"
+                  class="delCommonUse"
+                  :size="15"
+                  color="#1488ED"
+                  @click="delThisCommomUse(ques.id)"
+                  ><CircleCloseFilled
+                /></el-icon>
+                <a @click="addTemplateToQuesList(ques)">{{ ques.title }}</a>
               </li>
             </ul>
           </div>
@@ -143,7 +156,6 @@ export default defineComponent({
     const questionList = computed<IProblem[]>(
       () => Store.state.form.questionList
     );
-    const queslist = ref(questionList);
     // 向中间添加一个题目
     const addQuesToQuesList = (type: string) => {
       const problem = {
@@ -152,13 +164,11 @@ export default defineComponent({
         required: false,
         isNew: false,
       } as IProblem;
-      console.log(problem);
       Store.commit("form/addQuesToQuesList", { problem, index: -1 });
     };
     // 向中间添加一个模板题目
     const addTemplateToQuesList = (problem: IProblem) => {
       const problem_ = JSON.parse(JSON.stringify(problem));
-      console.log(problem_);
       Store.commit("form/addQuesToQuesList", { problem: problem_, index: -1 });
     };
     // 判断表单是否完成
@@ -247,34 +257,74 @@ export default defineComponent({
               problems: questionList.value,
             },
           });
-          console.log("res", res);
           // 创建成功
           if (res.data.stat === "ok") {
             const formId = res.data.data.id;
-            console.log("formId", formId);
             Router.push({
               name: "share",
-              params: {
+              query: {
                 id: formId,
               },
             });
-            Store.commit("form/clearFormList");
+            // Store.commit("form/clearFormList");
           }
         } catch (e: any) {
           console.log(e.message);
         }
       }
     };
-    const test = () => {
-      const type = { a: 1 };
-      const aa = { type };
-      console.log(aa.type === type);
+    // 获取左边的题目类型
+    const getQuesTypes = async () => {
+      const res = await axios({
+        method: "GET",
+        url: "/api/problem/listType",
+      });
+      Store.commit("problem/setQuesTypes", res.data.data.problemTypes);
     };
-
-    onBeforeMount(()=>{
-      Store.commit('user/setAppStatus', 2)
-    })
-
+    // 获取左边的模板题目
+    const getBasicQuesTypes = async () => {
+      const res = await axios({
+        method: "GET",
+        url: "/api/problem/listBasic",
+      });
+      Store.commit(
+        "problem/setBasicQuesFormworks",
+        res.data.data.basicProblems
+      );
+    };
+    // 获取左边的收藏题目类型
+    const getStarQues = async () => {
+      const res = await axios({
+        method: "POST",
+        url: "/api/problem/listStar",
+      });
+      console.log("得到常用题数据了", res);
+      if (res.data.stat === "ok") {
+        Store.commit(
+          "problem/addAllToCommonUse",
+          res.data.data.items.map((item: any) => item.problem)
+        );
+      }
+    };
+    //
+    const myCommonUseManage = ref(false);
+    // 我的常用管理
+    const manageCommonStar = () => {
+      myCommonUseManage.value = !myCommonUseManage.value;
+    };
+    // 删除常用
+    const delThisCommomUse = async (id: string) => {
+      const res = await axios({
+        method: "POST",
+        url: "/api/problem/cancelStar",
+        data: {
+          id: id,
+        },
+      });
+      if (res.data.stat === "ok") {
+        Store.commit("problem/delCommonUse", id);
+      }
+    };
     return {
       Store,
       currentPoint,
@@ -292,12 +342,20 @@ export default defineComponent({
       useDraft,
       saveDraft,
       submitForm,
-      test,
+      getQuesTypes,
+      getBasicQuesTypes,
+      getStarQues,
+      myCommonUseManage,
+      manageCommonStar,
+      delThisCommomUse,
     };
   },
 
   created() {
-    this.test();
+    this.getQuesTypes();
+    this.getBasicQuesTypes();
+    this.getStarQues();
+    this.Store.commit("user/setAppStatus", 2);
   },
 });
 </script>
@@ -351,9 +409,20 @@ export default defineComponent({
   color: #3d4757;
   font-weight: 600;
   margin-bottom: 30px;
+  position: relative;
 }
 .optionTitle:last-child {
   margin-bottom: 0;
+}
+.manage-common-use {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.manage-common-use a {
+  color: #1488ed;
+  font-size: 13px;
+  cursor: pointer;
 }
 .add-question,
 .question-formwork,
@@ -374,10 +443,22 @@ export default defineComponent({
   justify-content: center;
   transition: all 0.2s;
   cursor: pointer;
+  position: relative;
+}
+.delCommonUse {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+}
+.delCommonUse:hover {
+  transform: translate(50%, -50%) scale(1.3);
+  transition: all 0.2s;
+  pointer-events: visiblePainted;
 }
 .question-type-item:hover,
 .question-formwork-item:hover,
-.my-common-use-item:hover {
+.my-common-use-item-no-manage:hover {
   border: 1px solid #1488ed;
 }
 .question-type-item a,
@@ -405,6 +486,7 @@ export default defineComponent({
   justify-content: center;
   font-size: 30px;
   font-weight: 500;
+  opacity: 0.5;
 }
 
 .formTitle,

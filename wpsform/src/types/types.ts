@@ -57,7 +57,7 @@ export interface IFormResult {
 }
 
 export interface IProblem {
-  id: string;
+  id?: string;
   title: string;
   type:
     | "input"
@@ -75,8 +75,6 @@ export interface IProblem {
       status: 1 | 2;
       id?: string;
     }[];
-    dateType?: "YM" | "YMD" | "YMDHM"; //年月|年月日|年月日时分
-    timeType?: "HMS" | "HM"; //时分秒|时分
   };
   result?: {
     value:

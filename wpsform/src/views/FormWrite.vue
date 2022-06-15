@@ -26,7 +26,7 @@ export default defineComponent({
   setup(props, ctx) {
     const route = useRoute()
     const router = useRouter()
-    const formId = route.params.id as string
+    const formId = route.query.id as string
     const formTitle = ref('')
 
     const getForm =  async (id: string)=>{
