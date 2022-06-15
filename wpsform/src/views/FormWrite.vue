@@ -3,22 +3,59 @@
     <el-header class="form-write-header">xxx表单名称</el-header>
     <el-main class="form-write-main">
       <div class="form-write-content">
-        <!-- <FormItem></FormItem> -->
+        <div>title:{{ form[0]?.title }}</div>
+        <div>subTitle:{{ form[0]?.subTitle }}</div>
+        <div
+          class="Problemlist"
+          v-for="(problem, index) in form[0]?.problems"
+          :key="problem?.id"
+        >
+          <ProblemWrite
+            :problem="problem"
+            :index="index"
+            v-if="problem"
+          ></ProblemWrite>
+        </div>
       </div>
     </el-main>
   </el-container>
+  <div class="form-submit-area">
+    <el-button type="primary" class="form-submit" @click="FormSubmit"
+      >提交</el-button
+    >
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import FormItem from '../components/FormItem.vue'
-
+import { defineComponent, ref, reactive } from "vue";
+import ProblemWrite from "../components/ProblemWrite.vue";
+import { useRouter } from "vue-router";
+import { IForm } from "../types/types";
+import * as api from "../services/api";
 export default defineComponent({
   name: "FormWrite",
-  components: {FormItem},
+  components: { ProblemWrite },
   props: {},
   setup(props, ctx) {
-    return {};
+    const router = useRouter();
+    const Formid = ref(router.currentRoute.value.params.Formid as string);
+
+    const form = reactive<IForm[]>([]);
+    const getForm = async (id: string) => {
+      const res = await api.getForm(id);
+      form.splice(0, 1);
+      form.push(res.data.item);
+    };
+    return {
+      Formid,
+      form,
+      getForm,
+    };
+  },
+  created() {
+    this.getForm(this.Formid);
+    console.log(this.Formid);
+    console.log(this.form);
   },
 });
 </script>
@@ -40,5 +77,15 @@ export default defineComponent({
   background-color: #fff;
   padding: 48px 102px 90px;
   margin: 0 auto;
+}
+.form-submit {
+  width: 96px;
+}
+.form-submit-area {
+  display: flex;
+  justify-content: center;
+}
+.form-submit {
+  width: 96px;
 }
 </style>

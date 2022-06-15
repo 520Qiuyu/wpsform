@@ -7,7 +7,7 @@ export interface IUser {
 }
 
 export interface IForm {
-  formId: string;       //表单ID
+  id: string;       //表单ID
   offset?: number;      //
   limit?: number;       //
   isStar?: boolean;     //表单是否标星

@@ -7,20 +7,19 @@
       v-for="(problem, index) in form[0]?.problems"
       :key="problem?.id"
     >
-      <problem-item
+      <ProblemItem
         :problem="problem"
         :index="index"
         v-if="problem"
-      ></problem-item>
+      ></ProblemItem>
     </div>
-    <button @click="loog">点我打印formID</button>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, watch } from "vue";
 import { IForm } from "../types/types";
-import ProblemItem from "./ProblemItem0.vue";
+import ProblemItem from "./ProblemItem.vue";
 import * as api from "../services/api";
 export default defineComponent({
   name: "FormInfo",
@@ -47,29 +46,20 @@ export default defineComponent({
         getForm(val);
       }
     );
-    const loog = () => {
-      console.log("Form的ID");
-      console.log(props.id);
-      console.log(form[0]?.problems.length);
-    };
     return {
       form,
       getForm,
-      loog,
     };
   },
   created() {
-    console.log("@");
     this.getForm(this.id);
-    // console.log(this.id);
-    console.log(this.form);
   },
 });
 </script>
 
 <style scoped>
 .forminfo {
-  margin: 100px 0;
+  margin: 50px 0;
   background-color: gray;
 }
 .subTitle {

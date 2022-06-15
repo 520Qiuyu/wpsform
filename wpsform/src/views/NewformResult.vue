@@ -2,28 +2,31 @@
   <div class="newform-result-container">
     <el-tabs v-model="activeName" class="newform-result-tabs">
       <el-tab-pane label="数据详情&统计" name="statistical-details">
-        <StatisticalDetails></StatisticalDetails>
+        <StatisticalDetails
+          :Formid="Formid"
+          @ChangeId="ChangeId"
+        ></StatisticalDetails>
       </el-tab-pane>
       <el-tab-pane label="表单问题" name="form-question">
-        <!-- <FormQuestion></FormQuestion> -->
+        <FormQuestion :Formid="Formid"></FormQuestion>
       </el-tab-pane>
       <el-tab-pane label="分享" name="share">
-        <FormShare></FormShare>
+        <FormShare :Formid="Formid"></FormShare>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref, reactive } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import StatisticalDetails from './StatisticalDetails.vue'
-import FormQuestion from './FormQuestion.vue'
-import FormShare from './FormShare.vue'
+import { defineComponent, onBeforeMount, ref, reactive } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import StatisticalDetails from "./StatisticalDetails.vue";
+import FormQuestion from "./FormQuestion.vue";
+import FormShare from "./FormShare.vue";
 
 export default defineComponent({
-  name: 'NewformResult',
+  name: "NewformResult",
   components: {
     StatisticalDetails,
     FormQuestion,
@@ -31,18 +34,29 @@ export default defineComponent({
   },
   props: {},
   setup(props, ctx) {
-    const store = useStore()
-    const router = useStore()
-    const activeName = ref('statistical-details')
+    const store = useStore();
+    const router = useRouter();
+    const activeName = ref("statistical-details");
+
+    const Formid = ref(router.currentRoute.value.params.Formid as string);
+
+    const ChangeId = (val: string) => {
+      Formid.value = val;
+      console.log("@@@父组件ChangeId执行");
+      console.log(Formid.value);
+    };
 
     onBeforeMount(() => {
-      store.commit('setAppStatus', 3)
-    })
+      store.commit("setAppStatus", 3);
+    });
     return {
       activeName,
-    }
+      Formid,
+      ChangeId,
+    };
   },
-})
+  // created() {},
+});
 </script>
 
 <style>

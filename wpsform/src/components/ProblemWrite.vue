@@ -1,9 +1,9 @@
 <template>
-  <div class="problemitem">
+  <div class="problemwriteitem">
     <div>这是一个ProblemItem</div>
     <div>{{ index + 1 }}.{{ problem?.title }}</div>
     <div v-if="problem.type == 'input'">
-      <span>这是input</span>
+      <input type="text" placeholder="请输入" />
     </div>
     <div v-if="problem.type == 'singleSelect'">
       <span>这是singleSelect</span>
@@ -24,7 +24,6 @@
       <span>这是score</span>
     </div>
     <span>这是problem.value：==={{ problem.value }}</span>
-    <button @click="loog">点我打印problem</button>
     <div>{{ id }}</div>
   </div>
 </template>
@@ -46,21 +45,15 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
-    const loog = () => {
-      console.log("problem的内容");
-      console.log(props.problem);
-    };
-    return {
-      loog,
-    };
+    return {};
   },
   // created() {},
 });
 </script>
 
 <style scoped>
-.problemitem {
-  background-color: aqua;
+.problemwriteitem {
+  background-color: yellowgreen;
   margin: 100px 0;
 }
 </style>
