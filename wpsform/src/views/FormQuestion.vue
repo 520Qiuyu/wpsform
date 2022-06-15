@@ -12,9 +12,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import FormItem from "../components/FormItem.vue";
-import { useRouter } from "vue-router";
+import { defineComponent } from 'vue'
+import FormItem from '../components/FormItem.vue'
+import { useRouter } from 'vue-router'
+import * as api from '@/services/api'
+import { ElMessage } from 'element-plus'
 
 export default defineComponent({
   name: "FormQuestion",
@@ -25,18 +27,28 @@ export default defineComponent({
     formId: String,
   },
   setup(props, ctx) {
-    const router = useRouter();
-    const goWriteForm = () => {
-      router.push({
-        name: "form-write",
-        params: {
-          id: props.formId,
-        },
-      });
-    };
+    const router = useRouter()
+    const goWriteForm = async () => {
+      const res = await api.getForm(String(props.formId))
+      if (res.stat == 'ok') {
+        const status = res.data.item.status
+        if (status == 2) {
+          ElMessage.error('表单未发布！')
+        } else if (status == 4) {
+          ElMessage.error('表单收集已结束！')
+        } else {
+          router.push({
+            name: 'form-write',
+            params: {
+              id: props.formId,
+            },
+          })
+        }
+      }
+    }
     return {
       goWriteForm,
-    };
+    }
   },
 });
 </script>
