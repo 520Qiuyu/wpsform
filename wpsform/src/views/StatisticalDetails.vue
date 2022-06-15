@@ -13,7 +13,7 @@
       <span class="input-time"
         >提交时间：{{ TransformData(forms[index]?.ctime) }}</span
       >
-      <form-info v-if="forms[index]?.id" :id="forms[index]?.id"></form-info>
+      <FormInfo v-if="forms[index]?.id" :id="forms[index]?.id"></FormInfo>
     </div>
     <div>formId：=== {{ forms[index]?.id }}</div>
   </div>
@@ -118,6 +118,7 @@ export default defineComponent({
 <style scoped>
 .formlist-content {
   margin: 100px;
+  overflow: auto;
 }
 .statistics-title {
   font-size: 20px;

@@ -13,15 +13,14 @@
     </div>
     <div class="form-submit-area">
       <!-- <el-button @click="saveDraft">保存草稿</el-button> -->
-      <el-button 
-        type="primary" 
-        class="form-submit" 
+      <el-button
+        type="primary"
+        class="form-submit"
         @click="submit"
         v-if="submitDisabled"
       >
         提交
-      </el-button
-      >
+      </el-button>
     </div>
     <el-dialog v-model="dialogVisible" title="提交内容" width="30%">
       <span>提交后不可修改，确定提交？</span>
@@ -36,13 +35,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, onBeforeMount } from 'vue'
-import { useRouter } from 'vue-router'
-import * as api from '@/services/api'
-import { IUser, IForm, IProblem } from '../types/types'
-import { useStore } from 'vuex'
-import ProblemItem from './ProblemItem.vue'
-import { ElMessage } from 'element-plus'
+import { defineComponent, ref, reactive, onBeforeMount } from "vue";
+import { useRouter } from "vue-router";
+import * as api from "@/services/api";
+import { IUser, IForm, IProblem } from "../types/types";
+import { useStore } from "vuex";
+import ProblemItem from "./ProblemItem.vue";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "FormItem",
@@ -52,40 +51,40 @@ export default defineComponent({
     submitDisabled: Boolean,
   },
   setup(props, ctx) {
-    const router = useRouter()
-    const form = ref({} as IForm)
-    const dialogVisible = ref(false)
+    const router = useRouter();
+    const form = ref({} as IForm);
+    const dialogVisible = ref(false);
 
     const getForm = async (id: string) => {
-      const res = await api.getForm(id)
-      if (res.stat == 'ok') {
-        form.value = JSON.parse(JSON.stringify(res.data.item))
+      const res = await api.getForm(id);
+      if (res.stat == "ok") {
+        form.value = JSON.parse(JSON.stringify(res.data.item));
       }
     };
 
     //保存草稿
     const saveDraft = () => {
-      console.log('保存草稿')
-    }
+      console.log("保存草稿");
+    };
     //提交
     const submit = () => {
-      dialogVisible.value = true
-    }
+      dialogVisible.value = true;
+    };
     //确定提交
     const handelConfirm = async () => {
-      dialogVisible.value = false
-      const res = await api.inputForm(props.formId!, form.value.problems)
-      if (res.stat == 'ok') {
+      dialogVisible.value = false;
+      const res = await api.inputForm(props.formId!, form.value.problems);
+      if (res.stat == "ok") {
         ElMessage({
-          message: '表单填写成功，已提交',
-          type: 'success',
-        })
+          message: "表单填写成功，已提交",
+          type: "success",
+        });
         //清空数据
-        router.push('/app')
+        router.push("/app");
       } else {
-        ElMessage.error('表单提交失败！')
+        ElMessage.error("表单提交失败！");
       }
-    }
+    };
 
     const setProblemResult = (result: any, id: string) => {
       //id指表单id
@@ -93,13 +92,13 @@ export default defineComponent({
         if (problem.id == id) {
           //填空题,分数题,日期题,时间题结果value类型为string或number
           if (
-            problem.type == 'input' ||
-            problem.type == 'score' ||
-            problem.type == 'date' ||
-            problem.type == 'time'
+            problem.type == "input" ||
+            problem.type == "score" ||
+            problem.type == "date" ||
+            problem.type == "time"
           ) {
-            problem.result = { value: result }
-            console.log(problem.result)
+            problem.result = { value: result };
+            console.log(problem.result);
           }
           //单选题,下拉选择题结果value类型为
           // {
@@ -107,15 +106,15 @@ export default defineComponent({
           //   title: string
           // }
           else if (
-            problem.type == 'singleSelect' ||
-            problem.type == 'pullSelect'
+            problem.type == "singleSelect" ||
+            problem.type == "pullSelect"
           ) {
             problem.result! = {
               value: {
                 id: result.value.id,
                 title: result.value.title,
               },
-            }
+            };
             // console.log(result.value);
           }
           //多选题结果类型为
@@ -123,22 +122,21 @@ export default defineComponent({
           //   id: string
           //   title: string
           // }[]
-          else if (problem.type == 'multiSelect') {
+          else if (problem.type == "multiSelect") {
             problem.result! = {
               value: [],
-            }
-            problem.result.value = result.value
-            console.log(problem.result.value)
+            };
+            problem.result.value = result.value;
+            console.log(problem.result.value);
           }
         }
-      })
-    }
-
+      });
+    };
 
     onBeforeMount(() => {
-      getForm(props.formId!)
+      getForm(props.formId!);
       // console.log(props.formId);
-    })
+    });
 
     return {
       form,
@@ -147,7 +145,7 @@ export default defineComponent({
       setProblemResult,
       dialogVisible,
       handelConfirm,
-    }
+    };
   },
 });
 </script>
