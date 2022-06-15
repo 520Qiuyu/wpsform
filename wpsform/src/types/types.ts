@@ -73,6 +73,7 @@ export interface IProblem {
     options: {
       title: string;
       status: 1 | 2;
+      id?: string;
     }[];
   };
   result?: {
