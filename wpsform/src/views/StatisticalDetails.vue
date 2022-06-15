@@ -1,21 +1,23 @@
 <template>
-  <div class="formlist-content">
-    <span class="statistics-title"
-      >共收集 {{ formList.length }} 份数据 （正在收集）</span
-    >
-    <div class="formindex-choose">
-      <i class="iconfont icon-arrow-left" @click="IndexDown"></i>
-      第 <span class="form-index"> {{ index + 1 }} </span> 份
-      <i class="iconfont icon-angle-right-o-thin" @click="IndexUp"></i>
-    </div>
-    <hr />
-    <div class="form-main">
-      <span class="input-time"
-        >提交时间：{{ TransformData(forms[index]?.ctime) }}</span
+  <div class="formList-main">
+    <div class="formlist-content">
+      <span class="statistics-title"
+        >共收集 {{ formList.length }} 份数据 （正在收集）</span
       >
-      <FormInfo v-if="forms[index]?.id" :id="forms[index]?.id"></FormInfo>
+      <div class="formindex-choose">
+        <i class="iconfont icon-arrow-left" @click="IndexDown"></i>
+        第 <span class="form-index"> {{ index + 1 }} </span> 份
+        <i class="iconfont icon-angle-right-o-thin" @click="IndexUp"></i>
+      </div>
+      <hr />
+      <div class="form-main">
+        <span class="input-time"
+          >提交时间：{{ TransformData(forms[index]?.ctime) }}</span
+        >
+        <FormInfo v-if="forms[index]?.id" :id="forms[index]?.id"></FormInfo>
+      </div>
+      <div>formId：=== {{ forms[index]?.id }}</div>
     </div>
-    <div>formId：=== {{ forms[index]?.id }}</div>
   </div>
 </template>
 
@@ -44,11 +46,13 @@ export default defineComponent({
     const getFormList = async () => {
       const res = await api.getFormList();
       for (const post of res.data.items) {
-        formList.value.push(post);
-        if (post.id == props.formId) {
-          index.value = indexx.value;
+        if (res.stat == "ok") {
+          formList.value.push(post);
+          if (post.id == props.formId) {
+            index.value = indexx.value;
+          }
+          indexx.value++;
         }
-        indexx.value++;
       }
     };
     const forms = toRaw(formList);
@@ -57,6 +61,8 @@ export default defineComponent({
       () => formList.value[index.value]?.id,
       (val, Oldval) => {
         emit("ChangeId", val);
+        console.log("@@@子组件ChangeId执行");
+        console.log(formList.value[index.value]?.id);
       }
     );
 
@@ -116,9 +122,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.formlist-main {
+  margin: 50px;
+  overflow: auto;
+}
 .formlist-content {
   margin: 100px;
-  overflow: auto;
 }
 .statistics-title {
   font-size: 20px;

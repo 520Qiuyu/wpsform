@@ -24,7 +24,9 @@ export default defineComponent({
     FormItem,
   },
   props: {
-    formId: String,
+    formId: {
+      type: String,
+    },
   },
   setup(props, ctx) {
     const router = useRouter()
@@ -50,6 +52,10 @@ export default defineComponent({
       goWriteForm,
     }
   },
+  created(){
+    console.log(this.formId);
+    
+  }
 });
 </script>
 

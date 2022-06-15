@@ -5,26 +5,27 @@
     <div
       class="Problemlist"
       v-for="(problem, index) in form[0]?.problems"
-      :key="problem?.id"
+      :key="index"
     >
-      <ProblemItem
+      <ShowProItem
+        :resultid="result.id"
         :problem="problem"
         :index="index"
-        v-if="problem"
-      ></ProblemItem>
+        v-if="result.id"
+      ></ShowProItem>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watch } from "vue";
-import { IForm } from "../types/types";
-import ProblemItem from "./ProblemItem.vue";
+import { defineComponent, reactive, watch, ref } from "vue";
+import { IForm, IFormResult } from "../types/types";
+import ShowProItem from "./ShowProItem.vue";
 import * as api from "../services/api";
 export default defineComponent({
   name: "FormInfo",
   components: {
-    ProblemItem,
+    ShowProItem,
   },
   props: {
     id: {
@@ -42,17 +43,32 @@ export default defineComponent({
     watch(
       () => props.id,
       (val, Oldval) => {
-        console.log("0000000watch,id变了");
+        console.log("watch,id变了");
         getForm(val);
       }
     );
+    const result = ref({} as IFormResult);
+    const resultList = ref([] as IFormResult[]);
+    const getFormResult = async (formid: string) => {
+      const res = await api.getFormResult(formid);
+      if (res.stat == "ok") {
+        for (const item of res.data.items) {
+          resultList.value.push(item);
+          result.value = resultList.value[0];
+        }
+      }
+    };
     return {
+      result,
       form,
+      resultList,
       getForm,
+      getFormResult,
     };
   },
   created() {
     this.getForm(this.id);
+    this.getFormResult(this.id);
   },
 });
 </script>
@@ -60,7 +76,6 @@ export default defineComponent({
 <style scoped>
 .forminfo {
   margin: 50px 0;
-  background-color: gray;
 }
 .subTitle {
   text-align: center;

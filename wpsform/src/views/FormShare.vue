@@ -8,7 +8,9 @@ export default defineComponent({
   name: "FormShare",
   components: {},
   props: {
-    formId: String
+    formId: {
+      type: String,
+    },
   },
   setup(props, ctx) {
     return {};
