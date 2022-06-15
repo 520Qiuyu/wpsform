@@ -5,7 +5,7 @@
       <div class="question-panel">
         <div class="question-formwork-wrapper">
           <!-- 添加题目 -->
-          <div class="title">
+          <div class="optionTitle">
             添加题目
             <ul class="add-question">
               <li
@@ -18,73 +18,132 @@
             </ul>
           </div>
           <!-- 题目模板 -->
-          <div class="title">
+          <div class="optionTitle">
             题目模板
             <ul class="question-formwork">
               <li
                 v-for="(formwork, index) in questionFormworks"
-                :key="formwork + index"
+                :key="index"
                 class="question-formwork-item"
+                @click="addTemplateToQuesList(formwork.problem)"
               >
-                <a>{{ formwork }}</a>
+                <a>{{ formwork.name }}</a>
               </li>
             </ul>
           </div>
           <!-- 我的常用题 -->
-          <div class="title">
+          <div class="optionTitle">
             我的常用题
             <ul class="my-common-use">
               <li
                 v-for="(ques, index) in myCommonUse"
-                :key="ques + index"
+                :key="index"
                 class="my-common-use-item"
               >
-                <a>{{ ques.title }}</a>
+                <a @click="addTemplateToQuesList(ques._value)">{{
+                  ques._value.title
+                }}</a>
               </li>
             </ul>
           </div>
         </div>
       </div>
       <!-- 中间问题列表 -->
-      <div class="question-list">
+      <div class="please-add-ques" v-if="!questionList.length">
+        <span>请添加题目</span>
+      </div>
+      <div class="question-list" v-if="questionList.length">
+        <div class="formTitle">
+          <h1 v-if="currentPoint !== 0" @click="currentPointHere(0)">
+            {{ formTitle ? formTitle : "请输入表单标题" }}
+          </h1>
+          <input
+            v-if="currentPoint === 0"
+            v-model="formTitle"
+            placeholder="Enter Here"
+          />
+        </div>
+        <div class="formSubTitle">
+          <h2 v-if="currentPoint !== 1" @click="currentPointHere(1)">
+            {{ formSubTitle ? formSubTitle : "点击设置描述" }}
+          </h2>
+          <input
+            v-if="currentPoint === 1"
+            v-model="formSubTitle"
+            placeholder="Enter Here"
+          />
+        </div>
         <MyQuestion
           v-for="(ques, index) in questionList"
           :key="ques.id"
           :ques="ques"
           :index="index"
           @addQuesToQuesList="addQuesToQuesList"
+          @click="currentPointHere(index + 2)"
+          :selectedIndex="currentPoint - 2"
         ></MyQuestion>
+        <div class="end-line">
+          <div class="bottom-line"></div>
+          <div class="end">End</div>
+          <div class="bottom-line"></div>
+        </div>
       </div>
       <!-- 右侧其他配置 -->
-      <div class="other-option">这里是其他配置</div>
+      <div class="other-option">
+        <div class="preview-clear">
+          <button class="preview" @click="toPreview">预览表单</button>
+          <button class="clear-form-btn" @click="clearFormList">
+            清空表单
+          </button>
+        </div>
+        <div class="use-save-draft">
+          <button class="use-draft" @click="useDraft">继续上次</button>
+          <button class="save-draft" @click="saveDraft">保存草稿</button>
+        </div>
+        <div class="complate-creat">
+          <button class="finished" @click="submitForm">完成创建</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from "vue";
+import { defineComponent, reactive, computed, ref } from "vue";
+import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import * as API from "../services/api";
+import axios from "axios";
+import { ElMessage } from "element-plus";
 import MyQuestion from "../components/MyQuestion.vue";
 import { IProblem } from "../types/types";
-import { nanoid } from "nanoid";
 export default defineComponent({
   name: "NewformCreate.vue",
   components: { MyQuestion },
   props: {},
   setup(props, ctx) {
     const Store = useStore();
+    const Router = useRouter();
+    const currentPoint = ref(-1);
+    const currentPointHere = (n: number) => {
+      currentPoint.value = n;
+    };
     // 可添加的题目类型
     const quesTypes = computed(() => Store.state.problem.quesTypes);
     // 题目模板
     const questionFormworks = computed(
-      () => Store.state.form.questionFormworks
+      () => Store.state.problem.questionFormworks
     );
     // 我的常用题
-    const myCommonUse = computed(() => Store.state.problem.commonUseQues)
+    const myCommonUse = computed(() => Store.state.problem.commonUseQues);
+    // 表单标题
+    const formTitle = ref("");
+    const formSubTitle = ref("");
     // 中间题目列表
     const questionList = computed<IProblem[]>(
       () => Store.state.form.questionList
     );
+    const queslist = ref(questionList);
     // 向中间添加一个题目
     const addQuesToQuesList = (type: string) => {
       const problem = {
@@ -95,7 +154,116 @@ export default defineComponent({
       } as IProblem;
       console.log(problem);
       Store.commit("form/addQuesToQuesList", { problem, index: -1 });
-      console.log(questionList);
+    };
+    // 向中间添加一个模板题目
+    const addTemplateToQuesList = (problem: IProblem) => {
+      const problem_ = JSON.parse(JSON.stringify(problem));
+      console.log(problem_);
+      Store.commit("form/addQuesToQuesList", { problem: problem_, index: -1 });
+    };
+    // 判断表单是否完成
+    const isCompleted = () => {
+      if (questionList.value.length === 0)
+        return ElMessage({
+          message: "请先创建表单",
+          type: "warning",
+        });
+      // 判断表单标题是否完成
+      if (!formTitle.value)
+        return ElMessage({
+          message: "请先填写表单标题",
+          type: "warning",
+        });
+      // 判断表单描述
+      else if (!formSubTitle.value)
+        return ElMessage({
+          message: "请先填写表单描述",
+          type: "warning",
+        });
+      else {
+        let i = 0;
+        for (const ques of Store.state.form.questionList) {
+          i++;
+          // 判断问题题目
+          if (!ques.title) {
+            return ElMessage({
+              message: `请填写第${i}个题目的问题`,
+              type: "warning",
+            });
+          }
+          // 判断问题项目
+          else if (ques.setting) {
+            for (const option of ques.setting.options) {
+              if (!option.title) {
+                return ElMessage({
+                  message: `请填写第${i}个题目的问题的选项`,
+                  type: "warning",
+                });
+              }
+            }
+          }
+        }
+      }
+      return true;
+    };
+    // 跳转至预览
+    const toPreview = () => {
+      if (isCompleted() === true) {
+        Router.push({
+          name: "form-preview",
+        });
+      }
+    };
+    // 清空表单
+    const clearFormList = () => {
+      Store.commit("form/clearFormList");
+      console.log("清空后的列表", questionList);
+    };
+    // 使用草稿
+    const useDraft = () => {
+      formTitle.value = Store.state.form.formTitleDraft;
+      formSubTitle.value = Store.state.form.formSubTitleDraft;
+      Store.commit("form/useDraft");
+    };
+    // 保存草稿
+    const saveDraft = () => {
+      if (isCompleted() === true) {
+        Store.commit("form/setFormTitleDraft", formTitle.value);
+        Store.commit("form/setFormSubTitleDraft", formSubTitle.value);
+        Store.commit("form/saveDraft");
+      }
+    };
+    // 创建表单
+    const submitForm = async () => {
+      // 已完成表单
+      if (isCompleted() === true) {
+        try {
+          const res = await axios({
+            method: "POST",
+            url: "/api/form/create",
+            data: {
+              title: formTitle.value,
+              subTitle: formSubTitle.value,
+              problems: questionList.value,
+            },
+          });
+          console.log("res", res);
+          // 创建成功
+          if (res.data.stat === "ok") {
+            const formId = res.data.data.id;
+            console.log("formId", formId);
+            Router.push({
+              name: "share",
+              params: {
+                id: formId,
+              },
+            });
+            Store.commit("form/clearFormList");
+          }
+        } catch (e: any) {
+          console.log(e.message);
+        }
+      }
     };
     const test = () => {
       const type = { a: 1 };
@@ -103,11 +271,22 @@ export default defineComponent({
       console.log(aa.type === type);
     };
     return {
+      Store,
+      currentPoint,
+      currentPointHere,
       quesTypes,
       questionFormworks,
       myCommonUse,
+      formTitle,
+      formSubTitle,
       questionList,
       addQuesToQuesList,
+      addTemplateToQuesList,
+      toPreview,
+      clearFormList,
+      useDraft,
+      saveDraft,
+      submitForm,
       test,
     };
   },
@@ -115,13 +294,14 @@ export default defineComponent({
   created() {
     this.test();
   },
-})
+});
 </script>
 
 
 <style scoped>
 .newform-create-wrapper {
   min-height: calc(100vh - 56px);
+  min-width: 1160px;
   margin-top: 56px;
   overflow-y: auto;
   background-color: #f2f4f7;
@@ -130,14 +310,13 @@ export default defineComponent({
   justify-content: center;
 }
 .newform-create {
-  min-width: 1160px;
-  border: 1px solid #e7e9eb;
   display: flex;
   justify-content: space-between;
 }
 .question-panel,
 .other-option,
-.question-list {
+.question-list,
+.please-add-ques {
   background-color: #fff;
   border-radius: 2px;
   border: 1px solid #e7e9eb;
@@ -155,20 +334,20 @@ export default defineComponent({
 .question-panel {
   height: 400px;
   padding: 24px 16px;
-  max-height: calc(100vh - 150px);
+  max-height: calc(100vh - 100px);
 }
 .question-formwork-wrapper {
   display: flex;
   flex-direction: column;
 }
-.title {
+.optionTitle {
   width: 100%;
   font-size: 14px;
   color: #3d4757;
   font-weight: 600;
   margin-bottom: 30px;
 }
-.title:last-child {
+.optionTitle:last-child {
   margin-bottom: 0;
 }
 .add-question,
@@ -206,14 +385,121 @@ export default defineComponent({
   font-size: 12px;
   font-weight: 500;
 }
-.question-list {
+.question-list,
+.please-add-ques {
   width: 670px;
-  height: 660px;
+  padding: 50px 56px;
   max-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
+}
+.please-add-ques {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.formTitle,
+.formSubTitle {
+  width: 100%;
+  text-align: center;
+  color: #3d4757;
+}
+.formTitle h1,
+.formSubTitle h2 {
+  width: 300px;
+  margin: 0 auto;
+  line-height: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 700;
+}
+.formTitle input {
+  outline: none;
+  text-align: center;
+  width: 100%;
+  height: 30px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 2;
+  border: none;
+}
+.formSubTitle input {
+  text-align: center;
+  width: 100%;
+  height: 30px;
+  border: none;
+  border-bottom: 1px solid #e7eaee;
+  outline: none;
+}
+.formSubTitle {
+  margin: 20px 0 0;
+  padding: 12px 20px;
+}
+.formSubTitle h2 {
+  color: #aeb5c0;
+  font-size: 15px;
+  font-weight: 400;
+}
+.end-line {
+  margin: 40px 0 0;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.end {
+  color: #767c85;
+  font-size: 15px;
+}
+.bottom-line {
+  width: 40%;
+  height: 0;
+  border: 1px dashed #e7e9eb;
 }
 .other-option {
+  display: flex;
+  align-items: center;
+  padding: 20px 20px;
+  background-color: transparent;
+  border: none;
+}
+.other-option div {
+  width: 100%;
+  margin-bottom: 20px;
+  height: 32px;
+  display: flex;
+}
+.preview-clear,
+.use-save-draft {
+  justify-content: space-between;
+}
+.preview-clear button,
+.use-save-draft button {
+  color: #3d4757;
+  background-color: #fff;
+  flex: 1;
+  border: 1px solid #e7e9eb;
+  border-radius: 2px;
+}
+.preview,
+.use-draft {
+  margin-right: 10px;
+}
+.complate-creat {
+  justify-content: center;
+}
+.finished {
+  color: #fff;
+  background-color: #1488ed;
+  flex: 1;
+  border: 1px solid #e7e9eb;
+  border-radius: 2px;
 }
 </style>
