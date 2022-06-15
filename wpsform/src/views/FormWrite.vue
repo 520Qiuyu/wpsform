@@ -9,11 +9,6 @@
       </div>
     </el-main>
   </el-container>
-  <div class="form-submit-area">
-    <el-button type="primary" class="form-submit" @click="FormSubmit"
-      >提交</el-button
-    >
-  </div>
 </template>
 
 <script lang="ts">
@@ -42,7 +37,7 @@ export default defineComponent({
       }
     }
     const goBack = ()=>{
-      router.go(-1)
+      router.push('/app')
     }
 
     onBeforeMount(()=>{

@@ -1,7 +1,7 @@
 <template>
   <div class="form-question-main">
     <div class="form-question-content">
-      <!-- <FormItem></FormItem> -->
+      <FormItem :formId="formId"></FormItem>
     </div>
     <div class="form-write-area">
       <el-button type="primary" class="form-write-btn">填写表单</el-button>
@@ -17,6 +17,9 @@ export default defineComponent({
   name: 'FormQuestion',
   components: {
     FormItem,
+  },
+  props: {
+    formId: String,
   },
   setup(props, ctx) {
     return {}

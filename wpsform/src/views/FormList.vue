@@ -111,6 +111,9 @@ export default defineComponent({
   name: "FormList",
   components: {},
   props: {},
+  emits:[
+    'showFormTitle'
+  ],
   setup(props, ctx) {
     const store = useStore()
     const router = useRouter()
@@ -146,8 +149,16 @@ export default defineComponent({
     }
 
     //前往表单详情页面
-    const goFormDetail = (row: any) => {
+    const goFormDetail = async (row: any) => {
       // console.log(row);
+      //修改app上方logo位置为表单标题
+      const res = await api.getForm(row.id)
+      let formTitle = ref('')
+      if (res.stat == 'ok') {
+        formTitle.value = res.data.item.title
+        ctx.emit('showFormTitle',formTitle.value)
+      }
+      //跳转到表单详情页面
       router.push({
         name: 'statistical-details',
         params: {
@@ -256,6 +267,66 @@ export default defineComponent({
       const res = await api.createForm('表单4', '表单3副标题', [
         {
           title: '问题1',
+          type: 'input',
+          required: true,
+          isNew: true,
+        },
+        {
+          title: '问题2',
+          type: 'score',
+          required: true,
+          isNew: true,
+        },
+        {
+          title: '问题3',
+          type: 'date',
+          required: true,
+          isNew: true,
+        },
+        {
+          title: '问题4',
+          type: 'time',
+          required: true,
+          isNew: true,
+        },
+        {
+          title: '问题5',
+          type: 'singleSelect',
+          required: true,
+          isNew: true,
+          setting: {
+            options: [
+              {
+                title:'选项A',
+                status: 1,
+              },
+              {
+                title:'选项B',
+                status: 1,
+              },
+            ]
+          }
+        },
+        {
+          title: '问题6',
+          type: 'pullSelect',
+          required: true,
+          isNew: true,
+          setting: {
+            options: [
+              {
+                title:'选项A',
+                status: 1,
+              },
+              {
+                title:'选项B',
+                status: 1,
+              },
+            ]
+          }
+        },
+        {
+          title: '问题7',
           type: 'multiSelect',
           required: true,
           isNew: true,

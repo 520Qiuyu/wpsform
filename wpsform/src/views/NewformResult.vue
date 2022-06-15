@@ -1,15 +1,15 @@
 <template>
   <div class="newform-result-container">
-    <el-tabs v-model="activeName" class="newform-result-tabs">
+    <el-tabs v-model="activeName" class="newform-result-tabs" @tab-change="handleChange">
       <el-tab-pane label="数据详情&统计" name="statistical-details">
         <!-- <StatisticalDetails></StatisticalDetails> -->
         数据详情
       </el-tab-pane>
       <el-tab-pane label="表单问题" name="form-question">
-        <!-- <FormQuestion></FormQuestion> -->
+        <FormQuestion :formId="formId"></FormQuestion>
       </el-tab-pane>
       <el-tab-pane label="分享" name="share">
-        <FormShare :Formid="Formid"></FormShare>
+        <FormShare :formId="formId"></FormShare>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -34,16 +34,27 @@ export default defineComponent({
   setup(props, ctx) {
     const store = useStore()
     const route = useRoute()
-    const router = useStore()
+    const router = useRouter()
     const activeName = ref('')
+    const  formId = ref(route.params.id)
 
+    const handleChange = (tabPaneName: string)=>{
+      router.push({
+        name: tabPaneName,
+        params:{
+          id: formId.value
+        }
+      })
+    }
     onBeforeMount(() => {
       store.commit('user/setAppStatus', 3)
       activeName.value = String(route.name) || ''
-      console.log(activeName.value);
+      // console.log(activeName.value);
     })
     return {
       activeName,
+      handleChange,
+      formId,
     };
   },
   // created() {},

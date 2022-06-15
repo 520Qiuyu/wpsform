@@ -89,7 +89,7 @@ import { IUser, IForm, IProblem } from '../types/types'
 import { useStore } from 'vuex'
 
 export default defineComponent({
-  name: "ProblemItem",
+  name: 'ProblemItem',
   props: {
     index: Number,
     problem: Object as PropType<IProblem>,
@@ -183,7 +183,7 @@ export default defineComponent({
           }
         })
       }
-      ctx.emit('setProblemResult',multiSelectValue,props.problem!.id)
+      ctx.emit('setProblemResult', multiSelectValue, props.problem!.id)
       // console.log(multiSelectValue)
     })
 
@@ -205,10 +205,13 @@ export default defineComponent({
     }
   },
   // created() {},
-});
+})
 </script>
 
 <style>
+.problem-item {
+  margin-bottom: 30px;
+}
 .problem-title {
   margin-bottom: 10px;
 }
@@ -224,7 +227,7 @@ export default defineComponent({
   outline: none;
   border-bottom: 1px solid rgba(25, 55, 88, 0.1);
   width: 100%;
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
   font-size: 14px;
 }
 .problem-input:hover {

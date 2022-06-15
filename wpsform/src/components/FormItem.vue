@@ -74,12 +74,7 @@ export default defineComponent({
           type: 'success',
         })
         //清空数据
-        router.push({
-          name:'statistical-details',
-          params: {
-            id: props.formId
-          }
-        })
+        router.push('/app')
       } else {
         ElMessage.error('表单提交失败！')
       }

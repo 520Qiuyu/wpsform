@@ -18,7 +18,7 @@
       </div>
       <!-- 表单详情页面显示返回图标+当前表单名 -->
       <div class="app-logoArea" v-if="appStatus == 3">
-        <el-page-header content="xxx表单名称" @back="goBack" />
+        <el-page-header :content="formTitle" @back="goBack" />
       </div>
       <!-- 右侧个人信息显示：头像昵称 -->
       <div class="app-user-info">
@@ -57,7 +57,7 @@
         </div>
       </div>
     </el-header>
-    <router-view></router-view>
+    <router-view @showFormTitle="showFormTitle"></router-view>
   </el-container>
 </template>
 
@@ -78,6 +78,7 @@ export default defineComponent({
     // const usericon = '../assets/imgs/logo.svg'
     const appStatus = computed(() => store.state.user.appStatus)
     const userInfo = computed(() => store.state.user.userInfo)
+    const formTitle = ref('')
 
     const goBack = () => {
       router.push('/app');
@@ -93,6 +94,9 @@ export default defineComponent({
       }
       // console.log(store.state.loginState)
     };
+    const showFormTitle = (value:any)=>{
+      formTitle.value = value
+    }
 
     onBeforeMount(() => {
       // console.log(typeof store.state.userInfo)
@@ -103,6 +107,8 @@ export default defineComponent({
       goBack,
       logout,
       userInfo,
+      formTitle,
+      showFormTitle,
     };
   },
 });
@@ -110,7 +116,7 @@ export default defineComponent({
 
 <style scoped>
 .app-container {
-  /* height: 100%; */
+  height: 100%;
 }
 .app-top {
   padding: 0 16px;
