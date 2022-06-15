@@ -1,5 +1,5 @@
 <template>
-  <div>这是表单分享组件{{formId}}</div>
+  <div>这是表单分享组件</div>
 </template>
 
 <script>

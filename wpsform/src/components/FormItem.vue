@@ -13,8 +13,14 @@
     </div>
     <div class="form-submit-area">
       <!-- <el-button @click="saveDraft">保存草稿</el-button> -->
-      <el-button type="primary" class="form-submit" @click="submit"
-        >提交</el-button
+      <el-button 
+        type="primary" 
+        class="form-submit" 
+        @click="submit"
+        :disabled="submitDisabled"
+      >
+        提交
+      </el-button
       >
     </div>
     <el-dialog v-model="dialogVisible" title="提交内容" width="30%">
@@ -43,6 +49,7 @@ export default defineComponent({
   components: { ProblemItem },
   props: {
     formId: String,
+    submitDisabled: Boolean,
   },
   setup(props, ctx) {
     const router = useRouter()

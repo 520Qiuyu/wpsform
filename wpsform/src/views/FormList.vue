@@ -80,7 +80,7 @@
               >停止</el-button
             >
             <el-button @click.stop="deleteForm(scope.row.id)">删除</el-button>
-            <el-button @click.stop="writeForm(scope.row.id)" v-if="scope.row.status == 3">表单填写(测试用)</el-button>
+            <!-- <el-button @click.stop="writeForm(scope.row.id)" v-if="scope.row.status == 3">表单填写(测试用)</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -202,20 +202,16 @@ export default defineComponent({
 
     //查看结果按钮，数据详情页面
     const showResult = async (id: string) => {
-      const res = await api.getFormResult(id)
-      if(res.stat == 'ok') {
-        console.log(res);
-      }
-      // const res1 = await api.getDetail('df07ef6b-db2c-495d-912f-9cdb59337ee5')
-      // if(res1.stat == 'ok') {
-      //   console.log(res1.data.item);
+      // const res = await api.getFormResult(id)
+      // if(res.stat == 'ok') {
+      //   console.log(res);
       // }
-      // formList.forEach(form => {
-      //   if(form.id == id) {
-      //     console.log(form);
-      //   }
-      // });
-      // router.push('/app/new-form-result/'+id)
+      router.push({
+        name: 'statistical-details',
+        params: {
+          id
+        }
+      })
     }
 
     //编辑按钮，编辑表单

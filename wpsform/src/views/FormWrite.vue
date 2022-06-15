@@ -5,7 +5,7 @@
     </el-header>
     <el-main class="form-write-main">
       <div class="form-write-content">
-        <FormItem :formId="formId"></FormItem>
+        <FormItem :formId="formId" :submitDisabled="false"></FormItem>
       </div>
     </el-main>
   </el-container>
