@@ -17,7 +17,6 @@
         type="primary" 
         class="form-submit" 
         @click="submit"
-
         v-if="submitDisabled"
       >
         提交
