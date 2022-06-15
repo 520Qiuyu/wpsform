@@ -15,8 +15,6 @@
       >
       <form-info v-if="forms[index]?.id" :id="forms[index]?.id"></form-info>
     </div>
-
-    <button @click="inputt">向db添加信息</button>
     <div>formId：=== {{ forms[index]?.id }}</div>
   </div>
 </template>
@@ -38,115 +36,6 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const problem: IProblem = reactive({
-      title: "input",
-      type: "input",
-      required: false,
-      isNew: true,
-      setting: {
-        options: [
-          {
-            title: "123456",
-            status: 1,
-          },
-        ],
-      },
-    });
-    const problem2: IProblem = reactive({
-      title: "singleSelect",
-      type: "singleSelect",
-      required: false,
-      isNew: true,
-      setting: {
-        options: [
-          {
-            title: "singleSelect",
-            status: 1,
-          },
-        ],
-      },
-    });
-    const problem3: IProblem = reactive({
-      title: "multiSelect",
-      type: "multiSelect",
-      required: false,
-      isNew: true,
-      setting: {
-        options: [
-          {
-            title: "multiSelect",
-            status: 1,
-          },
-        ],
-      },
-    });
-    const problem4: IProblem = reactive({
-      title: "pullSelect",
-      type: "pullSelect",
-      required: false,
-      isNew: true,
-      setting: {
-        options: [
-          {
-            title: "multiSelect",
-            status: 1,
-          },
-        ],
-      },
-    });
-    const problem5: IProblem = reactive({
-      title: "date",
-      type: "date",
-      required: false,
-      isNew: true,
-      setting: {
-        options: [
-          {
-            title: "date",
-            status: 1,
-          },
-        ],
-      },
-    });
-    const problem6: IProblem = reactive({
-      title: "time",
-      type: "time",
-      required: false,
-      isNew: true,
-      setting: {
-        options: [
-          {
-            title: "time",
-            status: 1,
-          },
-        ],
-      },
-    });
-    const problem7: IProblem = reactive({
-      title: "score",
-      type: "score",
-      required: false,
-      isNew: true,
-      setting: {
-        options: [
-          {
-            title: "score",
-            status: 1,
-          },
-        ],
-      },
-    });
-    const problems = reactive([] as IProblem[]);
-    problems.push(problem);
-    problems.push(problem2);
-    problems.push(problem3);
-    problems.push(problem4);
-    problems.push(problem5);
-    problems.push(problem6);
-    problems.push(problem7);
-    const inputt = async () => {
-      // const res = await api.createForm("ssssss", "00000", problems);
-    };
     // form的index
     const index = ref(0);
     // 中间参数
@@ -209,7 +98,6 @@ export default defineComponent({
     };
 
     return {
-      inputt,
       index,
       forms,
       formList,

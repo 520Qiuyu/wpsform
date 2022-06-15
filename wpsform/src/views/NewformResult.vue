@@ -38,7 +38,7 @@ export default defineComponent({
     const router = useRouter();
     const activeName = ref("statistical-details");
 
-    const Formid = ref(router.currentRoute.value.params.Formid as string);
+    const Formid = ref(router.currentRoute.value.params.id as string);
 
     const ChangeId = (val: string) => {
       Formid.value = val;

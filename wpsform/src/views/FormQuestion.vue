@@ -19,7 +19,7 @@ import { defineComponent, ref } from "vue";
 import FormInfo from "../components/FormInfo.vue";
 import { useRouter } from "vue-router";
 export default defineComponent({
-  name: 'FormQuestion',
+  name: "FormQuestion",
   components: {
     FormInfo,
   },
@@ -40,7 +40,7 @@ export default defineComponent({
       goFormWrite,
     };
   },
-})
+});
 </script>
 
 <style scoped>
