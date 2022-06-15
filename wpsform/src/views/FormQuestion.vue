@@ -1,21 +1,23 @@
 <template>
   <div class="form-question-main">
     <div class="form-question-content">
-      <FormItem :formId="formId" :submitDisabled="true"></FormItem>
+      <FormItem :formId="formId" :submitDisabled="false"></FormItem>
     </div>
     <div class="form-write-area">
-      <el-button type="primary" class="form-write-btn" @click="goWriteForm">填写表单</el-button>
+      <el-button type="primary" class="form-write-btn" @click="goWriteForm"
+        >填写表单</el-button
+      >
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import FormItem from '../components/FormItem.vue'
-import { useRouter } from 'vue-router'
+import FormItem from "../components/FormItem.vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: 'FormQuestion',
+  name: "FormQuestion",
   components: {
     FormItem,
   },
@@ -23,20 +25,20 @@ export default defineComponent({
     formId: String,
   },
   setup(props, ctx) {
-    const router = useRouter()
-    const goWriteForm = ()=>{
+    const router = useRouter();
+    const goWriteForm = () => {
       router.push({
-        name: 'form-write',
+        name: "form-write",
         params: {
-          id: props.formId
-        }
-      })
-    }
+          id: props.formId,
+        },
+      });
+    };
     return {
-      goWriteForm
-    }
+      goWriteForm,
+    };
   },
-})
+});
 </script>
 
 <style scoped>

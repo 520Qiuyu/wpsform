@@ -1,12 +1,15 @@
 <template>
   <div class="newform-result-container">
-    <el-tabs v-model="activeName" class="newform-result-tabs" @tab-change="handleChange">
+    <el-tabs
+      v-model="activeName"
+      class="newform-result-tabs"
+      @tab-change="handleChange"
+    >
       <el-tab-pane label="数据详情&统计" name="statistical-details">
-        <!-- <StatisticalDetails></StatisticalDetails> -->
-        数据详情
+        <StatisticalDetails :formId="formId"></StatisticalDetails>
       </el-tab-pane>
       <el-tab-pane label="表单问题" name="form-question">
-        <FormQuestion :formId="formId"></FormQuestion>
+        <FormQuestion :formId="formId" @ChangeId="ChangeId"></FormQuestion>
       </el-tab-pane>
       <el-tab-pane label="分享" name="share">
         <FormShare :formId="formId"></FormShare>
@@ -16,12 +19,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref, reactive } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter,useRoute } from 'vue-router'
-import StatisticalDetails from './StatisticalDetails.vue'
-import FormQuestion from './FormQuestion.vue'
-import FormShare from './FormShare.vue'
+import { defineComponent, onBeforeMount, ref, reactive } from "vue";
+import { useStore } from "vuex";
+import { useRouter, useRoute } from "vue-router";
+import StatisticalDetails from "./StatisticalDetails.vue";
+import FormQuestion from "./FormQuestion.vue";
+import FormShare from "./FormShare.vue";
 
 export default defineComponent({
   name: "NewformResult",
@@ -32,38 +35,45 @@ export default defineComponent({
   },
   props: {},
   setup(props, ctx) {
-    const store = useStore()
-    const route = useRoute()
-    const router = useRouter()
-    const activeName = ref('')
-    const  formId = ref(route.params.id)
+    const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
+    const activeName = ref("");
+    const formId = ref(route.params.id);
 
-    const handleChange = (tabPaneName: string)=>{
+    const handleChange = (tabPaneName: string) => {
       router.push({
         name: tabPaneName,
-        params:{
-          id: formId.value
-        }
-      })
-    }
+        params: {
+          id: formId.value,
+        },
+      });
+    };
+
+    const ChangeId = (val: string) => {
+      formId.value = val;
+      console.log("@@@父组件ChangeId执行");
+      console.log(formId.value);
+    };
+
     onBeforeMount(() => {
-      store.commit('user/setAppStatus', 3)
-      activeName.value = String(route.name) || ''
+      store.commit("user/setAppStatus", 3);
+      activeName.value = String(route.name) || "";
       // console.log(activeName.value);
-    })
+    });
     return {
       activeName,
+      ChangeId,
       handleChange,
       formId,
     };
   },
-  // created() {},
 });
 </script>
 
 <style>
 .newform-result-container {
-  height: 100%;
+  /* height: 100%; */
   margin-top: 56px;
   overflow: hidden;
 }

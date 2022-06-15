@@ -17,7 +17,8 @@
         type="primary" 
         class="form-submit" 
         @click="submit"
-        :disabled="submitDisabled"
+
+        v-if="submitDisabled"
       >
         提交
       </el-button
