@@ -80,7 +80,7 @@ export default defineComponent({
     const userInfo = computed(() => store.state.user.userInfo)
 
     const goBack = () => {
-      router.go(-1);
+      router.push('/app');
     };
 
     const logout = async () => {

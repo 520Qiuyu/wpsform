@@ -80,22 +80,6 @@
               >停止</el-button
             >
             <el-button @click.stop="deleteForm(scope.row.id)">删除</el-button>
-            <el-button
-              @click.stop="writeForm(scope.row.id)"
-              v-if="scope.row.status == 3"
-              >表单填写(测试用)</el-button
-            >
-            <el-button
-              @click.stop="showResult(scope.row.id)"
-              v-if="scope.row.status == 3 || scope.row.status == 4"
-              >查看结果</el-button
-            >
-            <el-button
-              @click.stop="endCollect(scope.row.id)"
-              v-if="scope.row.status == 3"
-              >停止</el-button
-            >
-            <el-button @click.stop="deleteForm(scope.row.id)">删除</el-button>
             <el-button @click.stop="writeForm(scope.row.id)" v-if="scope.row.status == 3">表单填写(测试用)</el-button>
           </template>
         </el-table-column>

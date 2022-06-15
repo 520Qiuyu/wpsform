@@ -44,8 +44,6 @@ export default defineComponent({
     })
     return {
       activeName,
-      Formid,
-      ChangeId,
     };
   },
   // created() {},

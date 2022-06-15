@@ -2,14 +2,14 @@
   <div class="form-item">
     <div class="form-title">{{ form.title }}</div>
     <div class="form-questions">
-      <!-- <ProblemItem
+      <ProblemItem
         v-for="(problem, index) in form.problems"
         :key="problem.id"
         :problem="problem"
         :index="index"
         @setProblemResult="setProblemResult"
       >
-      </ProblemItem> -->
+      </ProblemItem>
     </div>
     <div class="form-submit-area">
       <!-- <el-button @click="saveDraft">保存草稿</el-button> -->
@@ -132,81 +132,6 @@ export default defineComponent({
       })
     }
 
-    //保存草稿
-    const saveDraft = () => {
-      console.log('保存草稿')
-    }
-    //提交
-    const submit = () => {
-      dialogVisible.value = true
-    }
-    //确定提交
-    const handelConfirm = async () => {
-      dialogVisible.value = false
-      const res = await api.inputForm(props.formId!, form.value.problems)
-      if (res.stat == 'ok') {
-        ElMessage({
-          message: '表单填写成功，已提交',
-          type: 'success',
-        })
-        //清空数据
-        router.push({
-          name:'statistical-details',
-          params: {
-            id: props.formId
-          }
-        })
-      } else {
-        ElMessage.error('表单提交失败！')
-      }
-    }
-
-    const setProblemResult = (result: any, id: string) => {
-      //id指表单id
-      form.value.problems.forEach((problem) => {
-        if (problem.id == id) {
-          //填空题,分数题,日期题,时间题结果value类型为string或number
-          if (
-            problem.type == 'input' ||
-            problem.type == 'score' ||
-            problem.type == 'date' ||
-            problem.type == 'time'
-          ) {
-            problem.result = { value: result }
-            console.log(problem.result)
-          }
-          //单选题,下拉选择题结果value类型为
-          // {
-          //   id: string
-          //   title: string
-          // }
-          else if (
-            problem.type == 'singleSelect' ||
-            problem.type == 'pullSelect'
-          ) {
-            problem.result! = {
-              value: {
-                id: result.value.id,
-                title: result.value.title,
-              },
-            }
-            // console.log(result.value);
-          }
-          //多选题结果类型为
-          // {
-          //   id: string
-          //   title: string
-          // }[]
-          else if (problem.type == 'multiSelect') {
-            problem.result! = {
-              value: [],
-            }
-            problem.result.value = result.value
-            console.log(problem.result.value)
-          }
-        }
-      })
-    }
 
     onBeforeMount(() => {
       getForm(props.formId!)
