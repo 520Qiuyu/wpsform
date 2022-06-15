@@ -7,7 +7,9 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "FormShare",
   components: {},
-  props: {},
+  props: {
+    formId: String
+  },
   setup(props, ctx) {
     return {};
   },

@@ -270,6 +270,11 @@ export default defineComponent({
       const aa = { type };
       console.log(aa.type === type);
     };
+
+    onBeforeMount(()=>{
+      Store.commit('user/setAppStatus', 2)
+    })
+
     return {
       Store,
       currentPoint,

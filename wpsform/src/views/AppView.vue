@@ -18,27 +18,27 @@
       </div>
       <!-- 表单详情页面显示返回图标+当前表单名 -->
       <div class="app-logoArea" v-if="appStatus == 3">
-        <el-page-header content="xxx表单名称" @back="goBack" />
+        <el-page-header :content="formTitle" @back="goBack" />
       </div>
       <!-- 右侧个人信息显示：头像昵称 -->
       <div class="app-user-info">
         <!-- 登录按钮 -->
         <router-link
           to="/login"
-          v-if="!$store.state.loginState"
+          v-if="!$store.state.user.loginState"
           class="app-login-btn"
         >
           登录
         </router-link>
         <!-- 用户信息 -->
-        <div class="app-user" v-if="$store.state.loginState">
+        <div class="app-user" v-if="$store.state.user.loginState">
           <!-- 用户名 -->
           <span class="app-user-title">{{ userInfo.nickname }}</span>
           <el-dropdown>
             <!-- 用户头像 -->
             <div
               class="app-user-icon el-dropdown-link"
-              v-if="$store.state.loginState"
+              v-if="$store.state.user.loginState"
             >
               <img :src="userInfo.avatar" alt="" />
             </div>
@@ -57,7 +57,7 @@
         </div>
       </div>
     </el-header>
-    <router-view></router-view>
+    <router-view @showFormTitle="showFormTitle"></router-view>
   </el-container>
 </template>
 
@@ -76,19 +76,27 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     // const usericon = '../assets/imgs/logo.svg'
-    const appStatus = computed(() => store.state.appStatus);
-    const userInfo = computed(() => store.state.userInfo);
+    const appStatus = computed(() => store.state.user.appStatus)
+    const userInfo = computed(() => store.state.user.userInfo)
+    const formTitle = ref('')
 
     const goBack = () => {
-      router.go(-1);
+      router.push('/app');
     };
 
-    const logout = () => {
-      store.commit("setLoginState", false);
-      window.sessionStorage.removeItem("login");
-      window.sessionStorage.removeItem("user");
+    const logout = async () => {
+      const res = await api.logout()
+      if(res.stat == 'ok') {
+        store.commit('user/setLoginState', false)
+        window.sessionStorage.removeItem('login')
+        window.sessionStorage.removeItem('user')
+        router.push('/login')
+      }
       // console.log(store.state.loginState)
     };
+    const showFormTitle = (value:any)=>{
+      formTitle.value = value
+    }
 
     onBeforeMount(() => {
       // console.log(typeof store.state.userInfo)
@@ -99,6 +107,8 @@ export default defineComponent({
       goBack,
       logout,
       userInfo,
+      formTitle,
+      showFormTitle,
     };
   },
 });
@@ -117,8 +127,7 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  /* height: 56px; */
+  height: 56px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   position: fixed;

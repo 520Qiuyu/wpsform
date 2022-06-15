@@ -1,5 +1,5 @@
 import * as request from './request'
-import { IUser, IForm, IProblem } from '../types/types'
+import { IUser, IForm, IProblem,IFormResult } from '../types/types'
 
 interface BaseRes {
   stat: string
@@ -49,6 +49,21 @@ interface BasicProblemRes extends BaseRes {
 interface StarProblemRes extends BaseRes {
   data: {
     items: IProblem[]
+  }
+}
+
+//获取表单详情返回接口
+interface FormResultRes extends BaseRes {
+  data: {
+    info: IForm;
+    items: IFormResult[]
+  }
+}
+
+//获取单个表单详情返回接口
+interface FormDetailRes extends BaseRes {
+  data: {
+    item: IFormResult;
   }
 }
 
@@ -204,6 +219,15 @@ export function inputForm(
     formId,
     problems,
   })
+}
+//获取表单填写详情
+export function getFormResult(formId: string) {
+  return request.get<FormResultRes>('/api/form/formResult/'+formId)
+}
+
+//获取表单单个填写详情
+export function getDetail(id: string) {
+  return request.post<FormDetailRes>('/api/form/detail/'+id)
 }
 
 // 开始收集表单
