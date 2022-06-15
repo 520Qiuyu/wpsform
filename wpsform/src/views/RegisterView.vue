@@ -65,12 +65,10 @@
           <span class="confirmPwdTip tip" v-show="confirmPwdTip"
             >请再输入一次密码</span
           >
-          <el-form-item>
-            <el-button class="register-btn" type="primary" @click="submitForm"
-              >立即注册</el-button
-            >
-          </el-form-item>
         </el-form>
+        <el-button class="register-btn" type="primary" @click="submitForm"
+          >立即注册</el-button
+        >
       </div>
     </div>
   </div>
@@ -194,12 +192,12 @@ export default defineComponent({
     };
 
     //验证并发送注册请求
-    const submitForm = () => { 
+    const submitForm = () => {
       // 关闭所有提示
       accountTip.value = false;
       passwordTip.value = false;
       confirmPwdTip.value = false;
-      
+
       // 判断验证是否都通过
       ruleFormRef.value?.validate(async (validate) => {
         if (validate) {
@@ -321,5 +319,69 @@ export default defineComponent({
   height: 50px;
   margin-top: 20px;
   font-size: 18px;
+}
+/* 响应式 */
+@media screen and (max-width: 768px) {
+  .page-left {
+    width: 0;
+  }
+  .top-logo {
+    top: 15px;
+    left: 15px;
+    width: 249px;
+    height: 22.5px;
+  }
+  .back-icon {
+    font-size: 33px;
+    margin-top: 2px;
+  }
+  .register-box {
+    margin-top: 120px;
+  }
+  .register-box-top {
+    margin-bottom: 30px;
+  }
+  .register-title {
+    margin-left: 10px;
+  }
+  .register-title {
+    font-size: 35px;
+    font-weight: 600;
+    color: #000;
+  }
+  .text-input {
+    width: 300px;
+    height: 45px;
+    margin: 10px 0;
+    font-size: 16px;
+  }
+  .tip {
+    position: absolute;
+    font-size: 12px;
+    color: #8b8989;
+  }
+  .accountTip {
+    top: 140px;
+  }
+  .passwordTip {
+    top: 216px;
+  }
+  .confirmPwdTip {
+    top: 302px;
+  }
+  .operate-box {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+  }
+  .register-btn {
+    align-self: center;
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+  }
+  .goLogin {
+    margin-top: 15px;
+  }
 }
 </style>
