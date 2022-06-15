@@ -2,7 +2,7 @@
   <div class="newform-result-container">
     <el-tabs v-model="activeName" class="newform-result-tabs" @tab-change="handleChange">
       <el-tab-pane label="数据详情&统计" name="statistical-details">
-        <!-- <StatisticalDetails></StatisticalDetails> -->
+        <!-- <StatisticalDetails :formId="formId"></StatisticalDetails> -->
         数据详情
       </el-tab-pane>
       <el-tab-pane label="表单问题" name="form-question">

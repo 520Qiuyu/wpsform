@@ -1,7 +1,7 @@
 <template>
   <div class="form-question-main">
     <div class="form-question-content">
-      <FormItem :formId="formId" :submitDisabled="true"></FormItem>
+      <FormItem :formId="formId" :submitDisabled="false"></FormItem>
     </div>
     <div class="form-write-area">
       <el-button type="primary" class="form-write-btn" @click="goWriteForm">填写表单</el-button>

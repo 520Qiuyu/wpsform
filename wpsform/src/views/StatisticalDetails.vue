@@ -194,7 +194,6 @@ export default defineComponent({
       return Y + M + D + h + m + s;
     };
 
-<<<<<<< HEAD
     const log = () => {
       console.log("###");
       console.log(formList[indexx.value]);
@@ -203,10 +202,6 @@ export default defineComponent({
       inputt,
       log,
       indexx,
-=======
-    return {
-      index,
->>>>>>> a4f78b28bd62355bdcdeeb369d1b2fac7a706e1e
       forms,
       formList,
       TransformData,
@@ -217,10 +212,6 @@ export default defineComponent({
   },
   created() {
     this.getFormList();
-<<<<<<< HEAD
-=======
-    console.log(this.Formid);
->>>>>>> a4f78b28bd62355bdcdeeb369d1b2fac7a706e1e
   },
 });
 </script> -->
