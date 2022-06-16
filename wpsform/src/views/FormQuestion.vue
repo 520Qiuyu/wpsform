@@ -75,7 +75,7 @@ export default defineComponent({
   min-width: 330px;
   height: 100%;
   background-color: #f2f4f7;
-  overflow: auto;
+  /* overflow: auto; */
 }
 .form-question-content {
   min-height: 100%;
