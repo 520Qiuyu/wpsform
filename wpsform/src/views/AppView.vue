@@ -112,7 +112,14 @@ export default defineComponent({
     }
 
     onBeforeMount(() => {
-      getUserInfo()
+      //判断登录状态，未登录则跳转到登录页面
+      if(store.state.user.loginState == false) {
+        router.replace('/login')
+      }
+      //登录则直接获取用户信息
+      else {
+        getUserInfo()
+      }
       // console.log(typeof store.state.userInfo)
     })
 
