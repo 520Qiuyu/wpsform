@@ -91,7 +91,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   // 表单填写
   {
-    path: "/form-write/:id",
+    path: "/form-write",
     name: "form-write",
     component: () => import("../views/FormWrite.vue"),
   },

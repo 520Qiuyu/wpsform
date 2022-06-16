@@ -90,12 +90,12 @@ export default defineComponent({
           router.push("/app");
           // 修改登录状态
           store.commit("user/setLoginState", true);
-          window.sessionStorage.setItem("login", "true");
+          window.localStorage.setItem("login", "true");
           // 记录用户信息
           const userRes = await api.getUserInfo()
           if(userRes.stat == 'ok') {
             store.commit("user/setUserInfo", userRes.data.user);
-            window.sessionStorage.setItem("user", JSON.stringify(userRes.data.user));
+            window.localStorage.setItem("user", JSON.stringify(userRes.data.user));
           }
         } else {
           ElMessage.error("账号或密码错误");

@@ -41,7 +41,7 @@ export default defineComponent({
         } else {
           router.push({
             name: 'form-write',
-            params: {
+            query: {
               id: props.formId,
             },
           })
@@ -61,7 +61,8 @@ export default defineComponent({
 
 <style scoped>
 .form-question-main {
-  width: 60%;
+  width: 100%;
+  min-width: 330px;
   height: 100%;
   /* background-color: #f2f4f7; */
   margin: 0 auto;
@@ -70,7 +71,7 @@ export default defineComponent({
 .form-question-content {
   min-height: 100%;
   background-color: #fff;
-  padding: 48px 120px 90px;
+  padding: 30px 60px 0;
 }
 
 .form-write-area {
@@ -86,5 +87,21 @@ export default defineComponent({
 .form-write-btn {
   width: 96px;
   margin-left: -16px;
+}
+@media screen and (min-width:768px){
+  .form-question-main {
+    width: 80%;
+  }
+  .form-question-content {
+    padding: 36px 80px 50px;
+  }
+}
+@media screen and (min-width:1366px){
+  .form-question-main {
+    width: 60%;
+  }
+  .form-question-content {
+    padding: 48px 120px 90px;
+  }
 }
 </style>

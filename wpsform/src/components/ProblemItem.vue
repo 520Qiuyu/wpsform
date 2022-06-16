@@ -1,6 +1,7 @@
 <template>
   <div class="problem-item">
     <div class="problem-title">
+      <span class="problem-required" v-if="problem.required">*</span>
       <span class="problem-title-index">{{ index + 1 }}.</span>
       <span>{{ problem.title }}</span>
     </div>
@@ -224,6 +225,9 @@ export default defineComponent({
 </script>
 
 <style>
+.problem-required {
+  color: red;
+}
 .problem-item {
   margin-bottom: 30px;
 }

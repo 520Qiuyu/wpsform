@@ -73,10 +73,23 @@ export default defineComponent({
   margin-top: 56px;
 }
 .form-write-content {
-  width: 50%;
+  width: 100%;
+  min-width: 330px;
   min-height: 100%;
   background-color: #fff;
-  padding: 48px 102px 90px;
+  padding: 30px 50px 0;
   margin: 0 auto;
+}
+@media screen and (min-width:768px){
+  .form-write-content {
+    width: 80%;
+    padding: 40px 70px 50px;
+  }
+}
+@media screen and (min-width:1366px){
+  .form-write-content {
+    width: 50%;
+    padding: 48px 102px 90px;
+  }
 }
 </style>
