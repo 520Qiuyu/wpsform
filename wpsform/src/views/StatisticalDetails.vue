@@ -121,11 +121,11 @@ export default defineComponent({
 
 <style scoped>
 .formlist-main {
-  margin: 50px;
+  margin: 20px;
   overflow: auto;
 }
 .formlist-content {
-  margin: 100px;
+  margin: 50px 100px;
 }
 .statistics-title {
   font-size: 20px;

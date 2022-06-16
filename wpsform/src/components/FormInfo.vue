@@ -89,6 +89,8 @@ export default defineComponent({
 
 <style scoped>
 .forminfo {
+  height: 300px;
+  overflow: auto;
   margin: 50px 0;
 }
 .subTitle {

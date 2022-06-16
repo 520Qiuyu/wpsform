@@ -1,6 +1,5 @@
 <template>
   <div class="newform-result-container">
-    <el-tabs v-model="activeName" class="newform-result-tabs"> </el-tabs>
     <ul class="newform-result-nav">
       <li>
         <a @click="goToOtherPage('statistical-details')">数据详情&统计</a>
@@ -25,7 +24,6 @@ export default defineComponent({
     const store = useStore();
     const Route = useRoute();
     const Router = useRouter();
-    const activeName = ref("");
     const formId = ref(Route.query.id as string);
 
     const goToOtherPage = (tabPaneName: string) => {
@@ -38,11 +36,9 @@ export default defineComponent({
     };
     onBeforeMount(() => {
       store.commit("user/setAppStatus", 3);
-      activeName.value = String(Route.name) || "";
       // console.log(activeName.value);
     });
     return {
-      activeName,
       goToOtherPage,
       formId,
     };
@@ -62,13 +58,16 @@ export default defineComponent({
 .newform-result-container {
   height: 100%;
   margin-top: 56px;
-  overflow: auto;
+  overflow: hidden;
   background-color: #f2f4f7;
+  position: relative;
 }
 .newform-result-nav {
-  margin-top: 10px;
-  padding-bottom: 20px;
+  /* position: fixed;
+  width: 100%; */
+  padding: 20px 50px;
   border-bottom: 1px solid #ccc;
+  background-color: #fff;
   cursor: pointer;
 }
 .newform-result-nav li a {
