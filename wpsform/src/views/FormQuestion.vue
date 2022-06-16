@@ -27,12 +27,6 @@ export default defineComponent({
   components: {
     FormItem,
   },
-  // props: {
-  //   formId: {
-  //     type: String,
-  //     required: true,
-  //   },
-  // },
   setup(props, ctx) {
     const router = useRouter();
     const route = useRoute();
@@ -75,7 +69,7 @@ export default defineComponent({
   min-width: 330px;
   height: 100%;
   background-color: #f2f4f7;
-  overflow: auto;
+  /* overflow: auto; */
 }
 .form-question-content {
   min-height: 100%;

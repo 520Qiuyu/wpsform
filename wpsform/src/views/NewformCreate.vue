@@ -122,10 +122,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, ref } from "vue";
+import { defineComponent, reactive, computed, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import * as API from "../services/api";
 import axios from "axios";
 import { ElMessage } from "element-plus";
 import MyQuestion from "../components/MyQuestion.vue";
@@ -150,8 +149,14 @@ export default defineComponent({
     // 我的常用题
     const myCommonUse = computed(() => Store.state.problem.commonUseQues);
     // 表单标题
-    const formTitle = ref("");
-    const formSubTitle = ref("");
+    const formTitle = ref(Store.state.form.formTitle);
+    watch(formTitle, (newVal: string) => {
+      Store.commit("form/setFormTitle", newVal);
+    });
+    const formSubTitle = ref(Store.state.form.formSubTitle);
+    watch(formSubTitle, (newVal: string) => {
+      Store.commit("form/setFormSubTitle", newVal);
+    });
     // 中间题目列表
     const questionList = computed<IProblem[]>(
       () => Store.state.form.questionList
@@ -221,6 +226,13 @@ export default defineComponent({
       if (isCompleted() === true) {
         Router.push({
           name: "form-preview",
+          // params: {
+          //   form: JSON.stringify({
+          //     title: formTitle.value,
+          //     subTitle: formSubTitle.value,
+          //     problems: questionList.value,
+          //   }),
+          // },
         });
       }
     };
@@ -228,12 +240,28 @@ export default defineComponent({
     const clearFormList = () => {
       Store.commit("form/clearFormList");
       console.log("清空后的列表", questionList);
+      ElMessage({
+        message: "清空表单成功",
+        type: "success",
+        center: true,
+      });
     };
     // 使用草稿
     const useDraft = () => {
+      if (!Store.state.form.formTitleDraft)
+        return ElMessage({
+          message: "未找到草稿",
+          type: "warning",
+          center: true,
+        });
       formTitle.value = Store.state.form.formTitleDraft;
       formSubTitle.value = Store.state.form.formSubTitleDraft;
       Store.commit("form/useDraft");
+      ElMessage({
+        message: "读取成功",
+        type: "success",
+        center: true,
+      });
     };
     // 保存草稿
     const saveDraft = () => {
@@ -241,6 +269,11 @@ export default defineComponent({
         Store.commit("form/setFormTitleDraft", formTitle.value);
         Store.commit("form/setFormSubTitleDraft", formSubTitle.value);
         Store.commit("form/saveDraft");
+        ElMessage({
+          message: "保存成功",
+          type: "success",
+          center: true,
+        });
       }
     };
     // 创建表单
@@ -259,17 +292,26 @@ export default defineComponent({
           });
           // 创建成功
           if (res.data.stat === "ok") {
-            const formId = res.data.data.id;
+            ElMessage({
+              message: "创建成功",
+              type: "success",
+              center: true,
+            });
             Router.push({
               name: "share",
               query: {
-                id: formId,
+                id: res.data.data.id,
               },
             });
             // Store.commit("form/clearFormList");
           }
         } catch (e: any) {
           console.log(e.message);
+          ElMessage({
+            message: e.message,
+            type: "error",
+            center: true,
+          });
         }
       }
     };

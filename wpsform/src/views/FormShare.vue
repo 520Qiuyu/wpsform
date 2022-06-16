@@ -4,7 +4,7 @@
       <h1 class="title">分享邀请他人填写</h1>
     </div>
     <div class="code-box">
-      <QrcodeVue :value="'www.baidu.com'" :size="200" />
+      <QrcodeVue :value="shareUrl" :size="200" />
     </div>
     <div class="copy-btn-box">
       <button class="copy-btn" @click="cpoyShareUrl">
@@ -19,6 +19,7 @@ import { computed, defineComponent, ref } from "vue";
 import { useRoute } from "vue-router";
 import QrcodeVue from "qrcode.vue";
 import useClipboard from "vue-clipboard3";
+import { ElMessage } from "element-plus";
 export default defineComponent({
   name: "FormShare",
   components: { QrcodeVue },
@@ -27,26 +28,28 @@ export default defineComponent({
     const Route = useRoute();
     const { toClipboard } = useClipboard();
     const formId = ref(Route.query.id as string);
-    const shareUrl = computed(() => `localhost:8080/form-write/${formId.value}`);
-    const qcsize = 100;
-    const codeShow = ref(false);
-    const getCode = () => {
-      codeShow.value = true;
-    };
+    const shareUrl = computed(
+      () => `localhost:8080/form-write?id=${formId.value}`
+    );
     const cpoyShareUrl = async () => {
       try {
         await toClipboard(shareUrl.value);
-        console.log("复制成功");
+        ElMessage({
+          message: "恭喜恭喜 复制成功",
+          type: "success",
+          center:true,
+        });
       } catch (e) {
-        console.error(e);
+        ElMessage({
+          message: "很遗憾 复制失败 再接再厉吧",
+          type: "error",
+          center:true,
+        });
       }
     };
     return {
       formId,
       shareUrl,
-      qcsize,
-      getCode,
-      codeShow,
       cpoyShareUrl,
     };
   },

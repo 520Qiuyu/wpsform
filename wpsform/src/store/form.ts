@@ -43,6 +43,14 @@ export default {
     clearFormList(state: any) {
       state.questionList = [];
     },
+    // 设置表单标题
+    setFormTitle(state:any,value:string){
+      state.formTitle = value
+    },
+    // 设置表单付标题
+    setFormSubTitle(state:any,value:string){
+      state.formSubTitle = value
+    },
     // 设置表单标题草稿
     setFormTitleDraft(state: any, value: string) {
       state.formTitleDraft = value;
@@ -61,59 +69,12 @@ export default {
     },
   },
   state: {
-    // 中间的问题列表
-    /* questionList: [
-      {
-        type: "input",
-        title: "",
-        required: true,
-        isNew: true,
-        id: "F0OjFh0XCIHffJUrUiJgd",
-      },
-      {
-        type: "singleSelect",
-        title: "",
-        required: true,
-        isNew: true,
-        id: "uQ91z5yubMjIF_Nsh1gg6",
-      },
-      {
-        type: "multiSelect",
-        title: "",
-        required: true,
-        isNew: true,
-        id: "JSzpVAucSArSsMlCrDE-x",
-      },
-      {
-        type: "pullSelect",
-        title: "",
-        required: true,
-        isNew: true,
-        id: "FnNqd8Dqp8cM2Jm3IqK2c",
-      },
-      {
-        type: "date",
-        title: "",
-        required: true,
-        isNew: true,
-        id: "cuV9IaRgJHCxixno9xkGY",
-      },
-      {
-        type: "time",
-        title: "",
-        required: true,
-        isNew: true,
-        id: "0SApJc5csrQLikhe8PE6L",
-      },
-      {
-        type: "score",
-        title: "",
-        required: true,
-        isNew: true,
-        id: "jPPf3sMyKi52mKMnODbPF",
-      },
-    ] as IProblem[], */
+    // 已添加表单的问题列表
     questionList: [] as IProblem[],
+    // 已添加的表单的title
+    formTitle: "",
+    // 已添加的表单的subTitle
+    formSubTitle: "",
     // 俩标题的草稿
     formTitleDraft: "",
     formSubTitleDraft: "",

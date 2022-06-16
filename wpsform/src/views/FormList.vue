@@ -93,7 +93,6 @@
         </div>
         <el-button class="next" @click="goNext">下一页</el-button>
       </div>
-      <el-button @click="createFormTest">新建表单(测试用)</el-button>
     </el-main>
   </el-container>
 </template>
@@ -202,10 +201,6 @@ export default defineComponent({
 
     //查看结果按钮，数据详情页面
     const showResult = async (id: string) => {
-      // const res = await api.getFormResult(id)
-      // if(res.stat == 'ok') {
-      //   console.log(res);
-      // }
       router.push({
         name: 'statistical-details',
         query: {
