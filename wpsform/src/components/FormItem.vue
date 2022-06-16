@@ -96,6 +96,7 @@ export default defineComponent({
     //确定提交
     const handelConfirm = async () => {
       dialogVisible.value = false
+      // console.log((form.value as IForm));
       const res = await api.inputForm(
         props.formId!,
         (form.value as IForm).problems

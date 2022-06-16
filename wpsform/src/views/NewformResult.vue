@@ -63,12 +63,12 @@ export default defineComponent({
     };
   },
   created() {
-    this.$router.push({
-      name: "statistical-details",
-      query: {
-        id: this.formId,
-      },
-    });
+    // this.$router.push({
+    //   name: "statistical-details",
+    //   query: {
+    //     id: this.formId,
+    //   },
+    // });
   },
 });
 </script>
