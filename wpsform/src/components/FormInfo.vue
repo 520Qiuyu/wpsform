@@ -1,6 +1,5 @@
 <template>
   <div class="forminfo">
-    <div>这是一个From</div>
     <h3 class="subTitle">{{ form[0]?.subTitle }}</h3>
     <div
       class="Problemlist"
@@ -33,6 +32,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    Findex: {
+      type: Number,
+      required: true,
+    },
     disableWrite: {
       type: Boolean,
       default: false,
@@ -46,12 +49,15 @@ export default defineComponent({
       form.push(res.data.item);
     };
     watch(
-      () => props.id,
+      () => props.Findex,
       (val, Oldval) => {
-        console.log("watch,id变了");
-        getForm(val);
+        console.log("watch,index变了", val);
+        console.log("watch,index变了", form);
+        getForm(props.id);
+        getFormResult(props.id);
       }
     );
+
     const result = ref({} as IFormResult);
     const resultList = ref([] as IFormResult[]);
     const getFormResult = async (formid: string) => {
@@ -59,7 +65,10 @@ export default defineComponent({
       if (res.stat == "ok") {
         for (const item of res.data.items) {
           resultList.value.push(item);
-          result.value = resultList.value[0];
+          result.value = resultList.value[props.Findex];
+          console.log("watch变了", resultList.value[props.Findex]);
+          console.log("result.value", result.value);
+          console.log("result.value.id", result.value.id);
         }
       }
     };

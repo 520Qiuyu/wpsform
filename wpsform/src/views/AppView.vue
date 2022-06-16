@@ -73,6 +73,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import * as api from '@/services/api'
 import { IUser, IForm, IProblem } from '../types/types'
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: 'AppView',
@@ -108,11 +109,23 @@ export default defineComponent({
       const res = await api.getUserInfo()
       if(res.stat == 'ok') {
         store.commit('user/setUserInfo',res.data.user)
+      }else {
+        ElMessage.error('用户未登录！')
+        window.localStorage.removeItem('login')
+        window.localStorage.removeItem('user')
+        router.push('/login')
       }
     }
 
     onBeforeMount(() => {
-      getUserInfo()
+      //判断登录状态，未登录则跳转到登录页面
+      if(store.state.user.loginState == false) {
+        router.replace('/login')
+      }
+      //登录则直接获取用户信息
+      else {
+        getUserInfo()
+      }
       // console.log(typeof store.state.userInfo)
     })
 

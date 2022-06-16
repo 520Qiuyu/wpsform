@@ -1,10 +1,6 @@
 <template>
   <div class="newform-result-container">
-    <el-tabs
-      v-model="activeName"
-      class="newform-result-tabs"
-    >
-    </el-tabs>
+    <el-tabs v-model="activeName" class="newform-result-tabs"> </el-tabs>
     <ul class="newform-result-nav">
       <li>
         <a @click="goToOtherPage('statistical-details')">数据详情&统计</a>
@@ -66,18 +62,20 @@ export default defineComponent({
 .newform-result-container {
   height: 100%;
   margin-top: 56px;
-  overflow: hidden;
+  overflow: auto;
+  background-color: #f2f4f7;
 }
 .newform-result-nav {
   margin-top: 10px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
 }
 .newform-result-nav li a {
   margin: 20px;
   font-size: 18px;
 }
-
-/* 分享页面 */
-#pane-share{
-  height: calc(100vh - 180px);
+.newform-result-nav li a:hover {
+  color: #339cfe;
 }
 </style>
