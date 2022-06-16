@@ -35,7 +35,7 @@ export default defineComponent({
       try {
         await toClipboard(shareUrl.value);
         ElMessage({
-          message: "恭喜恭喜 复制成功",
+          message: "复制成功,请去浏览器打开",
           type: "success",
           center:true,
         });

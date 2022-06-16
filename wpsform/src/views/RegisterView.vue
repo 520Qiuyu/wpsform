@@ -256,12 +256,10 @@ export default defineComponent({
   flex: 1;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
-  /* background: linear-gradient(#87CEFA, #fff); */
   font-family: Helvetica, Tahoma, Arial, "Heiti SC", "Microsoft YaHei",
     "WenQuanYi Micro Hei";
-  /* background-color: #B0E2FF; */
 }
 .register-box {
   display: flex;
@@ -269,7 +267,7 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 150px;
+  margin-top: -100px;
 }
 .register-box-top {
   display: flex;
@@ -307,7 +305,7 @@ export default defineComponent({
   left: 0;
 }
 .passwordTip {
-  top: 275px;
+  top: 268px;
   left: 0;
 }
 .confirmPwdTip {
@@ -335,9 +333,7 @@ export default defineComponent({
     font-size: 33px;
     margin-top: 2px;
   }
-  .register-box {
-    margin-top: 120px;
-  }
+ 
   .register-box-top {
     margin-bottom: 30px;
   }
@@ -361,13 +357,13 @@ export default defineComponent({
     color: #8b8989;
   }
   .accountTip {
-    top: 140px;
+    top: 155px;
   }
   .passwordTip {
-    top: 216px;
+    top: 222px;
   }
   .confirmPwdTip {
-    top: 302px;
+    top: 310px;
   }
   .operate-box {
     flex-direction: column;

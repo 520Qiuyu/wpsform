@@ -130,7 +130,7 @@ import { ElMessage } from "element-plus";
 import MyQuestion from "../components/MyQuestion.vue";
 import { IProblem } from "../types/types";
 export default defineComponent({
-  name: "NewformCreate.vue",
+  name: "NewformCreate",
   components: { MyQuestion },
   props: {},
   setup(props, ctx) {

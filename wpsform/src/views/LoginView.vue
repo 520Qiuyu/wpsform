@@ -135,7 +135,7 @@ export default defineComponent({
 }
 .page-left {
   width: 580px;
-  height: 100%;
+  height: 100vh;
   /* background: url(https://js2.epy.wpscdn.cn/security/da_banner.png); */
   background: url("../assets/imgs/Login_banner.png");
   background-size: cover;
@@ -153,12 +153,12 @@ export default defineComponent({
   background-repeat: no-repeat;
 }
 .page-right {
+  height: 100vh;
   flex: 1;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
-  /* background: linear-gradient(#87CEFA, #fff); */
   font-family: Helvetica, Tahoma, Arial, "Heiti SC", "Microsoft YaHei",
     "WenQuanYi Micro Hei";
   /* background-color: #B0E2FF; */
@@ -168,7 +168,7 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 150px;
+  margin-top: -100px;
 }
 .login-box-top {
   display: flex;
@@ -210,7 +210,7 @@ export default defineComponent({
   height: 22.5px;
 }
   .login-box {
-    margin-top: 120px;
+    margin-top: -20px;
     align-items: center;
   }
   .login-box-top {
