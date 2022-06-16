@@ -11,6 +11,7 @@
         class="problem-input"
         placeholder="请输入"
         v-if="problem.type == 'input'"
+        :disabled="disableWrite"
       />
       <!-- 单选题 -->
       <el-radio-group
@@ -23,6 +24,7 @@
           size="large"
           v-for="option in problem.setting.options"
           :key="option.id"
+          :disabled="disableWrite"
         >
           {{ option.title }}
         </el-radio>
@@ -36,6 +38,8 @@
         <el-checkbox
           :label="option.title"
           v-for="option in problem.setting.options"
+          :key="option"
+          :disabled="disableWrite"
         />
       </el-checkbox-group>
       <!-- 下拉选择 -->
@@ -44,6 +48,7 @@
         filterable
         placeholder="请输入"
         v-if="problem.type == 'pullSelect'"
+        :disabled="disableWrite"
       >
         <el-option
           v-for="option in problem.setting.options"
@@ -53,7 +58,11 @@
         />
       </el-select>
       <!-- 分数题 -->
-      <el-rate v-model="score" v-if="problem.type == 'score'" />
+      <el-rate
+        v-model="score"
+        v-if="problem.type == 'score'"
+        :disabled="disableWrite"
+      />
       <!-- 日期题 -->
       <el-date-picker
         v-model="date"
@@ -61,6 +70,7 @@
         placeholder="请输入"
         v-if="problem.type == 'date'"
         style="width: 100%"
+        :disabled="disableWrite"
       />
       <!-- 时间题 -->
       <el-time-picker
@@ -69,6 +79,7 @@
         placeholder="请输入"
         v-if="problem.type == 'time'"
         style="width: 100%"
+        :disabled="disableWrite"
       />
     </div>
   </div>
@@ -95,6 +106,10 @@ export default defineComponent({
     problem: {
       type: Object as PropType<IProblem>,
       required: true,
+    },
+    disableWrite: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ["setProblemResult"],

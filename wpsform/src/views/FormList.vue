@@ -160,8 +160,8 @@ export default defineComponent({
       }
       //跳转到表单详情页面
       router.push({
-        name: 'statistical-details',
-        params: {
+        name: 'new-form-result',
+        query: {
           id: row.id,
         }
       })

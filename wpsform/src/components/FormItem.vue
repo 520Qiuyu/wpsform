@@ -8,6 +8,7 @@
         :problem="problem"
         :index="index"
         @setProblemResult="setProblemResult"
+        :disableWrite="disableWrite"
       >
       </ProblemItem>
     </div>
@@ -51,7 +52,14 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    submitDisabled: Boolean,
+    submitDisabled: {
+      type: Boolean,
+      default: true,
+    },
+    disableWrite: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, ctx) {
     const router = useRouter();
