@@ -1,6 +1,5 @@
 <template>
   <div class="newform-result-container">
-    <el-tabs v-model="activeName" class="newform-result-tabs"> </el-tabs>
     <ul class="newform-result-nav">
       <li>
         <a @click="goToOtherPage('statistical-details')">数据详情&统计</a>
@@ -17,6 +16,8 @@ import { defineComponent, onBeforeMount, ref, reactive } from "vue";
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 import router from "vue-router";
+import * as api from '@/services/api'
+import { ElMessage } from 'element-plus'
 
 export default defineComponent({
   name: "NewformResult",
@@ -25,24 +26,38 @@ export default defineComponent({
     const store = useStore();
     const Route = useRoute();
     const Router = useRouter();
-    const activeName = ref("");
     const formId = ref(Route.query.id as string);
 
-    const goToOtherPage = (tabPaneName: string) => {
-      Router.push({
+    const goToOtherPage = async (tabPaneName: string) => {
+      if(tabPaneName == 'share') {
+        const res = await api.getForm(formId.value)
+        if(res.stat == 'ok') {
+          if(res.data.item.status != 3) {
+            ElMessage.error('表单未发布或者已经结束收集')
+          }
+          else {
+            Router.push({
         name: tabPaneName,
         query: {
           id: formId.value,
         },
       });
+          }
+        }
+      } else {
+        Router.push({
+        name: tabPaneName,
+        query: {
+          id: formId.value,
+        },
+      });
+      }
     };
     onBeforeMount(() => {
       store.commit("user/setAppStatus", 3);
-      activeName.value = String(Route.name) || "";
       // console.log(activeName.value);
     });
     return {
-      activeName,
       goToOtherPage,
       formId,
     };
@@ -62,13 +77,16 @@ export default defineComponent({
 .newform-result-container {
   height: 100%;
   margin-top: 56px;
-  overflow: auto;
+  overflow: hidden;
   background-color: #f2f4f7;
+  position: relative;
 }
 .newform-result-nav {
-  margin-top: 10px;
-  padding-bottom: 20px;
+  /* position: fixed;
+  width: 100%; */
+  padding: 20px 50px;
   border-bottom: 1px solid #ccc;
+  background-color: #fff;
   cursor: pointer;
 }
 .newform-result-nav li a {

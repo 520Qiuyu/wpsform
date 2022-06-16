@@ -71,7 +71,8 @@ export default defineComponent({
       const res = await api.getForm(id)
       if (res.stat == 'ok') {
         form.value = JSON.parse(JSON.stringify(res.data.item))
-      }
+        // console.log(form.value.status);
+      } 
     }
 
     //保存草稿
@@ -95,6 +96,7 @@ export default defineComponent({
     //确定提交
     const handelConfirm = async () => {
       dialogVisible.value = false
+      // console.log((form.value as IForm));
       const res = await api.inputForm(
         props.formId!,
         (form.value as IForm).problems

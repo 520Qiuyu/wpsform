@@ -69,12 +69,12 @@ export default defineComponent({
   min-width: 330px;
   height: 100%;
   background-color: #f2f4f7;
-  /* overflow: auto; */
 }
 .form-question-content {
   min-height: 100%;
   width: 100%;
   background-color: #fff;
+  overflow: auto;
 }
 
 .form-write-area {
