@@ -65,9 +65,9 @@ export default defineComponent({
 
 <style scoped>
 .newform-result-container {
-  /* height: 100%; */
+  height: 100%;
   margin-top: 56px;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 .newform-result-nav {
   margin-top: 10px;
