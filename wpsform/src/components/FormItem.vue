@@ -71,7 +71,8 @@ export default defineComponent({
       const res = await api.getForm(id)
       if (res.stat == 'ok') {
         form.value = JSON.parse(JSON.stringify(res.data.item))
-      }
+        // console.log(form.value.status);
+      } 
     }
 
     //保存草稿
