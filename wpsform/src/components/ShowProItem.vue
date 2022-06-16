@@ -11,6 +11,7 @@
         class="problem-input"
         placeholder="请输入"
         v-if="problem.type == 'input'"
+        :disabled="disableWrite"
       />
       <!-- 单选题 -->
       <el-radio-group
@@ -23,6 +24,7 @@
           size="large"
           v-for="option in problem.setting.options"
           :key="option.id"
+          :disabled="disableWrite"
         >
           {{ option.title }}
         </el-radio>
@@ -37,6 +39,7 @@
           :label="option.title"
           v-for="option in problem.setting.options"
           :key="option"
+          :disabled="disableWrite"
         />
       </el-checkbox-group>
       <!-- 下拉选择 -->
@@ -45,6 +48,7 @@
         filterable
         placeholder="请输入"
         v-if="problem.type == 'pullSelect'"
+        :disabled="disableWrite"
       >
         <el-option
           v-for="option in problem.setting.options"
@@ -54,7 +58,11 @@
         />
       </el-select>
       <!-- 分数题 -->
-      <el-rate v-model="score" v-if="problem.type == 'score'" />
+      <el-rate
+        v-model="score"
+        v-if="problem.type == 'score'"
+        :disabled="disableWrite"
+      />
       <!-- 日期题 -->
       <el-date-picker
         v-model="date"
@@ -62,6 +70,7 @@
         placeholder="请输入"
         v-if="problem.type == 'date'"
         style="width: 100%"
+        :disabled="disableWrite"
       />
       <!-- 时间题 -->
       <el-time-picker
@@ -70,6 +79,7 @@
         placeholder="请输入"
         v-if="problem.type == 'time'"
         style="width: 100%"
+        :disabled="disableWrite"
       />
     </div>
   </div>
@@ -95,6 +105,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    disableWrite: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ["setProblemResult"],
   setup(props, ctx) {
@@ -118,18 +132,6 @@ export default defineComponent({
     const multiSelectValue = reactive({
       value: [{}],
     });
-    const options = reactive([
-      {
-        value: "Option1",
-        label: "Option1",
-      },
-      {
-        value: "Option2",
-        label: "Option2",
-      },
-    ]);
-
-    const singleOptions = props.problem ? ref(props.problem.setting) : [];
 
     const value: any = ref();
     const resultList = ref([] as IProblem[]);
@@ -137,7 +139,6 @@ export default defineComponent({
       resultList.value = [];
       const res = await api.getDetail(id);
       if (res.stat == "ok") {
-        console.log("@@##", res.data.item.result[props.index]);
         resultList.value.push(res.data.item.result[props.index]);
         value.value = resultList.value[0].result?.value;
         // 填空题
@@ -246,18 +247,15 @@ export default defineComponent({
       date,
       time,
       score,
-      options,
       pullSelectValue,
       singleSelectValue,
       multiSelectArr,
-      singleOptions,
       resultList,
       getDetail,
     };
   },
   created() {
     this.getDetail(this.resultid);
-    console.log("#@!", this.index, this.resultid);
   },
 });
 </script>

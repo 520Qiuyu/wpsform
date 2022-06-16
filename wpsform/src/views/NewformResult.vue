@@ -5,19 +5,15 @@
       class="newform-result-tabs"
       @tab-change="handleChange"
     >
-      <el-tab-pane label="数据详情&统计" name="statistical-details">
-        <StatisticalDetails
-          :formId="formId"
-          @ChangeId="ChangeId"
-        ></StatisticalDetails>
-      </el-tab-pane>
-      <el-tab-pane label="表单问题" name="form-question">
-        <FormQuestion :formId="formId"></FormQuestion>
-      </el-tab-pane>
-      <el-tab-pane label="分享" name="share">
-        <FormShare></FormShare>
-      </el-tab-pane>
     </el-tabs>
+    <ul class="newform-result-nav">
+      <li>
+        <a @click="goToOtherPage('statistical-details')">数据详情&统计</a>
+        <a @click="goToOtherPage('form-question')">表单问题</a>
+        <a @click="goToOtherPage('share')">分享</a>
+      </li>
+    </ul>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -25,81 +21,60 @@
 import { defineComponent, onBeforeMount, ref, reactive } from "vue";
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
-import StatisticalDetails from "./StatisticalDetails.vue";
-import FormQuestion from "./FormQuestion.vue";
-import FormShare from "./FormShare.vue";
+import router from "vue-router";
 
 export default defineComponent({
   name: "NewformResult",
-  components: {
-    StatisticalDetails,
-    FormQuestion,
-    FormShare,
-  },
   props: {},
   setup(props, ctx) {
     const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
+    const Route = useRoute();
+    const Router = useRouter();
     const activeName = ref("");
-    const formId = ref(route.params.id as string);
+    const formId = ref(Route.query.id as string);
 
-    const handleChange = (tabPaneName: string) => {
-      router.push({
+    const goToOtherPage = (tabPaneName: string) => {
+      Router.push({
         name: tabPaneName,
+        query: {
+          id: formId.value,
+        },
       });
     };
-
-    const ChangeId = (val: string) => {
-      formId.value = val;
-      console.log("@@@父组件ChangeId执行");
-      console.log(formId.value);
-      ctx.emit("GiveId", formId.value);
-    };
-
     onBeforeMount(() => {
       store.commit("user/setAppStatus", 3);
-      activeName.value = String(route.name) || "";
+      activeName.value = String(Route.name) || "";
       // console.log(activeName.value);
     });
     return {
       activeName,
-      ChangeId,
-      handleChange,
+      goToOtherPage,
       formId,
     };
+  },
+  created() {
+    this.$router.push({
+      name: "statistical-details",
+      query: {
+        id: this.formId,
+      },
+    });
   },
 });
 </script>
 
-<style>
+<style scoped>
 .newform-result-container {
-  /* height: 100%; */
+  height: 100%;
   margin-top: 56px;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
-.newform-result-tabs {
-  height: 100%;
+.newform-result-nav {
+  margin-top: 10px;
 }
-.el-tabs__header {
-  margin-bottom: 0;
-}
-.el-tabs__content {
-  height: 100%;
-  background-color: #f2f4f7;
-}
-
-.el-tab-pane {
-  height: 100%;
-}
-
-.newform-result-tabs {
-  padding-top: 10px;
-}
-
-.newform-result-tabs .el-tabs__nav {
-  height: 56px;
-  padding-left: 30px;
+.newform-result-nav li a {
+  margin: 20px;
+  font-size: 18px;
 }
 
 /* 分享页面 */

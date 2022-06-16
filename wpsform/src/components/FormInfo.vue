@@ -12,6 +12,7 @@
         :problem="problem"
         :index="index"
         v-if="result.id"
+        :disableWrite="disableWrite"
       ></ShowProItem>
     </div>
   </div>
@@ -31,6 +32,10 @@ export default defineComponent({
     id: {
       type: String,
       required: true,
+    },
+    disableWrite: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, ctx) {

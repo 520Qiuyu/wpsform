@@ -1,6 +1,7 @@
 <template>
   <div class="form-item">
     <div class="form-title">{{ form.title }}</div>
+    <div class="form-subTitile">{{ form.subTitle }}</div>
     <div class="form-questions">
       <ProblemItem
         v-for="(problem, index) in form.problems"
@@ -8,6 +9,7 @@
         :problem="problem"
         :index="index"
         @setProblemResult="setProblemResult"
+        :disableWrite="disableWrite"
       >
       </ProblemItem>
     </div>
@@ -51,7 +53,14 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    submitDisabled: Boolean,
+    submitDisabled: {
+      type: Boolean,
+      default: true,
+    },
+    disableWrite: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, ctx) {
     const router = useRouter();
@@ -71,7 +80,17 @@ export default defineComponent({
     };
     //提交
     const submit = () => {
-      dialogVisible.value = true;
+      //判断必选问题是否已经填写完毕
+      let flag = true
+      form.value.problems.forEach(problem=>{
+        if(problem.required && !problem.result) {
+          ElMessage.error('请先填写必选！')
+          flag=false
+        }
+      })
+      if(flag) {
+        dialogVisible.value = true;
+      }
     };
     //确定提交
     const handelConfirm = async () => {
@@ -161,7 +180,13 @@ export default defineComponent({
   text-align: center;
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
+}
+.form-subTitile {
+  font-size: 16px;
+  color: #ccc;
+  text-align: center;
+  margin-bottom: 40px;
 }
 .form-submit {
   width: 96px;

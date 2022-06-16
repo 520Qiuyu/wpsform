@@ -11,60 +11,50 @@
       </div>
       <hr />
       <div class="form-main">
-        <span class="input-time"
-          >提交时间：{{ TransformData(forms[index]?.ctime) }}</span
-        >
-        <FormInfo v-if="forms[index]?.id" :id="forms[index]?.id"></FormInfo>
+        <span class="input-time">提交时间：{{ TransformData(time) }}</span>
+        <FormInfo v-if="formId" :id="formId" :disableWrite="true"></FormInfo>
       </div>
-      <div>formId：=== {{ forms[index]?.id }}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
-import { IForm } from "../types/types";
+import { defineComponent, ref } from "vue";
+import { IForm, IFormResult } from "../types/types";
 import FormInfo from "../components/FormInfo.vue";
 import * as api from "../services/api";
-import { toRaw } from "@vue/reactivity";
+import { useRouter, useRoute } from "vue-router";
 export default defineComponent({
   name: "StatisticalDetails",
   components: {
     FormInfo,
   },
-  props: {
-    formId: {
-      type: String,
-    },
-  },
-  setup(props, { emit }) {
+  setup(props, ctx) {
+    const route = useRoute();
+    const formId = ref(route.query.id as string);
     // form的index
     const index = ref(0);
-    // 中间参数
-    const indexx = ref(0);
-    const formList = ref([] as IForm[]);
-    const getFormList = async () => {
-      const res = await api.getFormList();
-      for (const post of res.data.items) {
-        if (res.stat == "ok") {
+    const formList = ref([] as IFormResult[]);
+    const getFormList = async (formid: string) => {
+      const res = await api.getFormResult(formid);
+      console.log("@@$$!!", res);
+      if (res.stat == "ok") {
+        for (const post of res.data.items) {
           formList.value.push(post);
-          if (post.id == props.formId) {
-            index.value = indexx.value;
-          }
-          indexx.value++;
+          console.log("@@$$!!", formList.value);
         }
       }
     };
-    const forms = toRaw(formList);
-    // 监听formid，向父组件抛出事件ChangeId，让父组件改变formid，再props传过来
-    watch(
-      () => formList.value[index.value]?.id,
-      (val, Oldval) => {
-        emit("ChangeId", val);
-        console.log("@@@子组件ChangeId执行");
-        console.log(formList.value[index.value]?.id);
+
+    // 获取form创建时间
+    const time = ref(0);
+    const getForm = async (formid: string) => {
+      const res = await api.getForm(formid);
+      console.log("@@$$!!", res);
+      if (res.stat == "ok") {
+        time.value = res.data.item.ctime;
       }
-    );
+    };
 
     const IndexDown = () => {
       if (index.value == 0) {
@@ -105,17 +95,20 @@ export default defineComponent({
     };
 
     return {
+      formId,
       index,
-      forms,
+      time,
       formList,
       TransformData,
       IndexDown,
       IndexUp,
       getFormList,
+      getForm,
     };
   },
   created() {
-    this.getFormList();
+    this.getForm(this.formId as string);
+    this.getFormList(this.formId as string);
     console.log(this.formId);
   },
 });

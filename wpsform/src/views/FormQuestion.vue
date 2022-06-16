@@ -1,7 +1,11 @@
 <template>
   <div class="form-question-main">
     <div class="form-question-content">
-      <FormItem :formId="formId" :submitDisabled="false"></FormItem>
+      <FormItem
+        :formId="formId"
+        :submitDisabled="false"
+        :disableWrite="true"
+      ></FormItem>
     </div>
     <div class="form-write-area">
       <el-button type="primary" class="form-write-btn" @click="goWriteForm"
@@ -12,56 +16,61 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import FormItem from '../components/FormItem.vue'
-import { useRouter } from 'vue-router'
-import * as api from '@/services/api'
-import { ElMessage } from 'element-plus'
+import { defineComponent, ref } from "vue";
+import FormItem from "../components/FormItem.vue";
+import { useRouter, useRoute } from "vue-router";
+import * as api from "@/services/api";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "FormQuestion",
   components: {
     FormItem,
   },
-  props: {
-    formId: {
-      type: String,
-    },
-  },
+  // props: {
+  //   formId: {
+  //     type: String,
+  //     required: true,
+  //   },
+  // },
   setup(props, ctx) {
-    const router = useRouter()
+    const router = useRouter();
+    const route = useRoute();
+    const formId = ref(route.query.id as string);
     const goWriteForm = async () => {
-      const res = await api.getForm(String(props.formId))
-      if (res.stat == 'ok') {
-        const status = res.data.item.status
+      const res = await api.getForm(formId.value);
+      console.log("id", res);
+      if (res.stat == "ok") {
+        const status = res.data.item.status;
         if (status == 2) {
-          ElMessage.error('表单未发布！')
+          ElMessage.error("表单未发布！");
         } else if (status == 4) {
-          ElMessage.error('表单收集已结束！')
+          ElMessage.error("表单收集已结束！");
         } else {
           router.push({
-            name: 'form-write',
-            params: {
-              id: props.formId,
+            name: "form-write",
+            query: {
+              id: formId.value,
             },
-          })
+          });
         }
       }
-    }
+    };
     return {
+      formId,
       goWriteForm,
-    }
+    };
   },
-  created(){
+  created() {
     console.log(this.formId);
-    
-  }
+  },
 });
 </script>
 
 <style scoped>
 .form-question-main {
-  width: 60%;
+  width: 100%;
+  min-width: 330px;
   height: 100%;
   /* background-color: #f2f4f7; */
   margin: 0 auto;
@@ -70,7 +79,7 @@ export default defineComponent({
 .form-question-content {
   min-height: 100%;
   background-color: #fff;
-  padding: 48px 120px 90px;
+  padding: 30px 60px 0;
 }
 
 .form-write-area {
@@ -86,5 +95,21 @@ export default defineComponent({
 .form-write-btn {
   width: 96px;
   margin-left: -16px;
+}
+@media screen and (min-width:768px){
+  .form-question-main {
+    width: 80%;
+  }
+  .form-question-content {
+    padding: 36px 80px 50px;
+  }
+}
+@media screen and (min-width:1366px){
+  .form-question-main {
+    width: 60%;
+  }
+  .form-question-content {
+    padding: 48px 120px 90px;
+  }
 }
 </style>
