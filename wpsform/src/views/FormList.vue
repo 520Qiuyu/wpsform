@@ -60,7 +60,9 @@
               v-if="scope.row.status == 2"
               >发布</el-button
             >
-            <el-button @click.stop="editForm" v-if="scope.row.status == 2"
+            <el-button
+              @click.stop="editForm(scope.row)"
+              v-if="scope.row.status == 2"
               >编辑</el-button
             >
             <!-- 收集中状态按钮 -->
@@ -107,12 +109,10 @@ import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 
 export default defineComponent({
-  name: "FormList",
+  name: 'FormList',
   components: {},
   props: {},
-  emits:[
-    'showFormTitle'
-  ],
+  emits: ['showFormTitle'],
   setup(props, ctx) {
     const store = useStore()
     const router = useRouter()
@@ -138,7 +138,7 @@ export default defineComponent({
       } catch (err) {
         console.trace(err)
       }
-    };
+    }
 
     const getForm = async (id: string) => {
       const res = await api.getForm(id)
@@ -155,14 +155,14 @@ export default defineComponent({
       let formTitle = ref('')
       if (res.stat == 'ok') {
         formTitle.value = res.data.item.title
-        ctx.emit('showFormTitle',formTitle.value)
+        ctx.emit('showFormTitle', formTitle.value)
       }
       //跳转到表单详情页面
       router.push({
         name: 'new-form-result',
         query: {
           id: row.id,
-        }
+        },
       })
     }
 
@@ -194,8 +194,8 @@ export default defineComponent({
       router.push({
         name: 'share',
         query: {
-          id
-        }
+          id,
+        },
       })
     }
 
@@ -204,13 +204,20 @@ export default defineComponent({
       router.push({
         name: 'statistical-details',
         query: {
-          id
-        }
+          id,
+        },
       })
     }
 
     //编辑按钮，编辑表单
-    const editForm = () => {
+    const editForm = (form: IForm) => {
+      // console.log('form', form)
+      store.commit('form/clearFormList')
+      store.commit('form/setFormTitle', form.title)
+      store.commit('form/setFormSubTitle', form.subTitle)
+      form.problems.forEach((problem) => {
+        store.commit('form/addQuesToQuesList', { problem, index: -1 })
+      })
       router.push('/app/new-form-create')
     }
 
@@ -288,15 +295,15 @@ export default defineComponent({
           setting: {
             options: [
               {
-                title:'选项A',
+                title: '选项A',
                 status: 1,
               },
               {
-                title:'选项B',
+                title: '选项B',
                 status: 1,
               },
-            ]
-          }
+            ],
+          },
         },
         {
           title: '问题6',
@@ -306,15 +313,15 @@ export default defineComponent({
           setting: {
             options: [
               {
-                title:'选项A',
+                title: '选项A',
                 status: 1,
               },
               {
-                title:'选项B',
+                title: '选项B',
                 status: 1,
               },
-            ]
-          }
+            ],
+          },
         },
         {
           title: '问题7',
@@ -324,31 +331,31 @@ export default defineComponent({
           setting: {
             options: [
               {
-                title:'选项A',
+                title: '选项A',
                 status: 1,
               },
               {
-                title:'选项B',
+                title: '选项B',
                 status: 1,
               },
               {
-                title:'选项C',
+                title: '选项C',
                 status: 1,
               },
               {
-                title:'选项D',
+                title: '选项D',
                 status: 1,
               },
-            ]
-          }
+            ],
+          },
         },
       ])
       getFormList()
     }
 
     //表单填写测试
-    const writeForm = (id: string)=>{
-      router.push('/form-write/'+id)
+    const writeForm = (id: string) => {
+      router.push('/form-write/' + id)
     }
 
     onBeforeMount(() => {
@@ -378,7 +385,7 @@ export default defineComponent({
       writeForm,
     }
   },
-});
+})
 </script>
 
 <style>

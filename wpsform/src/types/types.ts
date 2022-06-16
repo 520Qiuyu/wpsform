@@ -16,37 +16,6 @@ export interface IForm {
   ctime: number;        //表单创建时间
   status: number;       //表单状态，2为草稿，3为收集中，4为已结束 
   problems: IProblem[];
-  // problems: {           
-  //   title: string;
-  //   type:
-  //     | "input"
-  //     | "singleSelect"
-  //     | "multiSelect"
-  //     | "pullSelect"
-  //     | "date"
-  //     | "time"
-  //     | "score";
-  //   required: boolean;
-  //   setting?: {
-  //     options: {
-  //       title: string;
-  //       status: 1 | 2;
-  //     }[];
-  //   };
-  //   result?: {
-  //     value:
-  //       | string
-  //       | number
-  //       | {
-  //           id: string
-  //           title: string
-  //         }
-  //       | {
-  //           id: string
-  //           title: string
-  //         }[]
-  //   }
-  // }[];
 }
 
 export interface IFormResult {
