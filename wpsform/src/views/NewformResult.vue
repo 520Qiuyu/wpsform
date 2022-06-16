@@ -76,9 +76,9 @@ export default defineComponent({
 }
 .newform-result-nav li a:hover {
   color: #339cfe;
-
-/* 分享页面 */
-#pane-share{
-  height: calc(100vh - 180px);
 }
+/* 分享页面 */
+/* #pane-share{
+  height: calc(100vh - 180px);
+} */
 </style>
