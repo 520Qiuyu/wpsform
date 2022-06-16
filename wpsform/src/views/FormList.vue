@@ -194,7 +194,7 @@ export default defineComponent({
     const goSharePage = (id: string) => {
       router.push({
         name: 'share',
-        params: {
+        query: {
           id
         }
       })
@@ -208,7 +208,7 @@ export default defineComponent({
       // }
       router.push({
         name: 'statistical-details',
-        params: {
+        query: {
           id
         }
       })
