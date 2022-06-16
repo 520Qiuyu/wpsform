@@ -158,7 +158,11 @@ export default defineComponent({
         }
         // 单选题
         if (resultList.value[0].type == "singleSelect") {
-          props.problem!.setting!.options.forEach((option) => {
+          (
+            props.problem.setting as {
+              options: { title: string; status: 1 | 2; id: string }[];
+            }
+          ).options.forEach((option) => {
             if (
               option.id ==
               (
@@ -188,7 +192,11 @@ export default defineComponent({
             ).length;
             i++
           ) {
-            props.problem!.setting!.options.forEach((option) => {
+            (
+              props.problem.setting as {
+                options: { title: string; status: 1 | 2; id: string }[];
+              }
+            ).options.forEach((option) => {
               if (
                 option.title ==
                 (
@@ -209,7 +217,11 @@ export default defineComponent({
         }
         // 下拉选择题
         if (resultList.value[0].type == "pullSelect") {
-          props.problem!.setting!.options.forEach((option) => {
+          (
+            props.problem.setting as {
+              options: { title: string; status: 1 | 2; id: string }[];
+            }
+          ).options.forEach((option) => {
             if (
               option.title ==
               (

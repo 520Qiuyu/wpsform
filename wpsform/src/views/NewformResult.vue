@@ -101,4 +101,9 @@ export default defineComponent({
   height: 56px;
   padding-left: 30px;
 }
+
+/* 分享页面 */
+#pane-share{
+  height: calc(100vh - 180px);
+}
 </style>
