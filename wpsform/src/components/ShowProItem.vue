@@ -86,7 +86,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, PropType } from "vue";
+import { defineComponent, reactive, ref, PropType, watch } from "vue";
 import * as api from "@/services/api";
 import { IProblem } from "../types/types";
 
@@ -241,6 +241,15 @@ export default defineComponent({
         }
       }
     };
+
+    // 监视resultid，每次改变，页面数据重新加载
+    watch(
+      () => props.resultid,
+      (val, Oldval) => {
+        console.log("watch,resulti变了", val);
+        getDetail(props.resultid);
+      }
+    );
 
     return {
       inputValue,

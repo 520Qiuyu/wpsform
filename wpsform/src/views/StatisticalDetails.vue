@@ -12,7 +12,12 @@
       <hr />
       <div class="form-main">
         <span class="input-time">提交时间：{{ TransformData(time) }}</span>
-        <FormInfo v-if="formId" :id="formId" :disableWrite="true"></FormInfo>
+        <FormInfo
+          v-if="formId"
+          :id="formId"
+          :Findex="index"
+          :disableWrite="true"
+        ></FormInfo>
       </div>
     </div>
   </div>

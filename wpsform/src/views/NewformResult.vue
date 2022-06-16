@@ -1,11 +1,6 @@
 <template>
   <div class="newform-result-container">
-    <el-tabs
-      v-model="activeName"
-      class="newform-result-tabs"
-      @tab-change="handleChange"
-    >
-    </el-tabs>
+    <el-tabs v-model="activeName" class="newform-result-tabs"> </el-tabs>
     <ul class="newform-result-nav">
       <li>
         <a @click="goToOtherPage('statistical-details')">数据详情&统计</a>
@@ -67,7 +62,7 @@ export default defineComponent({
 .newform-result-container {
   height: 100%;
   margin-top: 56px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .newform-result-nav {
   margin-top: 10px;
