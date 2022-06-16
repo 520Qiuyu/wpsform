@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, onBeforeMount } from "vue";
+import { defineComponent, ref, reactive, onBeforeMount, PropType } from "vue";
 import { useRouter } from "vue-router";
 import * as api from "@/services/api";
 import { IUser, IForm, IProblem } from "../types/types";
@@ -81,14 +81,14 @@ export default defineComponent({
     //提交
     const submit = () => {
       //判断必选问题是否已经填写完毕
-      let flag = true
-      form.value.problems.forEach(problem=>{
-        if(problem.required && !problem.result) {
-          ElMessage.error('请先填写必选！')
-          flag=false
+      let flag = true;
+      form.value.problems.forEach((problem) => {
+        if (problem.required && !problem.result) {
+          ElMessage.error("请先填写必选！");
+          flag = false;
         }
-      })
-      if(flag) {
+      });
+      if (flag) {
         dialogVisible.value = true;
       }
     };

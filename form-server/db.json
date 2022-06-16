@@ -598,6 +598,195 @@
           "id": "c341933c-2928-44f3-bd98-12ea412004ca"
         }
       ]
+    },
+    {
+      "id": "a9900f9e-1e47-43eb-8de8-a38af842fb0b",
+      "ctime": 1655359359210,
+      "utime": 1655359359210,
+      "status": 2,
+      "author": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "isStar": false,
+      "title": "邱宇",
+      "subTitle": "111",
+      "problems": [
+        {
+          "type": "input",
+          "title": "1212",
+          "required": false,
+          "isNew": true,
+          "id": "58860f41-baf8-4894-abba-490facd39ae0"
+        }
+      ]
+    },
+    {
+      "id": "2fbdc7bd-b062-40f4-b31f-8d5988439bcc",
+      "ctime": 1655359686206,
+      "utime": 1655359686206,
+      "status": 2,
+      "author": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "isStar": false,
+      "title": "test",
+      "subTitle": "12",
+      "problems": [
+        {
+          "type": "input",
+          "title": "哈哈",
+          "required": false,
+          "isNew": false,
+          "id": "58a89153-d5f8-450b-8ea9-94d2e551026a"
+        },
+        {
+          "type": "score",
+          "title": "000",
+          "required": false,
+          "isNew": true,
+          "id": "35ef1fff-0c79-40dc-af5a-cc5e0d8b928b"
+        },
+        {
+          "type": "multiSelect",
+          "title": "2323",
+          "required": true,
+          "isNew": false,
+          "id": "f985f18e-a571-4cd1-85b9-5ee51aca5b60",
+          "setting": {
+            "options": [
+              {
+                "title": "11",
+                "status": 1,
+                "id": "1cbdd7d3-e6bd-4f91-82c6-0dc7a8f8bf92"
+              },
+              {
+                "title": "22",
+                "status": 1,
+                "id": "218ed7fd-29ca-495e-8066-901d12afcfcc"
+              }
+            ]
+          }
+        },
+        {
+          "type": "singleSelect",
+          "title": "你在干啥呀",
+          "required": true,
+          "isNew": false,
+          "id": "143ed29b-7510-46f0-a81a-a601aa84c73c",
+          "setting": {
+            "options": [
+              {
+                "title": "22",
+                "status": 1,
+                "id": "f7b32d2a-7b82-43b6-a6c8-af49bff0e0d3"
+              },
+              {
+                "title": "222",
+                "status": 1,
+                "id": "7937e192-4876-42eb-a3c9-e88b349ac3af"
+              },
+              {
+                "title": "2323",
+                "status": 1,
+                "id": "5b026ec6-2ba1-41ff-a1ee-bb8333cef087"
+              }
+            ]
+          }
+        },
+        {
+          "type": "pullSelect",
+          "title": "qwqwqw",
+          "required": false,
+          "isNew": false,
+          "id": "6e2f4e6b-ae92-465f-8958-a2bd2025285c",
+          "setting": {
+            "options": [
+              {
+                "title": "wwww",
+                "status": 1,
+                "id": "cca838a9-f3f2-428b-ba91-a7edadb31f1b"
+              },
+              {
+                "title": "wee",
+                "status": 1,
+                "id": "bff33b6a-8608-4e31-8a9c-e93168458c21"
+              }
+            ]
+          }
+        },
+        {
+          "type": "time",
+          "title": "wee",
+          "required": false,
+          "isNew": true,
+          "id": "b7c35c15-a46a-4a15-a836-094bf2dcd47d",
+          "setting": {
+            "options": [
+              {
+                "title": "HM",
+                "status": 1
+              },
+              {
+                "title": "HMS",
+                "status": 1
+              }
+            ]
+          }
+        },
+        {
+          "type": "date",
+          "title": "www",
+          "required": false,
+          "isNew": false,
+          "id": "8d1561e4-27e2-42f3-9537-97e3adcb6dd7",
+          "setting": {
+            "options": [
+              {
+                "title": "YM",
+                "status": 1
+              },
+              {
+                "title": "YMD",
+                "status": 1
+              },
+              {
+                "title": "YMDHM",
+                "status": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "d41dc5e5-50e4-4eaf-9f3f-ebb881c39088",
+          "type": "input",
+          "title": "姓名",
+          "required": true,
+          "setting": null
+        },
+        {
+          "id": "9350b172-6f14-424c-9e8a-4203485fb877",
+          "type": "singleSelect",
+          "title": "性别",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "title": "男",
+                "status": 1,
+                "id": "b2742e87-77fc-42a0-97ba-c391d9e19222"
+              },
+              {
+                "title": "女",
+                "status": 1,
+                "id": "cb3a9b83-e293-4422-85c6-de73dbe94b80"
+              }
+            ]
+          }
+        },
+        {
+          "id": "d38e0bc1-82a2-4f31-b636-e083aceb54f8",
+          "type": "input",
+          "title": "姓名",
+          "required": true,
+          "setting": null
+        }
+      ]
     }
   ],
   "users": [
@@ -639,10 +828,142 @@
       "ctime": 1655292734719,
       "utime": 1655292734719,
       "nickname": "qiuuyuyu",
-      "avatar": ""
+      "avatar": "blob:http://localhost:8080/fc46cfab-d59e-426d-afed-ec3ae46d56f8"
     }
   ],
-  "starProblems": [],
+  "starProblems": [
+    {
+      "id": "9d48f3de-9caa-42e4-b675-bfa185a30ad2",
+      "uId": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "status": 2,
+      "problem": {
+        "id": "ZfLKykiQOWuXk9Kt2PhAx",
+        "type": "input",
+        "title": "姓名",
+        "required": true,
+        "setting": null
+      }
+    },
+    {
+      "id": "8823daf2-d1e4-4b83-b257-1b004deab44d",
+      "uId": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "status": 2,
+      "problem": {
+        "id": "-vuXcwAbNdYxzLh9dT1ud",
+        "type": "input",
+        "title": "姓名",
+        "required": true,
+        "setting": null
+      }
+    },
+    {
+      "id": "8d2b8983-2421-4b21-8902-ffcc115d7bc2",
+      "uId": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "status": 2,
+      "problem": {
+        "id": "-vuXcwAbNdYxzLh9dT1ud",
+        "type": "input",
+        "title": "姓名",
+        "required": true,
+        "setting": null
+      }
+    },
+    {
+      "id": "af86a57d-38aa-41e1-a0f6-d3b4292c4000",
+      "uId": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "status": 2,
+      "problem": {
+        "id": "xe7FviWFwBTHap0-sIl8Y",
+        "type": "input",
+        "title": "姓名",
+        "required": true,
+        "setting": null
+      }
+    },
+    {
+      "id": "06904a53-c710-4187-9281-9f1d46d33e5b",
+      "uId": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "status": 2,
+      "problem": {
+        "id": "xe7FviWFwBTHap0-sIl8Y",
+        "type": "input",
+        "title": "姓名",
+        "required": true,
+        "setting": null
+      }
+    },
+    {
+      "id": "fd798a51-d35e-4a71-a140-de9e23a345b7",
+      "uId": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "status": 2,
+      "problem": {
+        "id": "gnB-ClgJeNo0PiXPrqfqH",
+        "type": "singleSelect",
+        "title": "性别",
+        "required": true,
+        "setting": {
+          "options": [
+            {
+              "title": "男",
+              "status": 1
+            },
+            {
+              "title": "女",
+              "status": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1114f5a7-27d6-4f0f-9808-f89895e0501c",
+      "uId": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "status": 2,
+      "problem": {
+        "id": "MiTCkFNGhKqkZuE93Cyo0",
+        "type": "input",
+        "title": "姓名",
+        "required": true,
+        "setting": null
+      }
+    },
+    {
+      "id": "efb99935-a77d-4c87-a891-7218828d08b5",
+      "uId": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "status": 2,
+      "problem": {
+        "id": "rtt9Kxl3wDVxzkIbwDyvJ",
+        "type": "input",
+        "title": "姓名",
+        "required": true,
+        "setting": null
+      }
+    },
+    {
+      "id": "850cc7d2-8a69-4edc-8e20-d619ec1852d4",
+      "uId": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "status": 2,
+      "problem": {
+        "id": "rtt9Kxl3wDVxzkIbwDyvJ",
+        "type": "input",
+        "title": "姓名",
+        "required": true,
+        "setting": null
+      }
+    },
+    {
+      "id": "ba22fc75-9371-4c9e-bbaf-de80c166d44a",
+      "uId": "d00bbb92-2cac-4192-866c-8cc4d8fb39c9",
+      "status": 2,
+      "problem": {
+        "id": "rtt9Kxl3wDVxzkIbwDyvJ",
+        "type": "input",
+        "title": "姓名",
+        "required": true,
+        "setting": null
+      }
+    }
+  ],
   "formModules": [],
   "formResults": []
 }

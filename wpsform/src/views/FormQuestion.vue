@@ -27,12 +27,6 @@ export default defineComponent({
   components: {
     FormItem,
   },
-  // props: {
-  //   formId: {
-  //     type: String,
-  //     required: true,
-  //   },
-  // },
   setup(props, ctx) {
     const router = useRouter();
     const route = useRoute();

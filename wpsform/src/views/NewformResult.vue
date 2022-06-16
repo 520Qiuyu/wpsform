@@ -3,7 +3,6 @@
     <el-tabs
       v-model="activeName"
       class="newform-result-tabs"
-      @tab-change="handleChange"
     >
     </el-tabs>
     <ul class="newform-result-nav">
@@ -53,12 +52,12 @@ export default defineComponent({
     };
   },
   created() {
-    this.$router.push({
-      name: "statistical-details",
-      query: {
-        id: this.formId,
-      },
-    });
+    // this.$router.push({
+    //   name: "statistical-details",
+    //   query: {
+    //     id: this.formId,
+    //   },
+    // });
   },
 });
 </script>
