@@ -23,7 +23,7 @@
         <el-radio
           :label="option.id"
           size="large"
-          v-for="option in problem.setting.options"
+          v-for="option in problem.setting?.options"
           :key="option.id"
           :disabled="disableWrite"
         >
@@ -38,7 +38,7 @@
       >
         <el-checkbox
           :label="option.title"
-          v-for="option in problem.setting.options"
+          v-for="option in problem.setting?.options"
           :key="option"
           :disabled="disableWrite"
         />
@@ -52,7 +52,7 @@
         :disabled="disableWrite"
       >
         <el-option
-          v-for="option in problem.setting.options"
+          v-for="option in problem.setting?.options"
           :key="option.id"
           :label="option.title"
           :value="option.title"
@@ -103,7 +103,10 @@ import { useStore } from "vuex";
 export default defineComponent({
   name: "ProblemItem",
   props: {
-    index: Number,
+    index: {
+      type: Number,
+      required: true,
+    },
     problem: {
       type: Object as PropType<IProblem>,
       required: true,

@@ -13,17 +13,15 @@ export default {
         index: number;
       }
     ) {
-      value.problem.id = nanoid();
-      console.log(value);
-      // 在最后插入
+      const problemTemp = Object.assign({},JSON.parse(JSON.stringify(state.question)),JSON.parse(JSON.stringify(value.problem)),{id:nanoid()})
+      // 在最后插入,用于左侧向中间添加题目
       if (value.index === -1) {
-        state.questionList.push(value.problem);
+        state.questionList.push(problemTemp);
       }
-      // 在指定位置插入
+      // 在指定位置插入，用于复制题目
       else if (value.index > -1) {
-        state.questionList.splice(value.index, 0, value.problem);
+        state.questionList.splice(value.index, 0, problemTemp);
       }
-      console.log(state.questionList);
     },
     // 修改列表中的题目
     setProblem(state: any, value: { id: string; problem: IProblem }) {
@@ -80,6 +78,14 @@ export default {
     formSubTitleDraft: "",
     // 草稿
     questionListDraft: [] as IProblem[],
+    // question
+    question:{
+      id:"",
+      isNew:true,
+      title:"",
+      type:"input",
+      required:true,
+    } as IProblem
   },
   getters: {},
 };

@@ -1,22 +1,18 @@
 <template>
   <div>
     <!-- 日期类型 -->
-    <div class="time-type">
+    <div class="date-type">
       <el-input :placeholder="defaultTypeName" disabled />
     </div>
     <!-- 日期选择 -->
-    <div class="time-type-select" v-if="selected">
-    <span>时间格式：</span>
+    <div class="date-type-select" v-if="selected">
+      <span>日期格式:</span>
       <el-select v-model="defaultType">
         <el-option
           v-for="(dateType, index) in dateTypes"
           :key="index"
           :value="dateType.type"
-          :label="
-            dateType.typeName === '时-分'
-              ? '时刻：时-分（24小时制）'
-              : '时长：时-分-秒'
-          "
+          :label="dateType.typeName"
         ></el-option>
       </el-select>
     </div>
@@ -24,11 +20,13 @@
 </template>
 
 <script lang="ts">
+import { nanoid } from "nanoid";
+import { emit } from "process";
 import { defineComponent, ref, reactive, computed, watch, PropType } from "vue";
 import { useStore } from "vuex";
-import { IProblem } from "../types/types";
+import { IProblem } from "@/types/types";
 export default defineComponent({
-  name: "TimeQuestion",
+  name: "DateQuestion",
   props: {
     problem: {
       type: Object as PropType<IProblem>,
@@ -43,42 +41,42 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ["setProblem"],
+  emits: ["update:problem"],
   setup(props, ctx) {
     const Store = useStore();
-    // 问题,对props传入的problem本地化
-    const thisProblem = reactive(props.problem as IProblem);
-    // 监视本地problem,并实时调用父组件api更改
-    watch(thisProblem, (newVal) => {
-      console.log("Problem更改成", newVal);
-      Store.commit("form/setProblem", { id: thisProblem.id, problem: newVal });
+    const thisProblem = computed<IProblem>({
+      get() {
+        return props.problem as IProblem;
+      },
+      set(newVal) {
+        ctx.emit("update:problem", newVal);
+      },
     });
-    // 默认的时间格式
-    const defaultType = ref("HM");
+    // 默认的日期格式
+    const defaultType = ref("YM");
     watch(defaultType, () => {
-      (
-        thisProblem.setting as { options: { title: string; status: 1 | 2 }[] }
-      ).options.forEach((option) => {
-        if (defaultType.value === option.title) {
-          option.status = 2;
-        } else {
+      thisProblem.value.setting!.options!.forEach((option) => {
+        if (option.title === defaultType.value) {
           option.status = 1;
+        } else {
+          option.status = 2;
         }
       });
     });
-    // 默认的时间格式名
+    // 默认的日期格式名
     const defaultTypeName = computed(() => {
       for (const type of dateTypes) {
         if (type.type == defaultType.value) {
           return type.typeName;
         }
       }
-      return "时-分";
+      return "年-月";
     });
     // 支持的日期格式类型
     const dateTypes = reactive([
-      { type: "HM", typeName: "时-分" },
-      { type: "HMS", typeName: "时-分-秒" },
+      { type: "YM", typeName: "年-月" },
+      { type: "YMD", typeName: "年-月-日" },
+      { type: "YMDHM", typeName: "年-月-日-时-分" },
     ]);
 
     return {
@@ -92,8 +90,9 @@ export default defineComponent({
     // 初始化setting中的默认日期格式
     this.thisProblem.setting = {
       options: [
-        { title: "HM", status: 1 },
-        { title: "HMS", status: 1 },
+        { id: nanoid(), title: "YM", status: 2 },
+        { id: nanoid(), title: "YMD", status: 2 },
+        { id: nanoid(), title: "YMDHM", status: 2 },
       ],
     };
   },
@@ -101,17 +100,17 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.time-type:hover{
-    border-bottom: 1px dashed #e8ebee;
-  }
-.time-type-select {
+.date-type:hover {
+  border-bottom: 1px dashed #e8ebee;
+}
+.date-type-select {
   margin-top: 10px;
   display: flex;
   align-items: center;
 }
 .el-select {
   margin-left: 5px;
-  width: 200px;
+  width: 140px;
   border: 1px solid #e7e9eb;
   border-radius: 3px;
 }

@@ -1,5 +1,6 @@
 import * as request from "./request";
 import { IUser, IForm, IProblem, IFormResult } from "../types/types";
+import axios from "axios";
 
 interface BaseRes {
   stat: string;
@@ -233,3 +234,16 @@ export function starProblem(problem: IProblem) {
 export function cancelStarProblem(id: string) {
   return request.post<BaseRes>("/api/problem/cancelStar");
 }
+
+// 获取题目类型列表
+export const getQuestionTypes = () => 
+  axios({
+    url:`/api/problem/listType`,
+    method:"get"
+  })
+// 获取题目模板列表
+export const getBasicQuestionTypes = () =>
+  axios({
+    method: "GET",
+    url: "/api/problem/listBasic",
+  })

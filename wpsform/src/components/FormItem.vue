@@ -96,7 +96,7 @@ export default defineComponent({
     //确定提交
     const handelConfirm = async () => {
       dialogVisible.value = false
-      // console.log((form.value as IForm));
+      console.log('props.formId',props.formId)
       const res = await api.inputForm(
         props.formId!,
         (form.value as IForm).problems
@@ -127,11 +127,6 @@ export default defineComponent({
             problem.result = { value: result }
             console.log(problem.result)
           }
-          //单选题,下拉选择题结果value类型为
-          // {
-          //   id: string
-          //   title: string
-          // }
           else if (
             problem.type == 'singleSelect' ||
             problem.type == 'pullSelect'
@@ -142,13 +137,8 @@ export default defineComponent({
                 title: result.value.title,
               },
             }
-            // console.log(result.value);
           }
-          //多选题结果类型为
-          // {
-          //   id: string
-          //   title: string
-          // }[]
+          
           else if (problem.type == 'multiSelect') {
             problem.result! = {
               value: [],

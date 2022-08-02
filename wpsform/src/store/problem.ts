@@ -26,8 +26,7 @@ export default {
     },
     // 将该问题添加到常用
     addToCommonUse(state: any, value: IProblem) {
-      console.log("addToCommonUse", state.commonUseQues);
-      state.commonUseQues.push(value);
+      state.commonUseQues.push(JSON.parse(JSON.stringify(value)));
     },
     // 批量将问题添加到常用
     addAllToCommonUse(state: any, value: IProblem[]) {
@@ -48,10 +47,10 @@ export default {
   state: {
     // 左侧适配的题目类型列表
     quesTypes: [],
-
     // 左侧题目模板列表
     questionFormworks: [] as IProblem[],
-    commonUseQues: [] as IProblem[],
+    // 我的常用
+    commonUseQues: [] as  IProblem[],
   },
   getters: {},
 };

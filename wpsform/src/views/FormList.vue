@@ -3,9 +3,7 @@
     <!-- 侧边栏 -->
     <el-aside class="form-list-aside" width="15%">
       <div class="form-list-aside-top">
-        <el-button @click="createForm" class="form-create-btn"
-          >新建表单</el-button
-        >
+        <el-button @click="createForm" class="form-create-btn">新建表单</el-button>
       </div>
       <span class="form-list-title">表单列表</span>
     </el-aside>
@@ -26,7 +24,7 @@
         <el-table-column prop="title" label="表单名称" width="200" />
         <el-table-column label="创建时间" width="200" align="center">
           <template #default="scope">
-            {{ dayjs(scope.row.ctime).format('YYYY-MM-DD HH:mm:ss') }}
+            {{ dayjs(scope.row.ctime).format("YYYY-MM-DD HH:mm:ss") }}
           </template>
         </el-table-column>
         <el-table-column label="状态" width="200" align="center">
@@ -82,7 +80,6 @@
               >停止</el-button
             >
             <el-button @click.stop="deleteForm(scope.row.id)">删除</el-button>
-            <!-- <el-button @click.stop="writeForm(scope.row.id)" v-if="scope.row.status == 3">表单填写(测试用)</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -100,269 +97,269 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, onBeforeMount } from 'vue'
-import { useRouter } from 'vue-router'
-import * as api from '@/services/api'
-import { IUser, IForm, IProblem } from '../types/types'
-import { useStore } from 'vuex'
-import dayjs from 'dayjs'
-import { ElMessage } from 'element-plus'
+import { defineComponent, ref, reactive, onBeforeMount } from "vue";
+import { useRouter } from "vue-router";
+import * as api from "@/services/api";
+import { IUser, IForm, IProblem } from "../types/types";
+import { useStore } from "vuex";
+import dayjs from "dayjs";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
-  name: 'FormList',
+  name: "FormList",
   components: {},
   props: {},
-  emits: ['showFormTitle'],
+  emits: ["showFormTitle"],
   setup(props, ctx) {
-    const store = useStore()
-    const router = useRouter()
+    const store = useStore();
+    const router = useRouter();
     // 表单列表
-    let formList = reactive([] as IForm[])
+    let formList = reactive([] as IForm[]);
     // 记录表单分页时的索引
-    const currentIndex = ref(0)
-
+    const currentIndex = ref(0);
+    // 获取表单列表
     const getFormList = async (
       offset?: number,
       limit?: number,
       isStar?: boolean
     ) => {
       try {
-        const res = await api.getFormList(offset, limit, isStar)
-        if (res.stat == 'ok') {
-          formList.splice(0, formList.length)
+        const res = await api.getFormList(offset, limit, isStar);
+        if (res.stat == "ok") {
+          formList.splice(0, formList.length);
           for (const item of res.data.items) {
-            formList.push(item)
+            formList.push(item);
           }
           // console.log(res.data);
         }
       } catch (err) {
-        console.trace(err)
+        console.trace(err);
       }
-    }
+    };
 
     const getForm = async (id: string) => {
-      const res = await api.getForm(id)
-      if (res.stat == 'ok') {
-        console.log(res.data)
+      const res = await api.getForm(id);
+      if (res.stat == "ok") {
+        console.log(res.data);
       }
-    }
+    };
 
     //前往表单详情页面
     const goFormDetail = async (row: any) => {
       // console.log(row);
       //修改app上方logo位置为表单标题
-      const res = await api.getForm(row.id)
-      let formTitle = ref('')
-      if (res.stat == 'ok') {
-        formTitle.value = res.data.item.title
-        ctx.emit('showFormTitle', formTitle.value)
+      const res = await api.getForm(row.id);
+      let formTitle = ref("");
+      if (res.stat == "ok") {
+        formTitle.value = res.data.item.title;
+        ctx.emit("showFormTitle", formTitle.value);
       }
       //跳转到表单详情页面
       router.push({
-        name: 'new-form-result',
+        name: "new-form-result",
         query: {
           id: row.id,
         },
-      })
-    }
+      });
+    };
 
     // 发布按钮，开始收集表单
     const startCollect = async (id: string) => {
-      const res = await api.startCollect(id)
-      getFormList()
-    }
+      const res = await api.startCollect(id);
+      getFormList();
+    };
 
     // 停止按钮，结束收集表单
     const endCollect = async (id: string) => {
-      const res = await api.endCollect(id)
-      getFormList()
-    }
+      const res = await api.endCollect(id);
+      getFormList();
+    };
 
     // 表单标星
     const starForm = async (id: string) => {
-      const res = await api.starForm(id)
-      getFormList()
-    }
+      const res = await api.starForm(id);
+      getFormList();
+    };
     // 表单取消标星
     const cancelStarForm = async (id: string) => {
-      const res = await api.cancelStarForm(id)
-      getFormList()
-    }
+      const res = await api.cancelStarForm(id);
+      getFormList();
+    };
 
     //分享按钮
     const goSharePage = (id: string) => {
       router.push({
-        name: 'share',
+        name: "share",
         query: {
           id,
         },
-      })
-    }
+      });
+    };
 
     //查看结果按钮，数据详情页面
     const showResult = async (id: string) => {
       router.push({
-        name: 'statistical-details',
+        name: "statistical-details",
         query: {
           id,
         },
-      })
-    }
+      });
+    };
 
     //编辑按钮，编辑表单
     const editForm = (form: IForm) => {
       // console.log('form', form)
-      store.commit('form/clearFormList')
-      store.commit('form/setFormTitle', form.title)
-      store.commit('form/setFormSubTitle', form.subTitle)
+      store.commit("form/clearFormList");
+      store.commit("form/setFormTitle", form.title);
+      store.commit("form/setFormSubTitle", form.subTitle);
       form.problems.forEach((problem) => {
-        store.commit('form/addQuesToQuesList', { problem, index: -1 })
-      })
-      router.push('/app/new-form-create')
-    }
+        store.commit("form/addQuesToQuesList", { problem, index: -1 });
+      });
+      router.push("/app/new-form-create");
+    };
 
     //删除按钮，删除表单
     const deleteForm = async (id: string) => {
-      const res = await api.deleteForm(id)
-      getFormList()
-    }
+      const res = await api.deleteForm(id);
+      getFormList();
+    };
 
     //下一页
     const goNext = () => {
       if (currentIndex.value + 4 < formList.length) {
-        currentIndex.value += 4
+        currentIndex.value += 4;
       }
-    }
+    };
     //上一页
     const goPrevious = () => {
       if (currentIndex.value > 0) {
-        currentIndex.value -= 4
+        currentIndex.value -= 4;
       }
-    }
+    };
 
     //记录仅显示星标的状态，开始为false
-    const starFlag = ref(false)
+    const starFlag = ref(false);
     const filterStar = () => {
       if (starFlag.value) {
-        getFormList()
-        starFlag.value = false
+        getFormList();
+        starFlag.value = false;
       } else {
-        getFormList(undefined, undefined, true)
-        starFlag.value = true
+        getFormList(undefined, undefined, true);
+        starFlag.value = true;
       }
-    }
+    };
 
     //新建表单
     const createForm = async () => {
       if (store.state.user.loginState) {
-        router.push('/app/new-form-create')
+        router.push("/app/new-form-create");
       } else {
-        ElMessage.error('请先登录！')
+        ElMessage.error("请先登录！");
       }
-    }
+    };
     //新建表单测试
     const createFormTest = async () => {
-      const res = await api.createForm('表单4', '表单3副标题', [
+      const res = await api.createForm("表单4", "表单3副标题", [
         {
-          title: '问题1',
-          type: 'input',
+          title: "问题1",
+          type: "input",
           required: true,
           isNew: true,
         },
         {
-          title: '问题2',
-          type: 'score',
+          title: "问题2",
+          type: "score",
           required: true,
           isNew: true,
         },
         {
-          title: '问题3',
-          type: 'date',
+          title: "问题3",
+          type: "date",
           required: true,
           isNew: true,
         },
         {
-          title: '问题4',
-          type: 'time',
+          title: "问题4",
+          type: "time",
           required: true,
           isNew: true,
         },
         {
-          title: '问题5',
-          type: 'singleSelect',
+          title: "问题5",
+          type: "singleSelect",
           required: true,
           isNew: true,
           setting: {
             options: [
               {
-                title: '选项A',
+                title: "选项A",
                 status: 1,
               },
               {
-                title: '选项B',
+                title: "选项B",
                 status: 1,
               },
             ],
           },
         },
         {
-          title: '问题6',
-          type: 'pullSelect',
+          title: "问题6",
+          type: "pullSelect",
           required: true,
           isNew: true,
           setting: {
             options: [
               {
-                title: '选项A',
+                title: "选项A",
                 status: 1,
               },
               {
-                title: '选项B',
+                title: "选项B",
                 status: 1,
               },
             ],
           },
         },
         {
-          title: '问题7',
-          type: 'multiSelect',
+          title: "问题7",
+          type: "multiSelect",
           required: true,
           isNew: true,
           setting: {
             options: [
               {
-                title: '选项A',
+                title: "选项A",
                 status: 1,
               },
               {
-                title: '选项B',
+                title: "选项B",
                 status: 1,
               },
               {
-                title: '选项C',
+                title: "选项C",
                 status: 1,
               },
               {
-                title: '选项D',
+                title: "选项D",
                 status: 1,
               },
             ],
           },
         },
-      ])
-      getFormList()
-    }
+      ]);
+      getFormList();
+    };
 
     //表单填写测试
     const writeForm = (id: string) => {
-      router.push('/form-write/' + id)
-    }
+      router.push("/form-write/" + id);
+    };
 
     onBeforeMount(() => {
-      store.commit('user/setAppStatus', 1)
+      store.commit("user/setAppStatus", 1);
       // getForm('1a32c9ef-a809-4838-aec9-22c847de0006')
-      getFormList()
-    })
+      getFormList();
+    });
     return {
       dayjs,
       goFormDetail,
@@ -383,9 +380,9 @@ export default defineComponent({
       starFlag,
       createFormTest,
       writeForm,
-    }
+    };
   },
-})
+});
 </script>
 
 <style>
@@ -400,12 +397,14 @@ export default defineComponent({
   border-top: 0;
 }
 .form-list-aside-top {
-  padding: 40px;
+  padding: 40px 0;
 }
 
 .form-create-btn {
-  width: 120px;
+  width: 200px;
   padding: 20px;
+  background: #1488ed;
+  color: #fff;
 }
 
 .form-list-title {

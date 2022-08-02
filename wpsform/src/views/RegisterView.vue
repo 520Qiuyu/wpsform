@@ -20,8 +20,9 @@
           :model="ruleForm"
           :rules="rules"
           ref="ruleFormRef"
-          status-icon="true"
+          :status-icon="true"
         >
+          <!-- 输入用户名 -->
           <el-form-item prop="account">
             <el-input
               class="text-input"
@@ -29,12 +30,13 @@
               v-model="ruleForm.account"
               @focus="onAccount"
               @focusout="outAccount"
+              ref="usernameInput"
             ></el-input>
           </el-form-item>
           <span class="accountTip tip" v-show="accountTip"
             >6~18个字符，可使用字母、数字、下划线</span
           >
-
+          <!-- 输入密码 -->
           <el-form-item prop="password">
             <el-input
               class="text-input"
@@ -43,7 +45,7 @@
               v-model="ruleForm.password"
               @focus="onPassword"
               @focusout="outPassword"
-              autocomplete="off"
+              autocomplete="new-password"
               show-password
             ></el-input>
           </el-form-item>
@@ -58,7 +60,7 @@
               @focus="onConfirmPwd"
               @focusout="outConfirmPwd"
               @keyup.enter.native="submitForm"
-              autocomplete="off"
+              autocomplete="new-password"
               show-password
             ></el-input>
           </el-form-item>
@@ -94,6 +96,8 @@ export default defineComponent({
   setup(props, ctx) {
     const router = useRouter();
     const ruleFormRef = ref<FormInstance>();
+    const usernameInput = ref<HTMLInputElement>();
+    const passwordInput = ref<HTMLInputElement>();
     const ruleForm = reactive(<IRegisterReq>{
       account: "",
       password: "",
@@ -213,6 +217,8 @@ export default defineComponent({
       confirmPwdTip,
       ruleForm,
       ruleFormRef,
+      usernameInput,
+      passwordInput,
       rules,
       onAccount,
       outAccount,
@@ -333,7 +339,7 @@ export default defineComponent({
     font-size: 33px;
     margin-top: 2px;
   }
- 
+
   .register-box-top {
     margin-bottom: 30px;
   }

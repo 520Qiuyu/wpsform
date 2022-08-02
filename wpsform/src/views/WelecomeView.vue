@@ -134,14 +134,14 @@ export default defineComponent({
   background-color: #f6fbff;
 }
 .main-body-wrapper {
-  margin-top: 56px;
+  padding-top: 56px;
   width: 100%;
   display: flex;
   justify-content: center;
   background-image: url(../assets/imgs/HomePageBackground.png);
   background-size: cover;
   background-position: center;
-  height: calc(100vh - 56px);
+  height: 100vh;
   min-height: 280px;
 }
 

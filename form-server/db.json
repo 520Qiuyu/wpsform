@@ -37,6 +37,252 @@
           "setting": null
         }
       ]
+    },
+    {
+      "id": "90d4056b-a420-43da-be9a-08eaff26b624",
+      "ctime": 1659365697765,
+      "utime": 1659365697765,
+      "status": 3,
+      "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "isStar": false,
+      "title": "秒拒个人信息普查",
+      "subTitle": "信息普查",
+      "problems": [
+        {
+          "type": "input",
+          "title": "姓名",
+          "required": true,
+          "isNew": false,
+          "id": "d1430fb4-dc8d-4793-a1f5-2e306d60395d"
+        },
+        {
+          "type": "singleSelect",
+          "title": "性别",
+          "required": true,
+          "isNew": false,
+          "id": "cfc29a4b-d263-400c-b6c0-27aae11787e9",
+          "setting": {
+            "options": [
+              {
+                "title": "男",
+                "status": 1,
+                "id": "bd3cba65-b6fa-44c5-9963-20ea191dba2b"
+              },
+              {
+                "title": "女",
+                "status": 1,
+                "id": "bd5e0070-a3ca-4030-a759-1cd1b6b038ac"
+              }
+            ]
+          }
+        },
+        {
+          "type": "date",
+          "title": "生日",
+          "required": true,
+          "isNew": true,
+          "id": "4f29fb9f-ad59-4990-b162-ace3e9156657",
+          "setting": {
+            "options": [
+              {
+                "title": "YM",
+                "status": 1
+              },
+              {
+                "title": "YMD",
+                "status": 2
+              },
+              {
+                "title": "YMDHM",
+                "status": 1
+              }
+            ]
+          }
+        },
+        {
+          "type": "score",
+          "title": "你觉得他帅吗 ",
+          "required": true,
+          "isNew": false,
+          "id": "0a5627e0-0382-464e-a69c-8ebdb4d682b2"
+        }
+      ]
+    },
+    {
+      "id": "e0691620-139b-4390-b388-d0b4fafa19df",
+      "ctime": 1659365785261,
+      "utime": 1659365785261,
+      "status": 2,
+      "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "isStar": true,
+      "title": "秒拒个人信息普查",
+      "subTitle": "信息普查",
+      "problems": [
+        {
+          "type": "input",
+          "title": "姓名",
+          "required": true,
+          "isNew": false,
+          "id": "29a3a83a-cb41-466f-bd69-88dce4ba032e"
+        },
+        {
+          "type": "singleSelect",
+          "title": "性别",
+          "required": true,
+          "isNew": false,
+          "id": "179f7322-1651-44e8-9b8c-87acd893ed87",
+          "setting": {
+            "options": [
+              {
+                "title": "男",
+                "status": 1,
+                "id": "9e3995ad-c007-4832-8f77-8b3937e51ba4"
+              },
+              {
+                "title": "女",
+                "status": 1,
+                "id": "2cb1c10b-52f5-45ec-9541-8ab63046fd50"
+              }
+            ]
+          }
+        },
+        {
+          "type": "date",
+          "title": "生日",
+          "required": true,
+          "isNew": true,
+          "id": "b0a7b575-31fb-4a28-96af-954a36c5b4f5",
+          "setting": {
+            "options": [
+              {
+                "title": "YM",
+                "status": 1
+              },
+              {
+                "title": "YMD",
+                "status": 1
+              },
+              {
+                "title": "YMDHM",
+                "status": 1
+              }
+            ]
+          }
+        },
+        {
+          "type": "score",
+          "title": "你觉得他帅吗 ",
+          "required": true,
+          "isNew": false,
+          "id": "d5b29e56-0cc1-429d-ae7a-55482a247cbd"
+        }
+      ]
+    },
+    {
+      "id": "f39fbd52-1286-4b75-8d3b-61ec2ce95489",
+      "ctime": 1659429609083,
+      "utime": 1659429609083,
+      "status": 3,
+      "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "isStar": false,
+      "title": "邱宇",
+      "subTitle": "哈哈哈",
+      "problems": [
+        {
+          "id": "c7dec04e-9823-4d9b-a9e4-0bea3f9384ac",
+          "isNew": true,
+          "title": "12122225555",
+          "type": "input",
+          "required": true
+        },
+        {
+          "id": "dca4d3ec-01c2-4abb-a90d-e904d195f04c",
+          "isNew": true,
+          "title": "钱王拳王",
+          "type": "singleSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "title": "LALA",
+                "status": 2,
+                "id": "01f6838f-be8c-49de-b591-d468306a238a"
+              },
+              {
+                "title": "HEHE",
+                "status": 1,
+                "id": "58a1de01-22d6-4d13-bf66-64b5bcf99af4"
+              }
+            ]
+          }
+        },
+        {
+          "id": "af07be3a-642d-420c-aa4b-22e3ef7c1855",
+          "isNew": true,
+          "title": "1212",
+          "type": "multiSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "title": "22222",
+                "status": 1,
+                "id": "79560420-e2b1-4b98-aa6c-57de8d00ae9e"
+              },
+              {
+                "title": "222",
+                "status": 1,
+                "id": "277959be-608c-464d-8dd0-a6a2579a8afe"
+              },
+              {
+                "title": "232332",
+                "status": 1,
+                "id": "1ca1a190-c6fe-463d-bb36-29889c8babdf"
+              }
+            ]
+          }
+        },
+        {
+          "id": "73415a69-8f91-403c-a993-d295fe7cbd84",
+          "isNew": true,
+          "title": "3343",
+          "type": "pullSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "title": "HAHAHA",
+                "status": 1,
+                "id": "c69d12d1-65f5-4cfa-97ab-51ab7e9f3b4f"
+              },
+              {
+                "title": "HEHEEH",
+                "status": 1,
+                "id": "59f9e373-f059-40e0-8690-7012a74514fb"
+              }
+            ]
+          }
+        },
+        {
+          "id": "7570593d-a9ba-42f3-b2ce-76090f701f04",
+          "isNew": true,
+          "title": "NIZAIGANSHA",
+          "type": "time",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "title": "HM",
+                "status": 1
+              },
+              {
+                "title": "HMS",
+                "status": 1
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "users": [
@@ -49,9 +295,77 @@
       "utime": 1655384698539,
       "nickname": "qiuyuQY",
       "avatar": ""
+    },
+    {
+      "id": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "account": "qiuyuyu",
+      "pwd": "090826932168cb0b94ac1d5b5fc89c956f9479fbbafeec23b186fc8160e46193",
+      "status": 2,
+      "ctime": 1659361738397,
+      "utime": 1659361738397,
+      "nickname": "qiuyuyu",
+      "avatar": "blob:http://localhost:8080/f7a01eb5-3464-4b71-b9bd-a50fe9bd9002"
     }
   ],
-  "starProblems": [],
+  "starProblems": [
+    {
+      "id": "1a6b2869-9414-439d-888b-bae3bbfec52a",
+      "uId": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "status": 2,
+      "problem": {
+        "id": "rGpnuuGWPLO57M4JH9s77",
+        "isNew": true,
+        "title": "生日",
+        "type": "date",
+        "required": true,
+        "setting": {
+          "options": [
+            {
+              "id": "HOnhLcID1viwv4mOFcCu3",
+              "title": "YM",
+              "status": 2
+            },
+            {
+              "id": "JSOgzLvgrNSsmdGCnGkxK",
+              "title": "YMD",
+              "status": 1
+            },
+            {
+              "id": "jXNtC5-zCn4S561TRN0sd",
+              "title": "YMDHM",
+              "status": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "9261b3bb-d94d-49df-b91b-ba94bf7a7da7",
+      "uId": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "status": 1,
+      "problem": {
+        "id": "MbC7E4tJuA1w5cI1jfkhX",
+        "isNew": true,
+        "title": "性别",
+        "type": "singleSelect",
+        "required": true,
+        "setting": {
+          "options": [
+            {
+              "id": "zP4UhWEp6v25n4p_xGtRX",
+              "title": "男",
+              "status": 2
+            },
+            {
+              "id": "JrKs4DjxCEtxzNsKg80Cu",
+              "title": "女",
+              "status": 2
+            }
+          ]
+        }
+      }
+    }
+  ],
   "formModules": [],
   "formResults": [
     {
@@ -101,6 +415,213 @@
           "setting": null,
           "result": {
             "value": "阿巴巴巴"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5cb298e4-2c5d-45a2-9b8b-2da3c1371bbd",
+      "formAuthor": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "formId": "90d4056b-a420-43da-be9a-08eaff26b624",
+      "result": [
+        {
+          "type": "input",
+          "title": "姓名",
+          "required": true,
+          "isNew": false,
+          "id": "d1430fb4-dc8d-4793-a1f5-2e306d60395d",
+          "result": {
+            "value": "陈文秒"
+          }
+        },
+        {
+          "type": "singleSelect",
+          "title": "性别",
+          "required": true,
+          "isNew": false,
+          "id": "cfc29a4b-d263-400c-b6c0-27aae11787e9",
+          "setting": {
+            "options": [
+              {
+                "title": "男",
+                "status": 1,
+                "id": "bd3cba65-b6fa-44c5-9963-20ea191dba2b"
+              },
+              {
+                "title": "女",
+                "status": 1,
+                "id": "bd5e0070-a3ca-4030-a759-1cd1b6b038ac"
+              }
+            ]
+          },
+          "result": {
+            "value": {
+              "id": "bd3cba65-b6fa-44c5-9963-20ea191dba2b",
+              "title": "男"
+            }
+          }
+        },
+        {
+          "type": "date",
+          "title": "生日",
+          "required": true,
+          "isNew": true,
+          "id": "4f29fb9f-ad59-4990-b162-ace3e9156657",
+          "setting": {
+            "options": [
+              {
+                "title": "YM",
+                "status": 1
+              },
+              {
+                "title": "YMD",
+                "status": 2
+              },
+              {
+                "title": "YMDHM",
+                "status": 1
+              }
+            ]
+          },
+          "result": {
+            "value": "2022-08-23T16:00:00.000Z"
+          }
+        },
+        {
+          "type": "score",
+          "title": "你觉得他帅吗 ",
+          "required": true,
+          "isNew": false,
+          "id": "0a5627e0-0382-464e-a69c-8ebdb4d682b2",
+          "result": {
+            "value": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "d11fe29f-bcca-40ac-8109-a3b943ab7e3f",
+      "formAuthor": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "formId": "f39fbd52-1286-4b75-8d3b-61ec2ce95489",
+      "result": [
+        {
+          "id": "c7dec04e-9823-4d9b-a9e4-0bea3f9384ac",
+          "isNew": true,
+          "title": "12122225555",
+          "type": "input",
+          "required": true,
+          "result": {
+            "value": "NIHAOA "
+          }
+        },
+        {
+          "id": "dca4d3ec-01c2-4abb-a90d-e904d195f04c",
+          "isNew": true,
+          "title": "钱王拳王",
+          "type": "singleSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "title": "LALA",
+                "status": 2,
+                "id": "01f6838f-be8c-49de-b591-d468306a238a"
+              },
+              {
+                "title": "HEHE",
+                "status": 1,
+                "id": "58a1de01-22d6-4d13-bf66-64b5bcf99af4"
+              }
+            ]
+          },
+          "result": {
+            "value": {
+              "id": "01f6838f-be8c-49de-b591-d468306a238a",
+              "title": "LALA"
+            }
+          }
+        },
+        {
+          "id": "af07be3a-642d-420c-aa4b-22e3ef7c1855",
+          "isNew": true,
+          "title": "1212",
+          "type": "multiSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "title": "22222",
+                "status": 1,
+                "id": "79560420-e2b1-4b98-aa6c-57de8d00ae9e"
+              },
+              {
+                "title": "222",
+                "status": 1,
+                "id": "277959be-608c-464d-8dd0-a6a2579a8afe"
+              },
+              {
+                "title": "232332",
+                "status": 1,
+                "id": "1ca1a190-c6fe-463d-bb36-29889c8babdf"
+              }
+            ]
+          },
+          "result": {
+            "value": [
+              {
+                "title": "22222",
+                "id": "79560420-e2b1-4b98-aa6c-57de8d00ae9e"
+              }
+            ]
+          }
+        },
+        {
+          "id": "73415a69-8f91-403c-a993-d295fe7cbd84",
+          "isNew": true,
+          "title": "3343",
+          "type": "pullSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "title": "HAHAHA",
+                "status": 1,
+                "id": "c69d12d1-65f5-4cfa-97ab-51ab7e9f3b4f"
+              },
+              {
+                "title": "HEHEEH",
+                "status": 1,
+                "id": "59f9e373-f059-40e0-8690-7012a74514fb"
+              }
+            ]
+          },
+          "result": {
+            "value": {
+              "id": "c69d12d1-65f5-4cfa-97ab-51ab7e9f3b4f",
+              "title": "HAHAHA"
+            }
+          }
+        },
+        {
+          "id": "7570593d-a9ba-42f3-b2ce-76090f701f04",
+          "isNew": true,
+          "title": "NIZAIGANSHA",
+          "type": "time",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "title": "HM",
+                "status": 1
+              },
+              {
+                "title": "HMS",
+                "status": 1
+              }
+            ]
+          },
+          "result": {
+            "value": "2022-08-02T08:40:23.949Z"
           }
         }
       ]

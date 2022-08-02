@@ -30,6 +30,7 @@
               v-model="ruleForm.password"
               show-password
               @keyup.enter.native="submitForm"
+              autocomplete="new-password"
             ></el-input>
           </el-form-item>
         </el-form>

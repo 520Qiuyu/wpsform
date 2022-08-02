@@ -40,7 +40,7 @@
             <ul class="my-common-use">
               <li
                 v-for="(ques, index) in myCommonUse"
-                :key="index"
+                :key="ques.id"
                 :class="
                   myCommonUseManage
                     ? 'my-common-use-item'
@@ -62,27 +62,29 @@
         </div>
       </div>
       <!-- 中间问题列表 -->
-      <div class="please-add-ques" v-if="!questionList.length">
+      <div class="please-add-ques" v-show="!questionList.length">
         <span>请添加题目</span>
       </div>
-      <div class="question-list" v-if="questionList.length">
+      <div class="question-list" v-show="questionList.length">
         <div class="formTitle">
-          <h1 v-if="currentPoint !== 0" @click="currentPointHere(0)">
+          <h1 v-show="currentPoint !== 0" @click="currentPointHere(0, $event)">
             {{ formTitle ? formTitle : "请输入表单标题" }}
           </h1>
           <input
-            v-if="currentPoint === 0"
-            v-model="formTitle"
+            v-show="currentPoint === 0"
+            ref="formTitleEle"
+            v-model.lazy="formTitle"
             placeholder="Enter Here"
           />
         </div>
         <div class="formSubTitle">
-          <h2 v-if="currentPoint !== 1" @click="currentPointHere(1)">
+          <h2 v-show="currentPoint !== 1" @click="currentPointHere(1, $event)">
             {{ formSubTitle ? formSubTitle : "点击设置描述" }}
           </h2>
           <input
-            v-if="currentPoint === 1"
-            v-model="formSubTitle"
+            v-show="currentPoint === 1"
+            ref="formSubTitleEle"
+            v-model.lazy="formSubTitle"
             placeholder="Enter Here"
           />
         </div>
@@ -92,7 +94,7 @@
           :ques="ques"
           :index="index"
           @addQuesToQuesList="addQuesToQuesList"
-          @click="currentPointHere(index + 2)"
+          @click="currentPointHere(index + 2, $event)"
           :selectedIndex="currentPoint - 2"
         ></MyQuestion>
         <div class="end-line">
@@ -122,23 +124,39 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, ref, watch } from "vue";
+import { defineComponent, reactive, computed, ref, watch, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import axios from "axios";
 import { ElMessage } from "element-plus";
-import MyQuestion from "../components/MyQuestion.vue";
+import MyQuestion from "../components/MyQuestion/index.vue";
 import { IProblem } from "../types/types";
+import {
+  getBasicQuestionTypes,
+  getQuestionTypes,
+  startCollect,
+} from "@/services/api";
 export default defineComponent({
   name: "NewformCreate",
   components: { MyQuestion },
-  props: {},
   setup(props, ctx) {
     const Store = useStore();
     const Router = useRouter();
     const currentPoint = ref(-1);
-    const currentPointHere = (n: number) => {
+    const formTitleEle = ref();
+    const formSubTitleEle = ref();
+    // 点击某个题目就使该题目获得焦点
+    const currentPointHere = async (n: number, event: MouseEvent) => {
       currentPoint.value = n;
+      await nextTick();
+      if (n == 0) {
+        formTitleEle.value.focus();
+      } else if (n == 1) {
+        formSubTitleEle.value.focus();
+      } else {
+        const target = event.target as HTMLElement;
+        target.focus();
+      }
     };
     // 可添加的题目类型
     const quesTypes = computed(() => Store.state.problem.quesTypes);
@@ -154,27 +172,25 @@ export default defineComponent({
       Store.commit("form/setFormTitle", newVal);
     });
     const formSubTitle = ref(Store.state.form.formSubTitle);
-    watch(formSubTitle, (newVal: string) => {
-      Store.commit("form/setFormSubTitle", newVal);
-    });
+    watch(
+      formSubTitle,
+      (newVal: string) => {
+        Store.commit("form/setFormSubTitle", newVal);
+      },
+      {}
+    );
     // 中间题目列表
     const questionList = computed<IProblem[]>(
       () => Store.state.form.questionList
     );
     // 向中间添加一个题目
     const addQuesToQuesList = (type: string) => {
-      const problem = {
-        type,
-        title: "",
-        required: false,
-        isNew: false,
-      } as IProblem;
-      Store.commit("form/addQuesToQuesList", { problem, index: -1 });
+      Store.commit("form/addQuesToQuesList", { problem: { type }, index: -1 });
     };
     // 向中间添加一个模板题目
     const addTemplateToQuesList = (problem: IProblem) => {
-      const problem_ = JSON.parse(JSON.stringify(problem));
-      Store.commit("form/addQuesToQuesList", { problem: problem_, index: -1 });
+      console.log("problem", problem);
+      Store.commit("form/addQuesToQuesList", { problem: problem, index: -1 });
     };
     // 判断表单是否完成
     const isCompleted = () => {
@@ -226,20 +242,12 @@ export default defineComponent({
       if (isCompleted() === true) {
         Router.push({
           name: "form-preview",
-          // params: {
-          //   form: JSON.stringify({
-          //     title: formTitle.value,
-          //     subTitle: formSubTitle.value,
-          //     problems: questionList.value,
-          //   }),
-          // },
         });
       }
     };
     // 清空表单
     const clearFormList = () => {
       Store.commit("form/clearFormList");
-      console.log("清空后的列表", questionList);
       ElMessage({
         message: "清空表单成功",
         type: "success",
@@ -269,6 +277,7 @@ export default defineComponent({
         Store.commit("form/setFormTitleDraft", formTitle.value);
         Store.commit("form/setFormSubTitleDraft", formSubTitle.value);
         Store.commit("form/saveDraft");
+
         ElMessage({
           message: "保存成功",
           type: "success",
@@ -292,6 +301,7 @@ export default defineComponent({
           });
           // 创建成功
           if (res.data.stat === "ok") {
+            startCollect(res.data.data.id);
             ElMessage({
               message: "创建成功",
               type: "success",
@@ -303,7 +313,6 @@ export default defineComponent({
                 id: res.data.data.id,
               },
             });
-            // Store.commit("form/clearFormList");
           }
         } catch (e: any) {
           console.log(e.message);
@@ -317,18 +326,12 @@ export default defineComponent({
     };
     // 获取左边的题目类型
     const getQuesTypes = async () => {
-      const res = await axios({
-        method: "GET",
-        url: "/api/problem/listType",
-      });
+      const res = await getQuestionTypes();
       Store.commit("problem/setQuesTypes", res.data.data.problemTypes);
     };
     // 获取左边的模板题目
     const getBasicQuesTypes = async () => {
-      const res = await axios({
-        method: "GET",
-        url: "/api/problem/listBasic",
-      });
+      const res = await getBasicQuestionTypes();
       Store.commit(
         "problem/setBasicQuesFormworks",
         res.data.data.basicProblems
@@ -340,11 +343,12 @@ export default defineComponent({
         method: "POST",
         url: "/api/problem/listStar",
       });
-      console.log("得到常用题数据了", res);
       if (res.data.stat === "ok") {
         Store.commit(
           "problem/addAllToCommonUse",
-          res.data.data.items.map((item: any) => item.problem)
+          res.data.data.items.map((item: any) =>
+            Object.assign(item.problem, { id: item.id })
+          )
         );
       }
     };
@@ -370,6 +374,8 @@ export default defineComponent({
     return {
       Store,
       currentPoint,
+      formTitleEle,
+      formSubTitleEle,
       currentPointHere,
       quesTypes,
       questionFormworks,

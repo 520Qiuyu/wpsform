@@ -6,62 +6,55 @@
     <div class="problem-title">
       <span class="index-num">{{ index + 1 }}.</span>
       <input
-        v-model="problem.title"
+        v-model.lazy="problem.title"
         placeholder="请输入问题"
         class="problemInput"
       />
     </div>
     <MultiSelect
       v-if="problem.type === 'multiSelect'"
-      :problem="problem"
+      v-model:problem="problem"
       :disableAnswer="true"
       :selected="selectedIndex === index"
-      @setProblem="setProblem"
     ></MultiSelect>
     <DateQuestion
       v-else-if="problem.type == 'date'"
-      :problem="problem"
+      v-model:problem="problem"
       :disableAnswer="true"
       :selected="selectedIndex === index"
-      @setProblem="setProblem"
     ></DateQuestion>
     <InputQuestion
       v-else-if="problem.type == 'input'"
-      :problem="problem"
+      v-model:problem="problem"
       :disableAnswer="true"
       :selected="selectedIndex === index"
-      @setProblem="setProblem"
     ></InputQuestion>
     <SingleSelect
       v-else-if="problem.type == 'singleSelect'"
-      :problem="problem"
+      v-model:problem="problem"
       :disableAnswer="true"
       :selected="selectedIndex === index"
-      @setProblem="setProblem"
     ></SingleSelect>
     <ScoreQuestion
       v-else-if="problem.type == 'score'"
-      :problem="problem"
+      v-model:problem="problem"
       :disableAnswer="true"
       :selected="selectedIndex === index"
-      @setProblem="setProblem"
     ></ScoreQuestion>
     <PullSelect
       v-else-if="problem.type == 'pullSelect'"
-      :problem="problem"
+      v-model:problem="problem"
       :disableAnswer="true"
       :selected="selectedIndex === index"
-      @setProblem="setProblem"
     ></PullSelect>
     <TimeQuestion
       v-else-if="problem.type == 'time'"
-      :problem="problem"
+      v-model:problem="problem"
       :disableAnswer="true"
       :selected="selectedIndex === index"
-      @setProblem="setProblem"
     ></TimeQuestion>
     <!-- 问题设置区 -->
-    <div class="problem-setting" v-if="selectedIndex === index">
+    <div class="problem-setting" v-show="selectedIndex === index">
       <el-checkbox
         v-model="problem.isNew"
         :label="problem.isNew ? '允许重复' : '不允许重复'"
@@ -70,7 +63,7 @@
       <el-icon><Warning /></el-icon>
     </div>
     <!-- 问题配置区 -->
-    <div class="problem-option" v-if="selectedIndex === index">
+    <div class="problem-option" v-show="selectedIndex === index">
       <!-- 题型切换 -->
       <div class="problem-type-change">
         <span>题型切换：</span>
@@ -83,7 +76,7 @@
           <el-option
             v-for="(problemType, index) in problemTypes"
             :key="problemType.type + index"
-            :label="problemType.typeName"
+            :label="problemType.title"
             :value="problemType.type"
           />
         </el-select>
@@ -127,17 +120,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, PropType, computed } from "vue";
-import { IProblem } from "../types/types";
-import MultiSelect from "./MultiSelect.vue";
-import DateQuestion from "./DateQuestion.vue";
-import InputQuestion from "./InputQuestion.vue";
-import SingleSelect from "./SingleSelect.vue";
-import ScoreQuestion from "./ScoreQuestion.vue";
-import PullSelect from "./PullSelect.vue";
-import TimeQuestion from "./TimeQuestion.vue";
+import { defineComponent, ref, reactive, PropType, computed, watch } from "vue";
+import { IProblem } from "@/types/types";
+import MultiSelect from "./Question/MultiSelect.vue";
+import DateQuestion from "./Question/DateQuestion.vue";
+import InputQuestion from "./Question/InputQuestion.vue";
+import SingleSelect from "./Question/SingleSelect.vue";
+import ScoreQuestion from "./Question/ScoreQuestion.vue";
+import PullSelect from "./Question/PullSelect.vue";
+import TimeQuestion from "./Question/TimeQuestion.vue";
 import { useStore } from "vuex";
 import axios from "axios";
+import { ElMessage } from "element-plus";
 export default defineComponent({
   name: "MyQuestion",
   components: {
@@ -164,60 +158,73 @@ export default defineComponent({
       default: -1,
     },
   },
+  emits: ["update:ques"],
   setup(props, ctx) {
     const Store = useStore();
     // 本地拷贝问题
-    const problem = ref<IProblem>(props.ques);
-    // 设置问题
-    const setProblem = (problem_: IProblem) => {
-      /* for (const key in problem) {
-        problem[key] = problem_[key];
-      } */
-      problem.value = problem_;
-    };
+    const problem = computed<IProblem>(() => props.ques);
+    // 监视本地problem,
+    watch(
+      problem,
+      (newVal) => {
+        Store.commit("form/setProblem", {
+          id: problem.value.id,
+          problem: newVal,
+        });
+      },
+      { deep: true }
+    );
     // 问题类型组
     const problemTypes = computed(() => Store.state.problem.quesTypes);
     // 复制题目
     const cpoyThisProblem = () => {
-      console.log("copy", problem);
-      // 传入一个备份
-      const problem_ = JSON.parse(JSON.stringify(problem.value));
       Store.commit("form/addQuesToQuesList", {
-        problem: problem_,
+        problem: problem.value,
         index: props.index + 1,
       });
     };
     // 删除题目
     const delThisProblem = () => {
-      console.log("delete", problem);
       Store.commit("form/delQuesFromQuesList", problem.value.id);
     };
     // 添加到常用
     const addThisProblemToCommonUse = async () => {
-      const problem_ = JSON.parse(JSON.stringify(problem.value));
-      if (problem.value.title === "") return alert("请填写题目");
+      if (problem.value.title === "")
+        return ElMessage({
+          message: "请填写题目",
+          type: "error",
+          center: true,
+        });
       const res = await axios({
         method: "POST",
         url: "/api/problem/star",
         data: {
-          problem: problem_,
+          problem: problem.value,
         },
       });
       if (res.data.stat === "ok") {
-        Store.commit("problem/addToCommonUse", problem_);
+        Store.commit(
+          "problem/addToCommonUse",
+          Object.assign({}, problem.value, { id: res.data.data.id })
+        );
       }
     };
 
     return {
       problem,
-      setProblem,
       problemTypes,
       cpoyThisProblem,
       delThisProblem,
       addThisProblemToCommonUse,
     };
   },
-  created() {},
+  mounted() {
+    // 让元素平滑的进入视野
+    this.$el.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  },
 });
 </script>
 
