@@ -121,37 +121,6 @@ export function getFormList(offset?: number, limit?: number, isStar?: boolean) {
   });
 }
 
-//创建表单,返回表单id
-export function createForm(
-  title: string,
-  subTitle: string,
-  problems: {
-    title: string;
-    type:
-      | "input"
-      | "singleSelect"
-      | "multiSelect"
-      | "pullSelect"
-      | "date"
-      | "time"
-      | "score";
-    required: boolean;
-    isNew: boolean;
-    setting?: {
-      options: {
-        title: string;
-        status: 1 | 2;
-      }[];
-    };
-  }[]
-) {
-  return request.post<BaseRes>("/api/form/create", {
-    title,
-    subTitle,
-    problems,
-  });
-}
-
 //获取表单
 export function getForm(id: string) {
   return request.post<FormRes>("/api/form/get", {
@@ -236,14 +205,29 @@ export function cancelStarProblem(id: string) {
 }
 
 // 获取题目类型列表
-export const getQuestionTypes = () => 
+export const getQuestionTypes = () =>
   axios({
-    url:`/api/problem/listType`,
-    method:"get"
-  })
+    url: `/api/problem/listType`,
+    method: "get",
+  });
 // 获取题目模板列表
 export const getBasicQuestionTypes = () =>
   axios({
     method: "GET",
     url: "/api/problem/listBasic",
-  })
+  });
+// 创建表单
+export const createForm = (
+  title: string,
+  subTitle: string,
+  problems: IProblem[]
+) =>
+  axios({
+    method: "POST",
+    url: "/api/form/create",
+    data: {
+      title,
+      subTitle,
+      problems,
+    },
+  });

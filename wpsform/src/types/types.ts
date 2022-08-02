@@ -62,3 +62,9 @@ export interface option {
   status: 1 | 2;
   id?: string;
 }
+
+export interface formDraft {
+  formTitle: string;
+  formSubTitle: string;
+  questions: IProblem[];
+}

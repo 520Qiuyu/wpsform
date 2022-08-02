@@ -1,6 +1,7 @@
-import { IForm, IProblem } from "../types/types";
+import { formDraft, IForm, IProblem } from "../types/types";
 import problem from "./problem";
 import { nanoid } from "nanoid";
+import { ElMessage } from "element-plus";
 export default {
   namespaced: true,
   actions: {},
@@ -13,7 +14,12 @@ export default {
         index: number;
       }
     ) {
-      const problemTemp = Object.assign({},JSON.parse(JSON.stringify(state.question)),JSON.parse(JSON.stringify(value.problem)),{id:nanoid()})
+      const problemTemp = Object.assign(
+        {},
+        JSON.parse(JSON.stringify(state.question)),
+        JSON.parse(JSON.stringify(value.problem)),
+        { id: nanoid() }
+      );
       // 在最后插入,用于左侧向中间添加题目
       if (value.index === -1) {
         state.questionList.push(problemTemp);
@@ -40,30 +46,37 @@ export default {
     // 清空表单
     clearFormList(state: any) {
       state.questionList = [];
+      state.formTitle = "";
+      state.formSubTitle = "";
     },
     // 设置表单标题
-    setFormTitle(state:any,value:string){
-      state.formTitle = value
+    setFormTitle(state: any, value: string) {
+      state.formTitle = value;
     },
     // 设置表单付标题
-    setFormSubTitle(state:any,value:string){
-      state.formSubTitle = value
+    setFormSubTitle(state: any, value: string) {
+      state.formSubTitle = value;
     },
-    // 设置表单标题草稿
-    setFormTitleDraft(state: any, value: string) {
-      state.formTitleDraft = value;
-    },
-    // 设置表单描述草稿
-    setFormSubTitleDraft(state: any, value: string) {
-      state.formSubTitleDraft = value;
-    },
-    // 保存草稿
-    saveDraft(state: any) {
-      state.questionListDraft = state.questionList;
+    // 设置草稿表单
+    setFormDraft(state: any) {
+      state.formDraft = {
+        formTitle: state.formTitle,
+        formSubTitle: state.formSubTitle,
+        problems: state.questionList,
+      };
+      localStorage.setItem("formDraft", JSON.stringify(state.formDraft));
     },
     // 使用草稿
     useDraft(state: any) {
-      state.questionList = state.questionListDraft;
+      const form = JSON.parse(localStorage.getItem("formDraft") as string);
+      state.questionList = form.problems;
+      state.formTitle = form.formTitle;
+      state.formSubTitle = form.formSubTitle;
+      ElMessage({
+        message: "读取成功",
+        type: "success",
+        center: true,
+      });
     },
   },
   state: {
@@ -73,19 +86,16 @@ export default {
     formTitle: "",
     // 已添加的表单的subTitle
     formSubTitle: "",
-    // 俩标题的草稿
-    formTitleDraft: "",
-    formSubTitleDraft: "",
-    // 草稿
-    questionListDraft: [] as IProblem[],
+    // 表单草稿
+    formDraft: {} as formDraft,
     // question
-    question:{
-      id:"",
-      isNew:true,
-      title:"",
-      type:"input",
-      required:true,
-    } as IProblem
+    question: {
+      id: "",
+      isNew: true,
+      title: "",
+      type: "input",
+      required: true,
+    } as IProblem,
   },
   getters: {},
 };

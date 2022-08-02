@@ -30,7 +30,6 @@ export default {
     },
     // 批量将问题添加到常用
     addAllToCommonUse(state: any, value: IProblem[]) {
-      console.log("addAllToCommonUse", value);
       state.commonUseQues = value;
     },
     // 清空常用
