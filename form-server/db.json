@@ -613,6 +613,39 @@
           }
         }
       ]
+    },
+    {
+      "id": "ceaf79b1-08d3-4354-a150-19a22542c6ba",
+      "ctime": 1659470834303,
+      "utime": 1659470834303,
+      "status": 3,
+      "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "isStar": false,
+      "title": "你试试吧",
+      "subTitle": "你是啥吧",
+      "problems": [
+        {
+          "id": "eeb24357-5ee8-46ee-a351-11b054539ab4",
+          "isNew": true,
+          "title": "性别",
+          "type": "singleSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "44e17b2e-a70d-4c3f-a23a-1e06b0a38005",
+                "title": "男",
+                "status": 2
+              },
+              {
+                "id": "0307f891-2df1-4141-bd45-8352f23dedb5",
+                "title": "女",
+                "status": 2
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "users": [
