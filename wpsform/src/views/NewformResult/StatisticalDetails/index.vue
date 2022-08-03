@@ -25,9 +25,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { IForm, IFormResult } from "../types/types";
-import FormInfo from "../components/FormInfo.vue";
-import * as api from "../services/api";
+import { IForm, IFormResult } from "@/types/types";
+import FormInfo from "@/components/FormInfo.vue";
+import * as api from "@/services/api";
 import { useRouter, useRoute } from "vue-router";
 export default defineComponent({
   name: "StatisticalDetails",

@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import FormItem from "../components/FormItem.vue";
+import FormItem from "@/components/FormItem.vue";
 import { useRouter, useRoute } from "vue-router";
 import * as api from "@/services/api";
 import { ElMessage } from "element-plus";

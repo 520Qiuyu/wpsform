@@ -243,7 +243,7 @@ export default defineComponent({
   width: 580px;
   height: 100%;
   /* background: url(https://js2.epy.wpscdn.cn/security/da_banner.png); */
-  background: url("../assets/imgs/Login_banner.png");
+  background: url("@/assets/imgs/Login_banner.png");
   background-size: cover;
   background-position: 80% 0;
   background-repeat: no-repeat;

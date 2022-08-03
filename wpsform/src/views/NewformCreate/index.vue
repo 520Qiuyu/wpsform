@@ -129,8 +129,8 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import axios from "axios";
 import { ElMessage } from "element-plus";
-import MyQuestion from "../components/MyQuestion/index.vue";
-import { formDraft, IProblem } from "../types/types";
+import MyQuestion from "@/components/MyQuestion/index.vue";
+import { formDraft, IProblem } from "@/types/types";
 import {
   createForm,
   getBasicQuestionTypes,
@@ -168,18 +168,16 @@ export default defineComponent({
     // 我的常用题
     const myCommonUse = computed(() => Store.state.problem.commonUseQues);
     // 表单标题
-    const formTitle = ref(Store.state.form.formTitle);
-    watch(formTitle, (newVal: string) => {
-      Store.commit("form/setFormTitle", newVal);
+    console.log("Store.state.form.formTitle", Store.state.form.formTitle);
+    const formTitle = computed({
+      get: () => Store.state.form.formTitle,
+      set: (newVal) => Store.commit("form/setFormTitle", newVal),
     });
-    const formSubTitle = ref(Store.state.form.formSubTitle);
-    watch(
-      formSubTitle,
-      (newVal: string) => {
-        Store.commit("form/setFormSubTitle", newVal);
-      },
-      {}
-    );
+
+    const formSubTitle = computed({
+      get: () => Store.state.form.formSubTitle,
+      set: (newVal) => Store.commit("form/setFormSubTitle", newVal),
+    });
     // 中间题目列表
     const questionList = computed<IProblem[]>(
       () => Store.state.form.questionList
@@ -263,7 +261,6 @@ export default defineComponent({
           center: true,
         });
       Store.commit("form/useDraft");
-      
     };
     // 保存草稿
     const saveDraft = async () => {
@@ -278,13 +275,12 @@ export default defineComponent({
           // 创建成功
           if (res.data.stat === "ok") {
             ElMessage({
-              message: "草稿保存成功",
+              message: "保存草稿成功",
               type: "success",
               center: true,
             });
-            // 提交到vuex 
+            // 提交到vuex
             Store.commit("form/setFormDraft");
-
           }
         } catch (e: any) {
           ElMessage({

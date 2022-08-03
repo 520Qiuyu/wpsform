@@ -6,7 +6,7 @@
       <div class="top-header">
         <!-- 左侧logo -->
         <div class="logo">
-          <img src="../assets/imgs/logo.svg" />
+          <img src="@/assets/imgs/logo.svg" />
           <div class="logo-name">金山表单</div>
         </div>
         <!-- 中间导航 -->
@@ -138,7 +138,7 @@ export default defineComponent({
   width: 100%;
   display: flex;
   justify-content: center;
-  background-image: url(../assets/imgs/HomePageBackground.png);
+  background-image: url(@/assets/imgs/HomePageBackground.png);
   background-size: cover;
   background-position: center;
   height: 100vh;

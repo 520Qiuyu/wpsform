@@ -42,9 +42,9 @@
       "id": "90d4056b-a420-43da-be9a-08eaff26b624",
       "ctime": 1659365697765,
       "utime": 1659365697765,
-      "status": 3,
+      "status": 4,
       "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
-      "isStar": false,
+      "isStar": true,
       "title": "秒拒个人信息普查",
       "subTitle": "信息普查",
       "problems": [
@@ -182,9 +182,9 @@
       "id": "f39fbd52-1286-4b75-8d3b-61ec2ce95489",
       "ctime": 1659429609083,
       "utime": 1659429609083,
-      "status": 3,
+      "status": 4,
       "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
-      "isStar": false,
+      "isStar": true,
       "title": "邱宇",
       "subTitle": "哈哈哈",
       "problems": [
@@ -290,7 +290,7 @@
       "utime": 1659467049847,
       "status": 3,
       "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
-      "isStar": false,
+      "isStar": true,
       "title": "邱宇",
       "subTitle": "qiuqiuu",
       "problems": [
@@ -389,7 +389,7 @@
       "utime": 1659468175171,
       "status": 3,
       "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
-      "isStar": false,
+      "isStar": true,
       "title": "你好",
       "subTitle": "哈哈哈",
       "problems": [
@@ -453,7 +453,7 @@
       "id": "b9abdd84-6195-4de7-bfba-1c3091c2ccf1",
       "ctime": 1659469395569,
       "utime": 1659469395569,
-      "status": 2,
+      "status": 3,
       "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
       "isStar": false,
       "title": "陈文秒性取向调查",
@@ -486,7 +486,7 @@
       "id": "fb1b0de9-37d3-4992-b006-8f69bfd741aa",
       "ctime": 1659469451195,
       "utime": 1659469451195,
-      "status": 2,
+      "status": 3,
       "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
       "isStar": false,
       "title": "陈文秒性取向调查",
@@ -640,6 +640,330 @@
               {
                 "id": "0307f891-2df1-4141-bd45-8352f23dedb5",
                 "title": "女",
+                "status": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "12369664-817d-42f7-956b-3138a446c06f",
+      "ctime": 1659504442242,
+      "utime": 1659504442242,
+      "status": 3,
+      "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "isStar": false,
+      "title": "结婚意向调查",
+      "subTitle": "调查年轻人的结婚意向，为国家生育政策提供帮助",
+      "problems": [
+        {
+          "id": "2bf7b4e2-d9db-4541-a47f-5628d6db1a13",
+          "isNew": true,
+          "title": "姓名",
+          "type": "input",
+          "required": true
+        },
+        {
+          "id": "1faead34-1066-4749-adc4-e4dce4b2ecc4",
+          "isNew": true,
+          "title": "性别",
+          "type": "singleSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "8d5e9c5e-2e9e-4830-a689-60a16225d6af",
+                "title": "男",
+                "status": 1
+              },
+              {
+                "id": "4ac01e9c-f39a-451e-8e96-53fb21d4cec6",
+                "title": "女",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "4590f256-2cec-454a-9916-874df3fc2cfa",
+          "isNew": true,
+          "title": "性取向",
+          "type": "multiSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "c6fcab3a-3010-4787-b3f8-afb460528586",
+                "title": "男",
+                "status": 1
+              },
+              {
+                "id": "69f58829-e5a3-487c-bf31-310d01e6f36f",
+                "title": "女",
+                "status": 2
+              },
+              {
+                "id": "09dc443a-fe5c-4127-ab1e-2c79c86a3b15",
+                "title": "通吃",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "527ff16d-2bce-4765-914f-4c9d61cb0c4a",
+          "isNew": true,
+          "title": "喜欢异性吗",
+          "type": "pullSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "16df71a5-6228-4d07-bc6b-54f71eb73fcc",
+                "title": "是",
+                "status": 2
+              },
+              {
+                "id": "c6368324-88f1-46f9-b7c8-f8e7bb244dab",
+                "title": "否",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "a21af534-c8eb-4b86-86f4-43bc8509e11f",
+          "isNew": true,
+          "title": "准备什么时候结婚",
+          "type": "date",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "GoLlYdy3ACNOczzsY3ZNk",
+                "title": "YM",
+                "status": 2
+              },
+              {
+                "id": "92fepTlljvAYR2e18AZVS",
+                "title": "YMD",
+                "status": 2
+              },
+              {
+                "id": "J1XSQiqeOq2CRMeJWSXWN",
+                "title": "YMDHM",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "6ed8fdc5-2470-4ba4-8b85-82fdd9f80ed3",
+          "isNew": true,
+          "title": "对自己的长相打几分",
+          "type": "score",
+          "required": true
+        },
+        {
+          "id": "90492495-6da2-4d65-a3d1-9d9971f75b5c",
+          "isNew": true,
+          "title": "一次能坚持多长时间",
+          "type": "time",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "uATwMmBTksvtfUzTi04Sn",
+                "title": "HM",
+                "status": 2
+              },
+              {
+                "id": "fOMp5YTj4-I8g30wt2-Mg",
+                "title": "HMS",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "ac02afa0-bb97-497f-9018-e0a8d995cb66",
+          "isNew": true,
+          "title": "一晚上坚持多长时间",
+          "type": "time",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "a565yaj2-7kmVC08j4F6S",
+                "title": "HM",
+                "status": 2
+              },
+              {
+                "id": "xFdKQS55cP_2sb2s3Pkzh",
+                "title": "HMS",
+                "status": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "1b570e63-4244-4773-9a87-291b5dfd0528",
+      "ctime": 1659516195440,
+      "utime": 1659516195440,
+      "status": 2,
+      "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "isStar": false,
+      "title": "结婚意向调查nini",
+      "subTitle": "调查年轻人的结婚意向，为国家生育政策提供帮助",
+      "problems": [
+        {
+          "id": "b519bb20-9012-4808-9ee3-236836755846",
+          "isNew": true,
+          "title": "姓名",
+          "type": "input",
+          "required": true
+        },
+        {
+          "id": "610f38ef-0b3c-4880-bf39-d6632b4dfb48",
+          "isNew": true,
+          "title": "性别",
+          "type": "singleSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "2144800b-ce96-4a44-99be-bf22cbc82780",
+                "title": "男",
+                "status": 1
+              },
+              {
+                "id": "29e357f9-18ee-4183-89bf-06f18d467bbb",
+                "title": "女",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "8e0a4d1c-dbd9-49ed-84a2-0c6db2348c3b",
+          "isNew": true,
+          "title": "性取向",
+          "type": "multiSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "e37d3a14-4b35-457b-b7f5-406914b3a8b3",
+                "title": "男",
+                "status": 1
+              },
+              {
+                "id": "e342acaa-f28d-41f6-a0ee-377ef0cd61e4",
+                "title": "女",
+                "status": 2
+              },
+              {
+                "id": "e6f75893-c97e-4052-b92e-20662b09fd17",
+                "title": "通吃",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "e44e6bd6-e45a-453e-bbb4-38011d3c4fe2",
+          "isNew": true,
+          "title": "喜欢异性吗",
+          "type": "pullSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "0c158b4b-691a-49cf-bdc5-b6ca07523c46",
+                "title": "是",
+                "status": 2
+              },
+              {
+                "id": "b88b2267-1ed3-4604-9b57-9d61094d2e46",
+                "title": "否",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "53600c2b-1ffd-4e82-8346-7b96662e7505",
+          "isNew": true,
+          "title": "准备什么时候结婚",
+          "type": "date",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "g3g0UyYR2eGL65DW3pnxK",
+                "title": "YM",
+                "status": 2
+              },
+              {
+                "id": "JO10MxQB-j34p-3-XInKo",
+                "title": "YMD",
+                "status": 2
+              },
+              {
+                "id": "ubFJIyX0GOYcLDo5cDrkf",
+                "title": "YMDHM",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "2e410667-88ba-4749-82b3-5f9bd47fb9da",
+          "isNew": true,
+          "title": "对自己的长相打几分",
+          "type": "score",
+          "required": true
+        },
+        {
+          "id": "53f28522-5f93-4104-a395-ee8ad40d3ba5",
+          "isNew": true,
+          "title": "一次能坚持多长时间",
+          "type": "time",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "pcH8RRviSWdAIpdv-ti56",
+                "title": "HM",
+                "status": 2
+              },
+              {
+                "id": "fsjsjFKtyuUvrEaQwJR3D",
+                "title": "HMS",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "165c8ba9-3007-4307-bdbf-c6f9a612d77b",
+          "isNew": true,
+          "title": "一晚上坚持多长时间",
+          "type": "time",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "GpwpS66EO-ctyq6QkrtRd",
+                "title": "HM",
+                "status": 2
+              },
+              {
+                "id": "irc-C2mlgKSV_8vIhiMh9",
+                "title": "HMS",
                 "status": 2
               }
             ]

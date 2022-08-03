@@ -21,5 +21,4 @@ export default {
     // 记录用户信息
     userInfo: JSON.parse(window.localStorage.getItem("user")||JSON.stringify({})) as IUser ,
   },
-  getters: {},
 };

@@ -2,11 +2,24 @@ import { formDraft, IForm, IProblem } from "../types/types";
 import problem from "./problem";
 import { nanoid } from "nanoid";
 import { ElMessage } from "element-plus";
+import { getFormList } from "@/services/api";
 export default {
   namespaced: true,
-  actions: {},
+  actions: {
+    // 获取表单列表
+    getFormList: async (
+      context: any,
+      params: { offset: number; limit: number; isStar: boolean }
+    ) => {
+      const res = await getFormList(params.offset, params.limit, params.isStar);
+      if (res.stat === "ok") {
+        context.commit("setFormList", res.data.items);
+        context.commit("setFormTotal", res.data.total);
+      }
+    },
+  },
   mutations: {
-    // 向中间列表添加题目
+    // 向中间列表添加一个题目
     addQuesToQuesList(
       state: any,
       value: {
@@ -14,11 +27,10 @@ export default {
         index: number;
       }
     ) {
-      const problemTemp = Object.assign(
-        {},
-        JSON.parse(JSON.stringify(state.question)),
-        JSON.parse(JSON.stringify(value.problem)),
-        { id: nanoid() }
+      const problemTemp = JSON.parse(
+        JSON.stringify(
+          Object.assign({}, state.question, value.problem, { id: nanoid() })
+        )
       );
       // 在最后插入,用于左侧向中间添加题目
       if (value.index === -1) {
@@ -28,6 +40,10 @@ export default {
       else if (value.index > -1) {
         state.questionList.splice(value.index, 0, problemTemp);
       }
+    },
+    // 向中间列表添加一个questionList
+    addQuesListToQuesList(state: any, questList: IProblem[]) {
+      state.questionList = questList;
     },
     // 修改列表中的题目
     setProblem(state: any, value: { id: string; problem: IProblem }) {
@@ -78,6 +94,14 @@ export default {
         center: true,
       });
     },
+    // 设置表单列表
+    setFormList(state: any, value: IForm[]) {
+      state.formList = value;
+    },
+    // 设置表单列表总数
+    setFormTotal(state: any, num: number) {
+      state.formTotal = num;
+    },
   },
   state: {
     // 已添加表单的问题列表
@@ -88,7 +112,7 @@ export default {
     formSubTitle: "",
     // 表单草稿
     formDraft: {} as formDraft,
-    // question
+    // question模板
     question: {
       id: "",
       isNew: true,
@@ -96,6 +120,9 @@ export default {
       type: "input",
       required: true,
     } as IProblem,
+    // 表单列表，首页展示
+    formList: [] as IForm[],
+    // 表单总数
+    formTotal: 0,
   },
-  getters: {},
 };

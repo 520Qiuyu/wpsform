@@ -15,9 +15,9 @@
 import { defineComponent, ref, reactive, onBeforeMount } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import * as api from "@/services/api";
-import { IUser, IForm, IProblem } from "../types/types";
+import { IUser, IForm, IProblem } from "@/types/types";
 import { useStore } from "vuex";
-import FormItem from "../components/FormItem.vue";
+import FormItem from "@/components/FormItem.vue";
 
 export default defineComponent({
   name: "FormWrite",

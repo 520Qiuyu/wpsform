@@ -4,9 +4,9 @@
     <el-header class="app-top">
       <!-- 左侧区域 -->
       <!-- 首页显示logo -->
-      <router-link to="/" class="app-logo" v-if="appStatus == 1">
+      <router-link to="/" class="app-logo" v-show="appStatus == 1">
         <!-- logo图片 -->
-        <img src="../assets/imgs/logo.svg" alt="" />
+        <img src="@/assets/imgs/logo.svg" alt="logo" />
         <!-- logo文字：金山表单 -->
         <span class="logo-name">金山表单</span>
       </router-link>
@@ -25,20 +25,20 @@
         <!-- 登录按钮 -->
         <router-link
           to="/login"
-          v-if="!$store.state.user.loginState"
+          v-if="!store.state.user.loginState"
           class="app-login-btn"
         >
           登录
         </router-link>
         <!-- 用户信息 -->
-        <div class="app-user" v-if="$store.state.user.loginState">
+        <div class="app-user" v-if="store.state.user.loginState">
           <!-- 用户名 -->
           <span class="app-user-title">{{ userInfo.nickname }}</span>
           <el-dropdown>
             <!-- 用户头像 -->
             <div
               class="app-user-icon el-dropdown-link"
-              v-if="$store.state.user.loginState"
+              v-if="store.state.user.loginState"
             >
               <!-- <img :src="userInfo.avatar" alt="" /> -->
               <el-avatar
@@ -72,7 +72,7 @@ import { defineComponent, ref, reactive, computed, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import * as api from '@/services/api'
-import { IUser, IForm, IProblem } from '../types/types'
+import { IUser, IForm, IProblem } from '@/types/types'
 import { ElMessage } from "element-plus";
 
 export default defineComponent({
@@ -99,8 +99,8 @@ export default defineComponent({
         window.localStorage.removeItem('user')
         router.push('/login')
       }
-      // console.log(store.state.loginState)
     }
+    // 改变页头标题
     const showFormTitle = (value: any) => {
       formTitle.value = value
     }
@@ -130,6 +130,7 @@ export default defineComponent({
     })
 
     return {
+      store,
       appStatus,
       goBack,
       logout,
