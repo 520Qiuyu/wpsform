@@ -42,7 +42,7 @@
       "id": "90d4056b-a420-43da-be9a-08eaff26b624",
       "ctime": 1659365697765,
       "utime": 1659365697765,
-      "status": 4,
+      "status": 3,
       "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
       "isStar": true,
       "title": "秒拒个人信息普查",
@@ -420,7 +420,7 @@
       "id": "1d76625f-08c5-45e3-9d94-29e63fab4cda",
       "ctime": 1659469332798,
       "utime": 1659469332798,
-      "status": 3,
+      "status": 1,
       "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
       "isStar": false,
       "title": "你好",
@@ -618,7 +618,7 @@
       "id": "ceaf79b1-08d3-4354-a150-19a22542c6ba",
       "ctime": 1659470834303,
       "utime": 1659470834303,
-      "status": 3,
+      "status": 1,
       "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
       "isStar": false,
       "title": "你试试吧",
@@ -970,6 +970,201 @@
           }
         }
       ]
+    },
+    {
+      "id": "d20e90e3-580f-45f6-825f-66eceb25e82a",
+      "ctime": 1659630332501,
+      "utime": 1659630332501,
+      "status": 3,
+      "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "isStar": false,
+      "title": "快乐源泉调查",
+      "subTitle": "调查采访人员的快乐源泉",
+      "problems": [
+        {
+          "id": "d43e70d1-6aed-4cd1-8e3e-4e30b2ead7dc",
+          "isNew": true,
+          "title": "你最大的快乐源泉是什么",
+          "type": "input",
+          "required": true
+        },
+        {
+          "id": "acb489d5-1f4a-4c28-a636-e48352f3ffd2",
+          "isNew": true,
+          "title": "你喜欢打游戏吗",
+          "type": "singleSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "b35840d1-7701-4e16-8e03-e119b3a46dd3",
+                "title": "喜欢",
+                "status": 2
+              },
+              {
+                "id": "f3995245-d9dc-4f71-8f79-f957253bc7df",
+                "title": "一般",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "cd217a73-f9a5-4f8b-8944-6e79b2f5148c",
+          "isNew": true,
+          "title": "你喜欢玩什么游戏",
+          "type": "multiSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "3178e03d-a1c6-4cee-a82d-c5c72117bf55",
+                "title": "王者",
+                "status": 2
+              },
+              {
+                "id": "b51c19d2-4213-427f-9741-1cf1539d080b",
+                "title": "吃鸡",
+                "status": 2
+              },
+              {
+                "id": "f7e08b7a-6892-4dbd-84bf-d483549acc33",
+                "title": "连连看",
+                "status": 2
+              },
+              {
+                "id": "7f1af416-4113-4560-9d39-92ce755c4580",
+                "title": "泥巴",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "c7057403-16d4-43fa-9668-f8f1af745c0c",
+          "isNew": true,
+          "title": "你的快乐源泉来自于游戏的比例",
+          "type": "pullSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "10c4ac2d-8de5-46e6-ac23-37fce64e253a",
+                "title": "10%",
+                "status": 2
+              },
+              {
+                "id": "81ff2672-ff62-4cc4-8c64-e6b3ad1ed8db",
+                "title": "20%",
+                "status": 2
+              },
+              {
+                "id": "d668122b-2e58-4639-8152-ad0835c2e8c6",
+                "title": "30%",
+                "status": 2
+              },
+              {
+                "id": "fee4d7e9-24a2-491d-8948-5cfafa14ded0",
+                "title": "40%",
+                "status": 2
+              },
+              {
+                "id": "68f32867-b4b5-49d8-a27b-8614230638f8",
+                "title": "50%",
+                "status": 2
+              },
+              {
+                "id": "af18c9d8-372f-46a7-a05e-365eed5de4fe",
+                "title": ">50%",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "4ee3e32e-92a6-42dd-9b2f-d89d1cce42fa",
+          "isNew": true,
+          "title": "你最开心的一天",
+          "type": "date",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "cXv0PaFQVssNc5mc21Qs8",
+                "title": "YM",
+                "status": 2
+              },
+              {
+                "id": "iXUsQaqCyJlV7yCerLZL_",
+                "title": "YMD",
+                "status": 1
+              },
+              {
+                "id": "Cp_N1-MCUrfkfTcJaT4zD",
+                "title": "YMDHM",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "e0f5a5f0-3909-4844-bef4-134a8562ee15",
+          "isNew": true,
+          "title": "你最快乐的时刻",
+          "type": "time",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "yII7w_0ST1bEP-vU_Zhzw",
+                "title": "HM",
+                "status": 2
+              },
+              {
+                "id": "ufAjf4Nzdsks5X05qI-da",
+                "title": "HMS",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "0561a35b-b8e1-4899-bbce-fa444448851b",
+          "isNew": true,
+          "title": "你对自己的生活打几分",
+          "type": "score",
+          "required": true
+        },
+        {
+          "id": "efc8fa4b-9a2f-402e-8b21-7d366b0f1da9",
+          "isNew": true,
+          "title": "姓名",
+          "type": "input",
+          "required": true,
+          "setting": null
+        },
+        {
+          "id": "38418776-cf78-4ff0-b485-de9076244ac5",
+          "isNew": true,
+          "title": "性别",
+          "type": "singleSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "95278114-339e-42b9-87a5-2fe5f92b5034",
+                "title": "男",
+                "status": 2
+              },
+              {
+                "id": "32f58df9-763d-4816-9527-71494f5778fe",
+                "title": "女",
+                "status": 2
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "users": [
@@ -1309,6 +1504,401 @@
           },
           "result": {
             "value": "2022-08-02T08:40:23.949Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8f824b6b-bcd9-4fb8-ac74-c325c8e1ade3",
+      "formAuthor": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "formId": "90d4056b-a420-43da-be9a-08eaff26b624",
+      "result": [
+        {
+          "type": "input",
+          "title": "姓名",
+          "required": true,
+          "isNew": false,
+          "id": "d1430fb4-dc8d-4793-a1f5-2e306d60395d",
+          "result": {
+            "value": "求职超"
+          }
+        },
+        {
+          "type": "singleSelect",
+          "title": "性别",
+          "required": true,
+          "isNew": false,
+          "id": "cfc29a4b-d263-400c-b6c0-27aae11787e9",
+          "setting": {
+            "options": [
+              {
+                "title": "男",
+                "status": 1,
+                "id": "bd3cba65-b6fa-44c5-9963-20ea191dba2b"
+              },
+              {
+                "title": "女",
+                "status": 1,
+                "id": "bd5e0070-a3ca-4030-a759-1cd1b6b038ac"
+              }
+            ]
+          },
+          "result": {
+            "value": {
+              "id": "bd3cba65-b6fa-44c5-9963-20ea191dba2b",
+              "title": "男"
+            }
+          }
+        },
+        {
+          "type": "date",
+          "title": "生日",
+          "required": true,
+          "isNew": true,
+          "id": "4f29fb9f-ad59-4990-b162-ace3e9156657",
+          "setting": {
+            "options": [
+              {
+                "title": "YM",
+                "status": 1
+              },
+              {
+                "title": "YMD",
+                "status": 2
+              },
+              {
+                "title": "YMDHM",
+                "status": 1
+              }
+            ]
+          },
+          "result": {
+            "value": "2022-08-19T16:00:00.000Z"
+          }
+        },
+        {
+          "type": "score",
+          "title": "你觉得他帅吗 ",
+          "required": true,
+          "isNew": false,
+          "id": "0a5627e0-0382-464e-a69c-8ebdb4d682b2",
+          "result": {
+            "value": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "51b385e8-6380-4310-808f-dfa819898003",
+      "formAuthor": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "formId": "90d4056b-a420-43da-be9a-08eaff26b624",
+      "result": [
+        {
+          "type": "input",
+          "title": "姓名",
+          "required": true,
+          "isNew": false,
+          "id": "d1430fb4-dc8d-4793-a1f5-2e306d60395d",
+          "result": {
+            "value": "哈哈哈哈哈哈"
+          }
+        },
+        {
+          "type": "singleSelect",
+          "title": "性别",
+          "required": true,
+          "isNew": false,
+          "id": "cfc29a4b-d263-400c-b6c0-27aae11787e9",
+          "setting": {
+            "options": [
+              {
+                "title": "男",
+                "status": 1,
+                "id": "bd3cba65-b6fa-44c5-9963-20ea191dba2b"
+              },
+              {
+                "title": "女",
+                "status": 1,
+                "id": "bd5e0070-a3ca-4030-a759-1cd1b6b038ac"
+              }
+            ]
+          },
+          "result": {
+            "value": {
+              "id": "bd3cba65-b6fa-44c5-9963-20ea191dba2b",
+              "title": "男"
+            }
+          }
+        },
+        {
+          "type": "date",
+          "title": "生日",
+          "required": true,
+          "isNew": true,
+          "id": "4f29fb9f-ad59-4990-b162-ace3e9156657",
+          "setting": {
+            "options": [
+              {
+                "title": "YM",
+                "status": 1
+              },
+              {
+                "title": "YMD",
+                "status": 2
+              },
+              {
+                "title": "YMDHM",
+                "status": 1
+              }
+            ]
+          },
+          "result": {
+            "value": "2022-08-19T16:00:00.000Z"
+          }
+        },
+        {
+          "type": "score",
+          "title": "你觉得他帅吗 ",
+          "required": true,
+          "isNew": false,
+          "id": "0a5627e0-0382-464e-a69c-8ebdb4d682b2",
+          "result": {
+            "value": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "32928ebb-5c78-4722-8552-0ef51f68571b",
+      "formAuthor": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "formId": "d20e90e3-580f-45f6-825f-66eceb25e82a",
+      "result": [
+        {
+          "id": "d43e70d1-6aed-4cd1-8e3e-4e30b2ead7dc",
+          "isNew": true,
+          "title": "你最大的快乐源泉是什么",
+          "type": "input",
+          "required": true,
+          "result": {
+            "value": "女人"
+          }
+        },
+        {
+          "id": "acb489d5-1f4a-4c28-a636-e48352f3ffd2",
+          "isNew": true,
+          "title": "你喜欢打游戏吗",
+          "type": "singleSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "b35840d1-7701-4e16-8e03-e119b3a46dd3",
+                "title": "喜欢",
+                "status": 2
+              },
+              {
+                "id": "f3995245-d9dc-4f71-8f79-f957253bc7df",
+                "title": "一般",
+                "status": 2
+              }
+            ]
+          },
+          "result": {
+            "value": {
+              "id": "b35840d1-7701-4e16-8e03-e119b3a46dd3",
+              "title": "喜欢"
+            }
+          }
+        },
+        {
+          "id": "cd217a73-f9a5-4f8b-8944-6e79b2f5148c",
+          "isNew": true,
+          "title": "你喜欢玩什么游戏",
+          "type": "multiSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "3178e03d-a1c6-4cee-a82d-c5c72117bf55",
+                "title": "王者",
+                "status": 2
+              },
+              {
+                "id": "b51c19d2-4213-427f-9741-1cf1539d080b",
+                "title": "吃鸡",
+                "status": 2
+              },
+              {
+                "id": "f7e08b7a-6892-4dbd-84bf-d483549acc33",
+                "title": "连连看",
+                "status": 2
+              },
+              {
+                "id": "7f1af416-4113-4560-9d39-92ce755c4580",
+                "title": "泥巴",
+                "status": 2
+              }
+            ]
+          },
+          "result": {
+            "value": [
+              {
+                "id": "3178e03d-a1c6-4cee-a82d-c5c72117bf55",
+                "title": "王者"
+              },
+              {
+                "id": "f7e08b7a-6892-4dbd-84bf-d483549acc33",
+                "title": "连连看"
+              }
+            ]
+          }
+        },
+        {
+          "id": "c7057403-16d4-43fa-9668-f8f1af745c0c",
+          "isNew": true,
+          "title": "你的快乐源泉来自于游戏的比例",
+          "type": "pullSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "10c4ac2d-8de5-46e6-ac23-37fce64e253a",
+                "title": "10%",
+                "status": 2
+              },
+              {
+                "id": "81ff2672-ff62-4cc4-8c64-e6b3ad1ed8db",
+                "title": "20%",
+                "status": 2
+              },
+              {
+                "id": "d668122b-2e58-4639-8152-ad0835c2e8c6",
+                "title": "30%",
+                "status": 2
+              },
+              {
+                "id": "fee4d7e9-24a2-491d-8948-5cfafa14ded0",
+                "title": "40%",
+                "status": 2
+              },
+              {
+                "id": "68f32867-b4b5-49d8-a27b-8614230638f8",
+                "title": "50%",
+                "status": 2
+              },
+              {
+                "id": "af18c9d8-372f-46a7-a05e-365eed5de4fe",
+                "title": ">50%",
+                "status": 2
+              }
+            ]
+          },
+          "result": {
+            "value": {
+              "id": "68f32867-b4b5-49d8-a27b-8614230638f8",
+              "title": "50%"
+            }
+          }
+        },
+        {
+          "id": "4ee3e32e-92a6-42dd-9b2f-d89d1cce42fa",
+          "isNew": true,
+          "title": "你最开心的一天",
+          "type": "date",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "cXv0PaFQVssNc5mc21Qs8",
+                "title": "YM",
+                "status": 2
+              },
+              {
+                "id": "iXUsQaqCyJlV7yCerLZL_",
+                "title": "YMD",
+                "status": 1
+              },
+              {
+                "id": "Cp_N1-MCUrfkfTcJaT4zD",
+                "title": "YMDHM",
+                "status": 2
+              }
+            ]
+          },
+          "result": {
+            "value": "2022-08-09T16:00:00.000Z"
+          }
+        },
+        {
+          "id": "e0f5a5f0-3909-4844-bef4-134a8562ee15",
+          "isNew": true,
+          "title": "你最快乐的时刻",
+          "type": "time",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "yII7w_0ST1bEP-vU_Zhzw",
+                "title": "HM",
+                "status": 2
+              },
+              {
+                "id": "ufAjf4Nzdsks5X05qI-da",
+                "title": "HMS",
+                "status": 2
+              }
+            ]
+          },
+          "result": {
+            "value": "2022-08-06T07:54:12.128Z"
+          }
+        },
+        {
+          "id": "0561a35b-b8e1-4899-bbce-fa444448851b",
+          "isNew": true,
+          "title": "你对自己的生活打几分",
+          "type": "score",
+          "required": true,
+          "result": {
+            "value": 5
+          }
+        },
+        {
+          "id": "efc8fa4b-9a2f-402e-8b21-7d366b0f1da9",
+          "isNew": true,
+          "title": "姓名",
+          "type": "input",
+          "required": true,
+          "setting": null,
+          "result": {
+            "value": "邱宇"
+          }
+        },
+        {
+          "id": "38418776-cf78-4ff0-b485-de9076244ac5",
+          "isNew": true,
+          "title": "性别",
+          "type": "singleSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "95278114-339e-42b9-87a5-2fe5f92b5034",
+                "title": "男",
+                "status": 2
+              },
+              {
+                "id": "32f58df9-763d-4816-9527-71494f5778fe",
+                "title": "女",
+                "status": 2
+              }
+            ]
+          },
+          "result": {
+            "value": {
+              "id": "95278114-339e-42b9-87a5-2fe5f92b5034",
+              "title": "男"
+            }
           }
         }
       ]

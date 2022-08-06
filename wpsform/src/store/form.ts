@@ -2,7 +2,7 @@ import { formDraft, IForm, IProblem } from "../types/types";
 import problem from "./problem";
 import { nanoid } from "nanoid";
 import { ElMessage } from "element-plus";
-import { getFormList } from "@/services/api";
+import { getForm, getFormList, getFormResult } from "@/services/api";
 export default {
   namespaced: true,
   actions: {
@@ -11,10 +11,26 @@ export default {
       context: any,
       params: { offset: number; limit: number; isStar: boolean }
     ) => {
+      // 获取表单列表
       const res = await getFormList(params.offset, params.limit, params.isStar);
       if (res.stat === "ok") {
         context.commit("setFormList", res.data.items);
         context.commit("setFormTotal", res.data.total);
+      }
+      // 获取每个表单收集的份数
+      const arr = res.data.items.map((item) => getFormResult(item.id));
+      let collectFormArr = await Promise.all(arr);
+      const collectFormNumArr = collectFormArr.map((item) => ({
+        id: item.data.info.id,
+        num: item.data.items.length,
+      }));
+      context.commit("setCollectFormNum", collectFormNumArr);
+    },
+    // 通过form id获取正在访问的form
+    getVisitingFormById: async (context: any, id: string) => {
+      const res = await getForm(id);
+      if (res.stat === "ok") {
+        context.commit("setVisitingForm", res.data.item);
       }
     },
   },
@@ -102,6 +118,14 @@ export default {
     setFormTotal(state: any, num: number) {
       state.formTotal = num;
     },
+    // 设置当前页的表单的收集情况
+    setCollectFormNum(state: any, value: []) {
+      state.collectFormNum = value;
+    },
+    // 设置当前正在访问的form
+    setVisitingForm(state: any, value: IForm) {
+      state.visitingForm = value;
+    },
   },
   state: {
     // 已添加表单的问题列表
@@ -122,7 +146,11 @@ export default {
     } as IProblem,
     // 表单列表，首页展示
     formList: [] as IForm[],
+    // 表单收集份数
+    collectFormNum: [] as { id: string; num: number }[],
     // 表单总数
     formTotal: 0,
+    // 正在访问的表单的
+    visitingForm: {} as IForm,
   },
 };

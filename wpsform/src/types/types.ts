@@ -68,3 +68,8 @@ export interface formDraft {
   formSubTitle: string;
   questions: IProblem[];
 }
+
+export interface problemResult {
+  id: string;
+  title: string;
+}

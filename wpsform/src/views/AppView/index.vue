@@ -3,23 +3,25 @@
     <!-- APP顶部栏 -->
     <el-header class="app-top">
       <!-- 左侧区域 -->
+      <div class="left-header">
+        <!-- 表单详情页面显示返回图标+当前表单名 -->
+      <div class="app-logoArea" v-show="route.path.includes('new-form-result')">
+        <el-page-header  @back="goBack" />
+      </div>
       <!-- 首页显示logo -->
-      <router-link to="/" class="app-logo" v-show="appStatus == 1">
+      <router-link to="/" class="app-logo" v-show="route.meta.showLogo">
         <!-- logo图片 -->
         <img src="@/assets/imgs/logo.svg" alt="logo" />
         <!-- logo文字：金山表单 -->
-        <span class="logo-name">金山表单</span>
+        <span class="logo-name" v-show="route.meta.showLogoName">金山表单</span>
       </router-link>
-      <!-- 新建表单页面显示返回图标+新建表单 -->
-      <div class="app-logoArea" v-if="appStatus == 2">
-        <el-page-header content="新建表单" @back="goBack" />
-        <!-- <el-icon><ArrowLeftBold @click="goBack" /></el-icon>
-        <span>新建表单</span> -->
+      <!-- 表单名称 -->
+      <div class="formName" v-show="route.path.includes('new-form-result')">
+        <span>{{store.state.form.visitingForm.title}}</span>
       </div>
-      <!-- 表单详情页面显示返回图标+当前表单名 -->
-      <div class="app-logoArea" v-if="appStatus == 3">
-        <el-page-header :content="formTitle" @back="goBack" />
       </div>
+      
+
       <!-- 右侧个人信息显示：头像昵称 -->
       <div class="app-user-info">
         <!-- 登录按钮 -->
@@ -63,83 +65,79 @@
         </div>
       </div>
     </el-header>
-    <router-view @showFormTitle="showFormTitle"></router-view>
+    <router-view ></router-view>
   </el-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, onBeforeMount } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import * as api from '@/services/api'
-import { IUser, IForm, IProblem } from '@/types/types'
+import { defineComponent, ref, reactive, computed, onBeforeMount } from "vue";
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+import * as api from "@/services/api";
+import { IUser, IForm, IProblem } from "@/types/types";
 import { ElMessage } from "element-plus";
 
 export default defineComponent({
-  name: 'AppView',
+  name: "AppView",
   components: {},
   props: {},
   setup(props, ctx) {
-    const store = useStore()
-    const router = useRouter()
-    // const usericon = '../assets/imgs/logo.svg'
-    const appStatus = computed(() => store.state.user.appStatus)
-    const userInfo = computed(() => store.state.user.userInfo)
-    const formTitle = ref('')
+    const store = useStore();
+    const router = useRouter();
+    const route = useRoute(); 
+    const appStatus = computed(() => store.state.user.appStatus);
+    const userInfo = computed(() => store.state.user.userInfo);
+    const formTitle = ref("");
 
     const goBack = () => {
-      router.push('/app')
-    }
+      router.push("/app");
+    };
 
     const logout = async () => {
-      const res = await api.logout()
-      if (res.stat == 'ok') {
-        store.commit('user/setLoginState', false)
-        window.localStorage.removeItem('login')
-        window.localStorage.removeItem('user')
-        router.push('/login')
+      const res = await api.logout();
+      if (res.stat == "ok") {
+        store.commit("user/setLoginState", false);
+        window.localStorage.removeItem("login");
+        window.localStorage.removeItem("user");
+        router.push("/login");
       }
-    }
-    // 改变页头标题
-    const showFormTitle = (value: any) => {
-      formTitle.value = value
-    }
+    };
 
-    const getUserInfo = async ()=>{
-      const res = await api.getUserInfo()
-      if(res.stat == 'ok') {
-        store.commit('user/setUserInfo',res.data.user)
-      }else {
-        ElMessage.error('用户未登录！')
-        window.localStorage.removeItem('login')
-        window.localStorage.removeItem('user')
-        router.push('/login')
+    const getUserInfo = async () => {
+      const res = await api.getUserInfo();
+      if (res.stat == "ok") {
+        store.commit("user/setUserInfo", res.data.user);
+      } else {
+        ElMessage.error("用户未登录！");
+        window.localStorage.removeItem("login");
+        window.localStorage.removeItem("user");
+        router.push("/login");
       }
-    }
+    };
 
     onBeforeMount(() => {
       //判断登录状态，未登录则跳转到登录页面
-      if(store.state.user.loginState == false) {
-        router.replace('/login')
+      if (store.state.user.loginState == false) {
+        router.replace("/login");
       }
       //登录则直接获取用户信息
       else {
-        getUserInfo()
+        getUserInfo();
       }
       // console.log(typeof store.state.userInfo)
-    })
+    });
 
     return {
+      route,
       store,
       appStatus,
       goBack,
       logout,
       userInfo,
       formTitle,
-      showFormTitle,
-    }
+    };
   },
-})
+});
 </script>
 
 <style scoped>
@@ -147,21 +145,27 @@ export default defineComponent({
   height: 100%;
 }
 .app-top {
-  padding: 0 16px;
-}
-.app-top {
   width: 100%;
+  padding: 0 16px;
   background-color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 56px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
+  border-bottom: 1px solid #E7E9EB;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
+}
+.left-header {
+  display: flex;
+  align-items: center;
+}
+.formName{
+  color:#3c414b;
+  font-weight: 500;
 }
 .app-logo {
   font-size: 18px;
@@ -231,52 +235,4 @@ export default defineComponent({
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* .app-user-option {
-  position: absolute;
-  top: 50px;
-  right: 0;
-  padding: 12px;
-  box-sizing: border-box;
-  background: white;
-  box-shadow: 0 2px 12px 0 rgb(56 56 56 / 20%);
-  border-radius: 2px;
-  border: 1px solid #d3d3d3;
-  display: none;
-  flex-direction: column;
-}
-.app-user:hover .app-user-option {
-  display: flex;
-}
-.app-user-title {
-  width: 80px;
-  font-size: 14px;
-  padding: 0 10px 16px;
-  color: #3d4757;
-  font-weight: 600;
-  line-height: 14px;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-bottom: 1px solid #e2e6ed;
-}
-.app-user-option-list {
-  margin-top: 3px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-.app-user-option-item:hover {
-  background-color: #FAFAFA;
-  transition: all 0.2s;
-}
-.app-user-option-item a {
-  padding: 0 10px;
-  font-size: 12px;
-  line-height: 30px;
-  color: #3d4757;
-  white-space: nowrap;
-  cursor: pointer;
-  margin-top: 4px;
-} */
 </style>

@@ -5,7 +5,11 @@
     </el-header>
     <el-main class="form-write-main">
       <div class="form-write-content">
-        <FormItem :formId="formId" :submitDisabled="true"></FormItem>
+        <FormItem
+          :formId="formId"
+          :submitDisabled="true"
+          v-model:disableWrite="disableWrite"
+        ></FormItem>
       </div>
     </el-main>
   </el-container>
@@ -28,31 +32,27 @@ export default defineComponent({
     const router = useRouter();
     const formId = route.query.id as string;
     const formTitle = ref("");
+    const disableWrite = ref(false);
 
     const getForm = async (id: string) => {
       const res = await api.getForm(id);
       if (res.stat == "ok") {
         formTitle.value = res.data.item.title;
-        // console.log(res.data.item.title);
       }
     };
     const goBack = () => {
       router.push("/app");
     };
-
     onBeforeMount(() => {
       getForm(formId);
     });
-
     return {
       formId,
       formTitle,
+      disableWrite,
       goBack,
     };
-  },
-  created() {
-    console.log("!!@@",this.formId);
-  },
+  }
 });
 </script>
 
@@ -82,12 +82,12 @@ export default defineComponent({
   background-color: #fff;
   margin: 0 auto;
 }
-@media screen and (min-width:768px){
+@media screen and (min-width: 768px) {
   .form-write-content {
     width: 80%;
   }
 }
-@media screen and (min-width:1366px){
+@media screen and (min-width: 1366px) {
   .form-write-content {
     width: 50%;
   }

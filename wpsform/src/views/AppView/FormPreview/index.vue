@@ -4,14 +4,14 @@
       <div class="form-title">{{ previewForm.title }}</div>
       <div class="form-subTitile">{{ previewForm.subTitle }}</div>
       <div class="form-questions">
-        <ProblemItem
+        <ShowProItem
           v-for="(problem, index) in previewForm.problems"
           :key="problem.id"
           :problem="problem"
           :index="index"
           :disableWrite="true"
         >
-        </ProblemItem>
+        </ShowProItem>
       </div>
       <div class="back-btn-box">
         <button class="back-btn" @click="keepingEdit">继续编辑</button>
@@ -24,12 +24,12 @@
 import { computed, defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { IForm } from "@/types/types";
-import ProblemItem from "@/components/ProblemItem.vue";
+import ShowProItem from "@/components/ShowProItem.vue";
 import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
 export default defineComponent({
   name: "FormPreview",
-  components: { ProblemItem },
+  components: { ShowProItem },
   props: {},
   setup(props, ctx) {
     const Route = useRoute();

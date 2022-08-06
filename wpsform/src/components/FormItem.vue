@@ -3,18 +3,22 @@
     <div class="form-title">{{ form.title }}</div>
     <div class="form-subTitile">{{ form.subTitle }}</div>
     <div class="form-questions">
-      <ProblemItem
-        v-for="(problem, index) in form.problems"
-        :key="problem.id"
-        :problem="problem"
-        :index="index"
-        @setProblemResult="setProblemResult"
-        :disableWrite="disableWrite"
-      >
-      </ProblemItem>
+      <el-form :model="form.problems" status-icon >
+        <el-form-item
+          v-for="(problem, index) in form.problems"
+          :key="problem.id"
+          :label="`${problem.required ? '*':''}`"
+        >
+          <ShowProItem
+            :problem="problem"
+            :index="index"
+            @setProblemResult="setProblemResult"
+            :disableWrite="disableWrite_"
+          ></ShowProItem>
+        </el-form-item>
+      </el-form>
     </div>
     <div class="form-submit-area">
-      <!-- <el-button @click="saveDraft">保存草稿</el-button> -->
       <el-button
         type="primary"
         class="form-submit"
@@ -37,17 +41,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, onBeforeMount, PropType } from "vue";
+import {
+  defineComponent,
+  ref,
+  reactive,
+  onBeforeMount,
+  PropType,
+  computed,
+} from "vue";
 import { useRouter } from "vue-router";
 import * as api from "@/services/api";
 import { IUser, IForm, IProblem } from "../types/types";
 import { useStore } from "vuex";
-import ProblemItem from "./ProblemItem.vue";
+import ShowProItem from "@/components/ShowProItem.vue";
 import { ElMessage } from "element-plus";
 
 export default defineComponent({
-  name: 'FormItem',
-  components: { ProblemItem },
+  name: "FormItem",
+  components: { ShowProItem },
   props: {
     formId: {
       type: String,
@@ -62,109 +73,85 @@ export default defineComponent({
       default: false,
     },
   },
+  emits: ["update:disableWrite"],
   setup(props, ctx) {
-    const router = useRouter()
-    const form = ref({} as IForm)
-    const dialogVisible = ref(false)
-
+    const router = useRouter();
+    const form = ref({} as IForm);
     const getForm = async (id: string) => {
-      const res = await api.getForm(id)
-      if (res.stat == 'ok') {
-        form.value = JSON.parse(JSON.stringify(res.data.item))
-        // console.log(form.value.status);
-      } 
-    }
-
-    //保存草稿
-    const saveDraft = () => {
-      console.log('保存草稿')
-    }
-    //提交
-    const submit = () => {
-      //判断必选问题是否已经填写完毕
-      let flag = true;
-      form.value.problems.forEach((problem) => {
-        if (problem.required && !problem.result) {
-          ElMessage.error("请先填写必选！");
-          flag = false;
-        }
-      });
-      if (flag) {
-        dialogVisible.value = true;
+      const res = await api.getForm(id);
+      if (res.stat == "ok") {
+        form.value = res.data.item;
       }
-    }
+    };
+    // 是的是否可读写可控
+    const disableWrite_ = computed({
+      get() {
+        return props.disableWrite;
+      },
+      set(newVal) {
+        ctx.emit("update:disableWrite", newVal);
+      },
+    });
+    // 弹出层是否隐藏
+    const dialogVisible = ref(false);
+
+    //提交表单，判断是否填写完成
+    const submit = () => {
+      const complete = form.value.problems.every((item) => item.result?.value);
+      if(complete){
+        dialogVisible.value = true;
+      }else{
+        ElMessage.error("表单未填写完整");
+      }
+    };
     //确定提交
     const handelConfirm = async () => {
-      dialogVisible.value = false
-      console.log('props.formId',props.formId)
       const res = await api.inputForm(
-        props.formId!,
-        (form.value as IForm).problems
-      )
-      if (res.stat == 'ok') {
+        form.value.id,
+        form.value.problems
+      );
+      if (res.stat == "ok") {
         ElMessage({
-          message: '表单填写成功，已提交',
-          type: 'success',
-        })
+          message: "表单填写成功，已提交",
+          type: "success",
+        });
         //清空数据
-        router.push('/app')
+        router.push("/app");
       } else {
-        ElMessage.error('表单提交失败！')
+        ElMessage.error("表单提交失败！");
       }
-    }
+      dialogVisible.value = false;
+    };
 
-    const setProblemResult = (result: any, id: string) => {
-      //id指表单id
-      form.value.problems.forEach((problem) => {
-        if (problem.id == id) {
-          //填空题,分数题,日期题,时间题结果value类型为string或number
-          if (
-            problem.type == 'input' ||
-            problem.type == 'score' ||
-            problem.type == 'date' ||
-            problem.type == 'time'
-          ) {
-            problem.result = { value: result }
-            console.log(problem.result)
-          }
-          else if (
-            problem.type == 'singleSelect' ||
-            problem.type == 'pullSelect'
-          ) {
-            problem.result! = {
-              value: {
-                id: result.value.id,
-                title: result.value.title,
-              },
-            }
-          }
-          
-          else if (problem.type == 'multiSelect') {
-            problem.result! = {
-              value: [],
-            }
-            problem.result.value = result.value
-            console.log(problem.result.value)
-          }
+    // 设置问题的填写答案
+    const setProblemResult = (result: any, problemId: string) => {
+      form.value.problems.forEach((item) => {
+        if (item.id === problemId) {
+          Object.assign(item, result);
+          console.log("item", item);
         }
-      })
-    }
-
+      });
+    };
     return {
       getForm,
       form,
-      saveDraft,
+      disableWrite_,
       submit,
       setProblemResult,
       dialogVisible,
       handelConfirm,
+    };
+  },
+  async created() {
+    await this.getForm(this.formId);
+    if (this.form.status === 2 || this.form.status === 4) {
+      ElMessage.error(
+        this.form.status === 2 ? "该表单未发布" : "该表单已结束收集"
+      );
+      this.disableWrite_ = true;
     }
   },
-  beforeMount() {
-    console.log(this)
-    this.getForm(this.formId)
-  },
-})
+});
 </script>
 
 <style scoped>
@@ -184,6 +171,10 @@ export default defineComponent({
   color: #ccc;
   text-align: center;
   margin-bottom: 40px;
+}
+
+.el-form-item >>> .el-form-item__label{
+  color: red;
 }
 .form-submit {
   width: 96px;
