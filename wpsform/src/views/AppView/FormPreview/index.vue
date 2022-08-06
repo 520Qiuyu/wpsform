@@ -74,7 +74,7 @@ export default defineComponent({
 }
 .preview {
   width: 600px;
-  margin: 80px auto 0;
+  margin: 80px auto 50px;
   background-color: #fff;
   border-radius: 5px;
   padding: 40px 20px;

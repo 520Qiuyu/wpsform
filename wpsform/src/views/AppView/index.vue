@@ -5,22 +5,26 @@
       <!-- 左侧区域 -->
       <div class="left-header">
         <!-- 表单详情页面显示返回图标+当前表单名 -->
-      <div class="app-logoArea" v-show="route.path.includes('new-form-result')">
-        <el-page-header  @back="goBack" />
+        <div
+          class="app-logoArea"
+          v-show="route.path.includes('new-form-result')"
+        >
+          <el-page-header @back="goBack" />
+        </div>
+        <!-- 首页显示logo -->
+        <router-link to="/" class="app-logo" v-show="route.meta.showLogo">
+          <!-- logo图片 -->
+          <img src="@/assets/imgs/logo.svg" alt="logo" />
+          <!-- logo文字：金山表单 -->
+          <span class="logo-name" v-show="route.meta.showLogoName"
+            >金山表单</span
+          >
+        </router-link>
+        <!-- 表单名称 -->
+        <div class="formName" v-show="route.path.includes('new-form-result')">
+          <span>{{ store.state.form.visitingForm.title }}</span>
+        </div>
       </div>
-      <!-- 首页显示logo -->
-      <router-link to="/" class="app-logo" v-show="route.meta.showLogo">
-        <!-- logo图片 -->
-        <img src="@/assets/imgs/logo.svg" alt="logo" />
-        <!-- logo文字：金山表单 -->
-        <span class="logo-name" v-show="route.meta.showLogoName">金山表单</span>
-      </router-link>
-      <!-- 表单名称 -->
-      <div class="formName" v-show="route.path.includes('new-form-result')">
-        <span>{{store.state.form.visitingForm.title}}</span>
-      </div>
-      </div>
-      
 
       <!-- 右侧个人信息显示：头像昵称 -->
       <div class="app-user-info">
@@ -65,7 +69,7 @@
         </div>
       </div>
     </el-header>
-    <router-view ></router-view>
+    <router-view></router-view>
   </el-container>
 </template>
 
@@ -84,8 +88,7 @@ export default defineComponent({
   setup(props, ctx) {
     const store = useStore();
     const router = useRouter();
-    const route = useRoute(); 
-    const appStatus = computed(() => store.state.user.appStatus);
+    const route = useRoute();
     const userInfo = computed(() => store.state.user.userInfo);
     const formTitle = ref("");
 
@@ -124,13 +127,11 @@ export default defineComponent({
       else {
         getUserInfo();
       }
-      // console.log(typeof store.state.userInfo)
     });
 
     return {
       route,
       store,
-      appStatus,
       goBack,
       logout,
       userInfo,
@@ -153,7 +154,7 @@ export default defineComponent({
   align-items: center;
   height: 56px;
   box-sizing: border-box;
-  border-bottom: 1px solid #E7E9EB;
+  border-bottom: 1px solid #e7e9eb;
   position: fixed;
   top: 0;
   left: 0;
@@ -163,8 +164,8 @@ export default defineComponent({
   display: flex;
   align-items: center;
 }
-.formName{
-  color:#3c414b;
+.formName {
+  color: #3c414b;
   font-weight: 500;
 }
 .app-logo {

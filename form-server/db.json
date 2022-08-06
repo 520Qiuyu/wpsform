@@ -1165,6 +1165,201 @@
           }
         }
       ]
+    },
+    {
+      "id": "651a8fcb-21af-4699-91af-e54af5c2afc3",
+      "ctime": 1659776633449,
+      "utime": 1659776633449,
+      "status": 2,
+      "author": "eb639ca3-72df-4b03-8bae-7c09a835896b",
+      "isStar": false,
+      "title": "快乐源泉调查",
+      "subTitle": "调查采访人员的快乐源泉",
+      "problems": [
+        {
+          "id": "1d983f99-106a-405d-9396-58a31eb6f7a3",
+          "isNew": true,
+          "title": "你最大的快乐源泉是什么",
+          "type": "input",
+          "required": true
+        },
+        {
+          "id": "f179a12a-6a2f-4642-8da1-071ce589a573",
+          "isNew": true,
+          "title": "你喜欢打游戏吗",
+          "type": "singleSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "c7c9c4de-9454-4b6a-a94b-7253b7c5bffc",
+                "title": "喜欢",
+                "status": 2
+              },
+              {
+                "id": "fa3fdf6a-217b-4dba-a0d2-de9bda5ea52d",
+                "title": "一般",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "2d6443ba-ff1e-49db-955f-3afc724a8f39",
+          "isNew": true,
+          "title": "你喜欢玩什么游戏",
+          "type": "multiSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "b2fb9856-833d-4403-8aef-d6642b56d2e0",
+                "title": "王者",
+                "status": 2
+              },
+              {
+                "id": "8d091e25-d444-40e6-84dd-62b5d1c93010",
+                "title": "吃鸡",
+                "status": 2
+              },
+              {
+                "id": "5781d099-d3b9-453b-bcee-602bf7a842cc",
+                "title": "连连看",
+                "status": 2
+              },
+              {
+                "id": "afb06c44-35f5-473e-af57-53952043c3c3",
+                "title": "泥巴",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "cf6e0d36-7788-4c13-bdef-4f1daa0e3ab6",
+          "isNew": true,
+          "title": "你的快乐源泉来自于游戏的比例",
+          "type": "pullSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "540bc6d6-50f5-4631-83bf-be8bbdc56a84",
+                "title": "10%",
+                "status": 2
+              },
+              {
+                "id": "4ee7e58e-1d2e-43ea-93b2-67863c408659",
+                "title": "20%",
+                "status": 2
+              },
+              {
+                "id": "1a6b5f53-bbc7-4738-af94-9727bf4c95f4",
+                "title": "30%",
+                "status": 2
+              },
+              {
+                "id": "212f85e3-1be3-4cea-b815-1eaa4f88dd5b",
+                "title": "40%",
+                "status": 2
+              },
+              {
+                "id": "9c3db896-87aa-41c2-a7b7-24aaeb2d8d3c",
+                "title": "50%",
+                "status": 2
+              },
+              {
+                "id": "44644065-79a7-47d0-ba4a-5fd73156e57d",
+                "title": ">50%",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "fc065ede-3146-4e42-a106-758d7a77b456",
+          "isNew": true,
+          "title": "你最开心的一天",
+          "type": "date",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "It-gBJLfwVRzDhpOj5vnP",
+                "title": "YM",
+                "status": 2
+              },
+              {
+                "id": "R8c_h-iSnU4bwo8IZMuZw",
+                "title": "YMD",
+                "status": 2
+              },
+              {
+                "id": "o5L80iTzMnC1vssvpN200",
+                "title": "YMDHM",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "9232639d-10d6-461f-aca2-549048a13ac8",
+          "isNew": true,
+          "title": "你最快乐的时刻",
+          "type": "time",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "kNEaaPKQcbm3CP1JV_-tl",
+                "title": "HM",
+                "status": 2
+              },
+              {
+                "id": "eYVxahe_GA1EelU4AUOlY",
+                "title": "HMS",
+                "status": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "4748be8f-204d-46fb-88cc-b04558b3c1fe",
+          "isNew": true,
+          "title": "你对自己的生活打几分",
+          "type": "score",
+          "required": true
+        },
+        {
+          "id": "3d517d7a-d5eb-4d0a-b26d-cff19549f71d",
+          "isNew": true,
+          "title": "姓名",
+          "type": "input",
+          "required": true,
+          "setting": null
+        },
+        {
+          "id": "cb18c666-aa40-42a8-8b35-490ff6c57fa2",
+          "isNew": true,
+          "title": "性别",
+          "type": "singleSelect",
+          "required": true,
+          "setting": {
+            "options": [
+              {
+                "id": "e3d024e2-f566-4874-a4cd-42a89bc07793",
+                "title": "男",
+                "status": 2
+              },
+              {
+                "id": "46bc1859-a842-43d2-b558-456bff487ce0",
+                "title": "女",
+                "status": 2
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "users": [

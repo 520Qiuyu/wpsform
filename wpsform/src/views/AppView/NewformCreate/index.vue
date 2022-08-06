@@ -238,6 +238,7 @@ export default defineComponent({
     // 跳转至预览
     const toPreview = () => {
       if (isCompleted() === true) {
+        
         Router.push({
           name: "form-preview",
         });
@@ -254,12 +255,18 @@ export default defineComponent({
     };
     // 使用草稿
     const useDraft = () => {
+      ElMessage({
+        message: "正在读取，请稍等",
+        type: "success",
+        center: true,
+      });
       if (!localStorage.getItem("formDraft"))
         return ElMessage({
           message: "未找到草稿",
           type: "warning",
           center: true,
         });
+
       Store.commit("form/useDraft");
     };
     // 保存草稿
