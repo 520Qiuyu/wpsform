@@ -142,9 +142,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.app-container {
-  height: 100%;
-}
+
 .app-top {
   width: 100%;
   padding: 0 16px;

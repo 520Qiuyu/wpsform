@@ -51,6 +51,7 @@ export default defineComponent({
     };
   },
   created() {
+
     // 派发正在访问的表单
     this.store.dispatch("form/getVisitingFormById", this.formId);
   },
@@ -59,7 +60,7 @@ export default defineComponent({
 
 <style scoped>
 .newform-result-container {
-  height: 100%;
+  min-height: calc(100vh - 56px);
   margin-top: 56px;
   background-color: #f2f4f7;
   position: relative;

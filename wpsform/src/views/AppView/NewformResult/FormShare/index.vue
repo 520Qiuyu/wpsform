@@ -30,7 +30,7 @@ export default defineComponent({
     const { toClipboard } = useClipboard();
     const formId = ref(Route.query.id as string);
     const shareUrl = computed(
-      () => `${proxy.$currentDomainName}/form-write?id=${formId.value}`
+      () => `${proxy.$currentDomainName}/#/form-write?id=${formId.value}`
     );
     const cpoyShareUrl = async () => {
       try {

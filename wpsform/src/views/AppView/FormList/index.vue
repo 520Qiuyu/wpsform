@@ -81,7 +81,7 @@
             <!-- 草稿状态按钮 -->
             <el-button
               @click.stop="startCollect(scope.row.id)"
-              :disabled="scope.row.status == 2 || scope.row.status == 4"
+              :disabled="!(scope.row.status == 2 || scope.row.status == 4)"
               type="primary"
               icon="Promotion"
               title="发布"
@@ -97,20 +97,20 @@
             <!-- 收集中状态按钮 -->
             <el-button
               @click.stop="goSharePage(scope.row.id)"
-              :disabled="scope.row.status == 3"
+              :disabled="!(scope.row.status == 3)"
               icon="Share"
               title="分享"
             ></el-button>
             <el-button
               @click.stop="showResult(scope.row.id)"
-              :disabled="scope.row.status == 3 || scope.row.status == 4"
+              :disabled="!(scope.row.status == 3 || scope.row.status == 4)"
               icon="View"
               type="info"
               title="详情"
             ></el-button>
             <el-button
               @click.stop="endCollect(scope.row.id)"
-              :disabled="scope.row.status == 3"
+              :disabled="!(scope.row.status == 3)"
               icon="SwitchButton"
               title="停止"
               type="warning"
