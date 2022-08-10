@@ -142,4 +142,24 @@ export default defineComponent({
 .btn {
   margin: 20px;
 }
+@media screen and (max-width: 768px) {
+    .formlist-content{
+      width: 80%;
+      margin: 30px auto;
+    }
+}
+@media screen and (max-width: 425px) {
+  .formlist-content {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    
+  }
+  .statistics-title{
+    font-size: 18px;
+  }
+  .input-time{
+    font-size: 14px;
+  }
+}
 </style>

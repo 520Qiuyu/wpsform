@@ -59,7 +59,7 @@ export default defineComponent({
 
 <style scoped>
 .share-panel {
-  width: 800px;
+  width: 60%;
   height: 400px;
   background-color: #ffffff;
   position: absolute;
@@ -103,5 +103,10 @@ export default defineComponent({
   border: none;
   cursor: pointer;
   border: 1px solid #e2e4e8;
+}
+@media screen and (max-width: 768px) {
+    .share-panel{
+      width: 80%;
+    }
 }
 </style>

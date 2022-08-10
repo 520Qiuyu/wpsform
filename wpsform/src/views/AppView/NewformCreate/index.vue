@@ -538,6 +538,22 @@ export default defineComponent({
   align-items: center;
   box-sizing: border-box;
 }
+
+.question-list >>> .el-input{
+    --el-input-hover-border:none;
+    --el-input-border: none;
+    --el-input-focus-border: none;
+    --el-input-hover-border-color:transparent;
+}
+.question-list >>> .el-input__wrapper {
+  box-shadow: none;
+}
+
+.date-type >>> .el-input .el-input__wrapper,
+.time-type >>> .el-input .el-input__wrapper{
+    background-color: #fff;
+    box-shadow: none;
+}
 .please-add-ques {
   display: flex;
   justify-content: center;

@@ -84,6 +84,19 @@ export default defineComponent({
 
 .el-affix >>> .el-button {
   float: right;
-  margin-right: calc(10% - 44px);
+  margin-right: calc(44px);
+}
+@media screen and (max-width: 768px) {
+    .form-question-content{
+      width: 80%;
+    }
+}
+@media screen and (max-width: 425px) {
+  .form-question-content {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+  }
+  
 }
 </style>

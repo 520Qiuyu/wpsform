@@ -9,6 +9,23 @@
           <img src="@/assets/imgs/logo.svg" />
           <div class="logo-name">金山表单</div>
         </div>
+        <!-- 移动端菜单导航 -->
+        <div class="mobile-nav-wrapper">
+          <div
+            :class="`menu-icon ${mobileMenuOpened ? 'menu-icon-opened' : ''}`"
+            @click="mobileMenuOpened = !mobileMenuOpened"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <ul class="mobile-nav">
+            <li class="mobile-nav-item">首页</li>
+            <li class="mobile-nav-item">行业解决方案</li>
+            <li class="mobile-nav-item">免费模板</li>
+            <li class="mobile-nav-item">帮助中心</li>
+          </ul>
+        </div>
         <!-- 中间导航 -->
         <ul class="center-nav">
           <li class="center-nav-item">首页</li>
@@ -41,22 +58,21 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from "vue";
+<script lang="ts">
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "WelecomeView",
   components: {},
   props: {},
   setup(props, ctx) {
-    return {};
+    // 移动端菜单是否展开
+    const mobileMenuOpened = ref(false);
+    return { mobileMenuOpened };
   },
 });
 </script>
 
 <style scoped>
-.home-page {
-  min-width: 1200px;
-}
 .top-header-wrapper {
   width: 100%;
   height: 56px;
@@ -72,7 +88,8 @@ export default defineComponent({
 }
 .top-header,
 .main-body {
-  width: 1160px;
+  max-width: 1160px;
+  width: 100%;
 }
 .top-header {
   height: 56px;
@@ -96,6 +113,59 @@ export default defineComponent({
   font-weight: 500;
   color: #3c414b;
   line-height: 25px;
+  white-space: nowrap;
+}
+.mobile-nav-wrapper {
+  display: none;
+}
+.mobile-nav-wrapper .menu-icon {
+  height: 100%;
+  line-height: 56px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.mobile-nav-wrapper .menu-icon span {
+  display: inline-block;
+  width: 20px;
+  height: 3px;
+  border-radius: 1.5px;
+  background-color: #3c414b;
+  margin: 2px 0;
+  transition: all 0.2s;
+}
+.menu-icon-opened span:first-of-type {
+  transform: rotateZ(45deg);
+  transform-origin: 0 50%;
+}
+.menu-icon-opened span:nth-of-type(2) {
+  opacity: 0;
+}
+.menu-icon-opened span:last-of-type {
+  transform: rotateZ(-45deg);
+  transform-origin: 0 50%;
+}
+.mobile-nav {
+  position: absolute;
+  left: calc(-20px - 100vw);
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 56px);
+  width: 100vw;
+  box-sizing: border-box;
+  background-color: #fff;
+  transition: all.2s;
+}
+.menu-icon-opened + .mobile-nav {
+  left: -20px;
+}
+.mobile-nav-item {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.7;
+  margin: 10px 0px;
 }
 .center-nav {
   height: 56px;
@@ -110,6 +180,7 @@ export default defineComponent({
   margin: 0 20px;
   font-size: 16px;
   font-weight: 500;
+  white-space: nowrap;
   color: #3c414b;
 }
 .use-it {
@@ -139,8 +210,9 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   background-image: url(@/assets/imgs/HomePageBackground.png);
+  background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
+  background-position: 70% center;
   height: 100vh;
   min-height: 280px;
 }
@@ -176,5 +248,43 @@ export default defineComponent({
   font-size: 18px;
   font-weight: 500;
   color: #fff;
+}
+
+@media screen and (max-width: 1440px) {
+  .top-header-wrapper,
+  .main-body {
+    padding: 0 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-body {
+    backdrop-filter: blur(7px);
+  }
+  .content {
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+  .center-nav,
+  .use-it {
+    display: none;
+  }
+  .top-header {
+    flex-direction: row-reverse;
+  }
+  .logo-name {
+    font-size: 16px;
+  }
+  .mobile-nav-wrapper {
+    display: block;
+  }
+  .banner-index-title {
+    font-size: 25px;
+  }
+  .use-it-mian {
+    margin: 0 auto;
+  }
 }
 </style>

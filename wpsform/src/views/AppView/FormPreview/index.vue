@@ -70,6 +70,7 @@ export default defineComponent({
 <style scoped>
 .preview-container {
   width: 100%;
+  min-height: 100vh;
   background-color: #f2f4f7;
 }
 .preview {
@@ -111,5 +112,18 @@ export default defineComponent({
   color: #fff;
   font-size: 16px;
   background-color: #1488ed;
+}
+@media screen and (max-width:768px) {
+  .preview{
+    width: 80%;
+  }
+  .form-title{
+    font-size: 20px;
+  }
+}
+@media screen and (max-width:425px) {
+  .preview{
+    width: 90%;
+  }
 }
 </style>

@@ -28,7 +28,7 @@
         v-loading="formCollectNumArr.length === 0"
       >
         <!-- 表单名称 -->
-        <el-table-column label="表单名称" class-name="formTitle">
+        <el-table-column label="表单名称" class-name="form-title" width="150">
           <template #default="scope">
             <span class="form">表单</span>
             {{ scope.row.title }}
@@ -36,7 +36,13 @@
         </el-table-column>
 
         <!-- 表单状态 -->
-        <el-table-column label="状态" width="180" align="center">
+        <el-table-column
+          label="状态"
+          class-name="form-status"
+          min-width="150"
+          align="center"
+          v-if="windowWidth > 768"
+        >
           <template #default="scope">
             <span v-if="scope.row.status == 2">草稿</span>
             <span v-if="scope.row.status == 3">收集中</span>
@@ -44,7 +50,13 @@
           </template>
         </el-table-column>
         <!-- 表单是否加星 -->
-        <el-table-column label="收藏" width="180" align="center">
+        <el-table-column
+          label="收藏"
+          class-name="form-star"
+          min-width="100"
+          align="center"
+          v-if="windowWidth > 425"
+        >
           <template #default="scope">
             <i
               class="iconfont icon-star-empty"
@@ -62,21 +74,32 @@
         </el-table-column>
         <!-- 收集的份数 -->
         <el-table-column
-          label="收集的份数"
-          align="center"
+          label="收集情况"
           :formatter="collectFormNumFormatter"
           v-if="formCollectNumArr.length > 0"
           class-name="collect-form-num"
+          min-width="180"
+          align="center"
         >
         </el-table-column>
         <!-- 创建时间 -->
-        <el-table-column label="创建时间" width="200" align="center">
+        <el-table-column
+          label="创建时间"
+          class-name="form-create-time"
+          min-width="200"
+          v-if="windowWidth > 1024"
+        >
           <template #default="scope">
-            {{ dayjs(scope.row.ctime).format("YYYY-MM-DD HH:mm:ss") }}
+            {{ dayjs(scope.row.ctime).format("YYYY-MM-DD  HH:mm:ss") }}
           </template>
         </el-table-column>
         <!-- 操作 -->
-        <el-table-column label="操作" align="center" width="400">
+        <el-table-column
+          label="操作"
+          class-name="form-operations"
+          colspan="2"
+          width="400"
+        >
           <template #default="scope">
             <!-- 草稿状态按钮 -->
             <el-button
@@ -137,6 +160,13 @@
         ></el-pagination>
       </div>
     </el-main>
+    <!-- 移动端新建表单 -->
+    <el-button
+      type="primary"
+      size="large"
+      icon="plus"
+      @click="createForm"
+    ></el-button>
   </el-container>
 </template>
 
@@ -245,7 +275,7 @@ export default defineComponent({
           formCollectNumArr.value.filter((item) => item.id === row.id)[0] ==
           undefined
         ) {
-          return ""
+          return "";
         }
         const num = formCollectNumArr.value.filter(
           (item) => item.id === row.id
@@ -304,6 +334,9 @@ export default defineComponent({
         ElMessage.error("请先登录！");
       }
     };
+    // 检测窗口大小
+    const windowWidth = ref(document.body.clientWidth);
+    const timer = ref();
     return {
       store,
       dayjs,
@@ -324,6 +357,19 @@ export default defineComponent({
       showResult,
       editForm,
       deleteForm,
+      windowWidth,
+      timer,
+    };
+  },
+  created() {
+    // 监听窗口大小
+    window.onresize = () => {
+      if (!this.timer) {
+        this.timer = setTimeout(() => {
+          this.windowWidth = document.body.clientWidth;
+          this.timer = null;
+        }, 300);
+      }
     };
   },
 });
@@ -381,15 +427,6 @@ export default defineComponent({
   margin-left: 5px;
 }
 
-.form-list >>> td.formTitle .cell {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  line-height: 12px;
-  font-size: 12px;
-  max-width: 200px;
-  color: #3d4757;
-}
 .form-table-cell {
   font-size: 12px;
   height: 60px;
@@ -407,10 +444,37 @@ span.form {
   margin-right: 4px;
   position: relative;
 }
+.form-list >>> .form-title .cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 12px;
+  font-size: 12px;
+  max-width: 200px;
+  color: #3d4757;
+}
+.form-list >>> .form-status .cell {
+  /* width: 160px; */
+  box-sizing: border-box;
+  text-align: center;
+}
+.form-list >>> .form-star .cell {
+  /* width: 150px; */
+  box-sizing: border-box;
+  text-align: center;
+}
+.form-list >>> .collect-form-num .cell {
+  /* width: 100px; */
+  box-sizing: border-box;
+  text-align: center;
+}
 .form-list >>> td.collect-form-num .cell {
   padding: 10px;
   color: #1488ed;
-  font-size: 12px;
+  font-size: 14px;
+}
+.form-list >>> .form-operations .cell {
+  display: flex;
 }
 
 .paging-container {
@@ -430,5 +494,53 @@ span.form {
 }
 .icon-star-full {
   color: #f8d61d;
+}
+
+.form-list > .el-button {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 9999;
+  width: 0;
+  height: 0;
+  box-sizing: border-box;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+.form-list > .el-button >>> i {
+  width: 40%;
+  height: 40%;
+}
+.el-button >>> i svg {
+  width: 100%;
+  height: 100%;
+}
+@media screen and (max-width: 1024px) {
+  .form-list-aside {
+    width: 200px;
+  }
+
+  .form-list-aside-top >>> .el-button {
+    width: 125px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .form-list-aside {
+    display: none;
+  }
+  .form-list > .el-button {
+    width: 60px;
+    height: 60px;
+  }
+}
+@media screen and (max-width: 425px) {
+  .form-list >>> .form-star {
+    display: none;
+  }
+  .form-list >>> .form-title {
+    width: 160px;
+  }
 }
 </style>

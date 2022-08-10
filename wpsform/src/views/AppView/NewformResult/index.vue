@@ -73,12 +73,11 @@ export default defineComponent({
   width: 60%;
   box-sizing: border-box;
   margin: 0 auto;
-
   background-color: #fff;
   display: flex;
   cursor: pointer;
 }
-.newform-result-nav .newform-result-nav-item {
+.newform-result-nav-item {
   margin-right: 36px;
   font-size: 18px;
   line-height: 56px;
@@ -94,5 +93,23 @@ export default defineComponent({
 .active {
   color: #339cfe;
   border-bottom: 2px solid #339cfe;
+}
+@media screen and (max-width:768px) {
+  .newform-result-nav{
+    width: 80%;
+  }
+}
+@media screen and (max-width:425px) {
+  .newform-result-nav{
+    width: 100%;
+  }
+  .newform-result-nav-item{
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .newform-result-nav-item a{
+    font-size: 14px;
+    text-align: center;
+  }
 }
 </style>

@@ -165,12 +165,20 @@ export default defineComponent({
   font-weight: 600;
   padding-top: 20px;
   margin-bottom: 20px;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .form-subTitile {
   font-size: 16px;
   color: #ccc;
   text-align: center;
   margin-bottom: 40px;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .el-form-item >>> .el-form-item__label{
@@ -190,6 +198,11 @@ export default defineComponent({
 @media screen and (min-width: 1366px) {
   .form-item {
     padding: 30px 100px 30px;
+  }
+}
+@media screen and (max-width:425px) {
+  .form-title{
+    font-size: 18px;
   }
 }
 </style>

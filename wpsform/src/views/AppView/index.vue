@@ -234,4 +234,9 @@ export default defineComponent({
   overflow: hidden;
   text-overflow: ellipsis;
 }
+@media screen and (max-width:425px) {
+  .app-logo{
+    display: none;
+  }
+}
 </style>
