@@ -119,6 +119,88 @@
           <button class="finished" @click="submitForm">完成创建</button>
         </div>
       </div>
+      <div class="mobile-options">
+        <el-carousel arrow="never" :autoplay="false" >
+          <el-carousel-item>
+            <!-- 移动端添加问题列表 -->
+            <div class="question-formwork-mobile-wrapper">
+              <!-- 添加题目 -->
+              <div class="optionTitle">
+                添加题目
+                <ul class="add-question">
+                  <li
+                    v-for="(type, index) in quesTypes"
+                    :key="type.type + index"
+                    class="question-type-item"
+                  >
+                    <a @click="addQuesToQuesList(type.type)">{{
+                      type.title
+                    }}</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- 题目模板 -->
+              <div class="optionTitle">
+                题目模板
+                <ul class="question-formwork">
+                  <li
+                    v-for="(formwork, index) in questionFormworks"
+                    :key="index"
+                    class="question-formwork-item"
+                    @click="addTemplateToQuesList(formwork)"
+                  >
+                    <a>{{ formwork.title }}</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- 我的常用题 -->
+              <div class="optionTitle">
+                <div class="manage-common-use">
+                  <a @click="manageCommonStar">管理</a>
+                </div>
+                我的常用题
+                <ul class="my-common-use">
+                  <li
+                    v-for="(ques, index) in myCommonUse"
+                    :key="ques.id"
+                    :class="
+                      myCommonUseManage
+                        ? 'my-common-use-item'
+                        : 'my-common-use-item my-common-use-item-no-manage'
+                    "
+                  >
+                    <el-icon
+                      v-if="myCommonUseManage"
+                      class="delCommonUse"
+                      :size="15"
+                      color="#1488ED"
+                      @click="delThisCommomUse(ques.id)"
+                      ><CircleCloseFilled
+                    /></el-icon>
+                    <a @click="addTemplateToQuesList(ques)">{{ ques.title }}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </el-carousel-item>
+          <el-carousel-item>
+            <!-- 移动端创建完成菜单 -->
+            <div class="other-mobile-option">
+              <div class="operate-form">
+                <button class="preview" @click="toPreview">预览表单</button>
+                <button class="clear-form-btn" @click="clearFormList">
+                  清空表单
+                </button>
+                <button class="use-draft" @click="useDraft">继续上次</button>
+                <button class="save-draft" @click="saveDraft">保存草稿</button>
+              </div>
+              <div class="complate-creat">
+                <button class="finished" @click="submitForm">完成创建</button>
+              </div>
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
     </div>
   </div>
 </template>
@@ -238,7 +320,6 @@ export default defineComponent({
     // 跳转至预览
     const toPreview = () => {
       if (isCompleted() === true) {
-        
         Router.push({
           name: "form-preview",
         });
@@ -420,12 +501,12 @@ export default defineComponent({
 
 <style scoped>
 .newform-create-wrapper {
-  min-height: calc(100vh - 56px);
+  min-height: 100vh;
   min-width: 1160px;
-  margin-top: 56px;
   overflow-y: auto;
   background-color: #f2f4f7;
-  padding: 30px 50px;
+  padding: 86px 50px 30px;
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
 }
@@ -454,7 +535,7 @@ export default defineComponent({
 .question-panel {
   height: 400px;
   padding: 24px 16px;
-  max-height: calc(100vh - 100px);
+  max-height: calc(100vh - 210px);
 }
 .question-formwork-wrapper {
   display: flex;
@@ -484,10 +565,11 @@ export default defineComponent({
 .add-question,
 .question-formwork,
 .my-common-use {
-  display: flex;
-  justify-content: space-between;
-  align-content: flex-start;
-  flex-wrap: wrap;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 10px;
 }
 .question-type-item,
 .question-formwork-item,
@@ -495,7 +577,6 @@ export default defineComponent({
   width: 80px;
   border: 1px solid #e7e9eb;
   text-align: center;
-  margin: 8px 0 0;
   display: flex;
   justify-content: center;
   transition: all 0.2s;
@@ -539,20 +620,20 @@ export default defineComponent({
   box-sizing: border-box;
 }
 
-.question-list >>> .el-input{
-    --el-input-hover-border:none;
-    --el-input-border: none;
-    --el-input-focus-border: none;
-    --el-input-hover-border-color:transparent;
+.question-list >>> .el-input {
+  --el-input-hover-border: none;
+  --el-input-border: none;
+  --el-input-focus-border: none;
+  --el-input-hover-border-color: transparent;
 }
 .question-list >>> .el-input__wrapper {
   box-shadow: none;
 }
 
 .date-type >>> .el-input .el-input__wrapper,
-.time-type >>> .el-input .el-input__wrapper{
-    background-color: #fff;
-    box-shadow: none;
+.time-type >>> .el-input .el-input__wrapper {
+  background-color: #fff;
+  box-shadow: none;
 }
 .please-add-ques {
   display: flex;
@@ -661,5 +742,96 @@ export default defineComponent({
   flex: 1;
   border: 1px solid #e7e9eb;
   border-radius: 2px;
+}
+
+.mobile-options {
+  display: none;
+}
+
+@media screen and (max-width: 426px) {
+  .question-panel,
+  .other-option {
+    display: none;
+  }
+  .newform-create-wrapper {
+    min-width: auto;
+    min-height: auto;
+    height: 100vh;
+    padding: 66px 10px 10px;
+  }
+  .newform-create {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .mobile-options {
+    display: block;
+    width: 100%;
+  }
+  .mobile-options >>> .el-carousel__button {
+    background-color: #1488ed;
+  }
+  .question-formwork-mobile-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #fff;
+    height: 320px;
+    overflow-y: scroll;
+  }
+  /* .optionTitle {
+    width: 50%;
+  }
+  .optionTitle:last-child {
+    width: 100%;
+  } */
+  .question-formwork-mobile-wrapper > div.optionTitle {
+    margin-bottom: 14px;
+  }
+
+  .please-add-ques,
+  .question-list {
+    padding: 30px 10px;
+    width: 100%;
+    flex: 1 0;
+    min-height: 200px;
+  }
+  .question {
+    width: 100%;
+  }
+  .other-mobile-option {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .add-question,
+  .question-formwork,
+  .my-common-use {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+  }
+  .operate-form {
+    width: 230px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 60px;
+    gap: 16px;
+  }
+  .operate-form button {
+    border: 1px solid #e7e9eb;
+    background-color: #fff;
+  }
+  .complate-creat {
+    margin-top: 30px;
+  }
+  .finished {
+    width: 230px;
+    height: 60px;
+  }
 }
 </style>
