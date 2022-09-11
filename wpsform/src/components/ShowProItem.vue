@@ -124,15 +124,11 @@ export default defineComponent({
   emits: ["setProblemResult"],
   setup(props, ctx) {
     // 绑定填空题
-    const input_ = ref<string>("");
     const input = computed({
       get() {
-        if (props.type == "showFillDetails" && props.problem.type === "input")
-          return props.problem.result?.value;
-        return input_.value;
+        return props.problem.result?.value ?? "";
       },
       set(newVal) {
-        input_.value = newVal as string;
         // 触发父组件填写结果的更新
         ctx.emit(
           "setProblemResult",
@@ -143,18 +139,26 @@ export default defineComponent({
     });
 
     // 绑定单项选择题
-    const singleSelect_ = ref<string>("");
     const singleSelect = computed({
       get() {
-        if (
-          props.type == "showFillDetails" &&
-          props.problem.type === "singleSelect"
-        )
-          return (props.problem.result?.value as problemResult).id;
-        return singleSelect_.value;
+        // 如果不带结果，那么就将默认值装入结果
+        if (!props.problem.result) {
+          ctx.emit(
+            "setProblemResult",
+            {
+              // 过滤出相等于选中项的id的{id:"",title:""}
+              result: {
+                value: props.problem.setting?.options
+                  ?.filter((item) => item.status === 1)
+                  .map((item) => ({ id: item.id, title: item.title }))[0],
+              },
+            },
+            props.problem.id
+          );
+        }
+        return (props.problem.result?.value as problemResult).id;
       },
       set(newVal) {
-        singleSelect_.value = newVal as string;
         // 触发父组件填写结果的更新
         ctx.emit(
           "setProblemResult",
@@ -172,20 +176,28 @@ export default defineComponent({
     });
 
     // 绑定多项选择题
-    const multiSelect_ = ref<string[]>([]);
-    const multiSelect = computed({
+    const multiSelect = computed<string[]>({
       get() {
-        if (
-          props.type == "showFillDetails" &&
-          props.problem.type === "multiSelect"
-        )
-          return (props.problem.result?.value as problemResult[]).map(
-            (item) => item.id
+        // 如果不带结果，那么就将默认值装入结果
+        if (!props.problem.result) {
+          ctx.emit(
+            "setProblemResult",
+            {
+              // 过滤出相等于选中项的id的{id:"",title:""}
+              result: {
+                value: props.problem.setting?.options
+                  ?.filter((item) => item.status === 1)
+                  .map((item) => ({ id: item.id, title: item.title })),
+              },
+            },
+            props.problem.id
           );
-        return multiSelect_.value;
+        }
+        return (props.problem.result?.value as problemResult[]).map(
+          (item: problemResult) => item.id
+        );
       },
       set(newVal: string[]) {
-        multiSelect_.value = newVal as string[];
         // 触发父组件填写结果的更新
         ctx.emit(
           "setProblemResult",
@@ -203,18 +215,26 @@ export default defineComponent({
     });
 
     // 绑定下拉选择题
-    const pullSelect_ = ref<string>("");
     const pullSelect = computed({
       get() {
-        if (
-          props.type == "showFillDetails" &&
-          props.problem.type === "pullSelect"
-        )
-          return (props.problem.result?.value as problemResult).id;
-        return pullSelect_.value;
+        // 如果不带结果，那么就将默认值装入结果
+        if (!props.problem.result) {
+          ctx.emit(
+            "setProblemResult",
+            {
+              // 过滤出相等于选中项的id的{id:"",title:""}
+              result: {
+                value: props.problem.setting?.options
+                  ?.filter((item) => item.status === 1)
+                  .map((item) => ({ id: item.id, title: item.title }))[0],
+              },
+            },
+            props.problem.id
+          );
+        }
+        return (props.problem.result?.value as problemResult).id;
       },
       set(newVal) {
-        pullSelect_.value = newVal as string;
         // 触发父组件填写结果的更新
         ctx.emit(
           "setProblemResult",
@@ -232,15 +252,11 @@ export default defineComponent({
     });
 
     // 绑定日期
-    const date_ = ref<string>("");
     const date = computed({
       get() {
-        if (props.type == "showFillDetails" && props.problem.type === "date")
-          return props.problem.result?.value;
-        return date_.value;
+        return props.problem.result?.value ?? "";
       },
       set(newVal) {
-        date_.value = newVal as string;
         // 触发父组件填写结果的更新
         ctx.emit(
           "setProblemResult",
@@ -251,15 +267,11 @@ export default defineComponent({
     });
 
     // 绑定时间
-    const time_ = ref<string>("");
     const time = computed({
       get() {
-        if (props.type == "showFillDetails" && props.problem.type === "time")
-          return props.problem.result?.value;
-        return time_.value;
+        return props.problem.result?.value ?? "";
       },
       set(newVal) {
-        time_.value = newVal as string;
         // 触发父组件填写结果的更新
         ctx.emit(
           "setProblemResult",
@@ -270,15 +282,13 @@ export default defineComponent({
     });
 
     // 绑定分数题
-    const score_ = ref<number>(0);
     const score = computed({
       get() {
         if (props.type == "showFillDetails" && props.problem.type === "score")
           return props.problem.result?.value;
-        return score_.value;
+        return props.problem.result?.value ?? 0;
       },
       set(newVal) {
-        score_.value = newVal as number;
         // 触发父组件填写结果的更新
         ctx.emit(
           "setProblemResult",

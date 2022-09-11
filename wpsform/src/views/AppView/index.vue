@@ -7,7 +7,17 @@
         <!-- 表单详情页面显示返回图标+当前表单名 -->
         <div
           class="app-logoArea"
-          v-show="route.path.includes('new-form-result')"
+          v-show="
+            [
+              'new-form-create',
+              'form-preview',
+              'new-form-result',
+              'statistical-details',
+              'form-question',
+              'share',
+              'form-write',
+            ].includes(route.name as string)
+          "
         >
           <el-page-header @back="goBack" />
         </div>
@@ -93,7 +103,7 @@ export default defineComponent({
     const formTitle = ref("");
 
     const goBack = () => {
-      router.push("/app");
+      router.back();
     };
 
     const logout = async () => {
@@ -142,7 +152,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 .app-top {
   width: 100%;
   padding: 0 16px;
@@ -165,6 +174,12 @@ export default defineComponent({
 .formName {
   color: #3c414b;
   font-weight: 500;
+  width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.formName {
 }
 .app-logo {
   font-size: 18px;
@@ -234,9 +249,12 @@ export default defineComponent({
   overflow: hidden;
   text-overflow: ellipsis;
 }
-@media screen and (max-width:425px) {
-  .app-logo{
-    display: none;
+@media screen and (max-width: 425px) {
+  .app-logo img {
+    margin-right: 5px;
+  }
+  .app-user-title {
+    font-weight: 500;
   }
 }
 </style>

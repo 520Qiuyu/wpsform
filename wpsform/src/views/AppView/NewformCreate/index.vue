@@ -502,7 +502,6 @@ export default defineComponent({
 <style scoped>
 .newform-create-wrapper {
   min-height: 100vh;
-  min-width: 1160px;
   overflow-y: auto;
   background-color: #f2f4f7;
   padding: 86px 50px 30px;
@@ -613,7 +612,7 @@ export default defineComponent({
 .please-add-ques {
   width: 670px;
   padding: 50px 56px;
-  max-height: calc(100vh - 100px);
+  max-height: calc(100vh - 136px);
   display: flex;
   flex-direction: column;
   align-items: center;

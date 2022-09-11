@@ -28,7 +28,7 @@
         提交
       </el-button>
     </div>
-    <el-dialog v-model="dialogVisible" title="提交内容" width="30%">
+    <el-dialog v-model="dialogVisible" title="提交内容" width="80%" top="60%">
       <span>提交后不可修改，确定提交？</span>
       <template #footer>
         <span class="dialog-footer">
@@ -44,9 +44,6 @@
 import {
   defineComponent,
   ref,
-  reactive,
-  onBeforeMount,
-  PropType,
   computed,
 } from "vue";
 import { useRouter } from "vue-router";
@@ -128,7 +125,6 @@ export default defineComponent({
       form.value.problems.forEach((item) => {
         if (item.id === problemId) {
           Object.assign(item, result);
-          console.log("item", item);
         }
       });
     };

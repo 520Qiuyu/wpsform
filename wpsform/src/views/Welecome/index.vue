@@ -19,8 +19,8 @@
             <span></span>
             <span></span>
           </div>
-          <ul class="mobile-nav">
-            <li class="mobile-nav-item">首页</li>
+          <ul class="mobile-nav" @click="go($event)">
+            <li class="mobile-nav-item" :name="'form-list'">首页</li>
             <li class="mobile-nav-item">行业解决方案</li>
             <li class="mobile-nav-item">免费模板</li>
             <li class="mobile-nav-item">帮助中心</li>
@@ -60,14 +60,23 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router"
 export default defineComponent({
   name: "WelecomeView",
   components: {},
   props: {},
   setup(props, ctx) {
+    const Router = useRouter()
     // 移动端菜单是否展开
     const mobileMenuOpened = ref(false);
-    return { mobileMenuOpened };
+    // 跳转页面
+    const go = (event:MouseEvent)=>{
+      const target = event.target as HTMLLIElement
+      Router.push({
+        name:target.getAttribute("name") || ''
+      })
+    }
+    return { mobileMenuOpened, Router, go };
   },
 });
 </script>

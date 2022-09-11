@@ -30,8 +30,8 @@ const routes: Array<RouteRecordRaw> = [
         name: "new-form-create",
         component: () => import("@/views/AppView/NewformCreate/index.vue"),
         meta:{
-          showLogo:true,
-          showLogoName:true,
+          showLogo:false,
+          showLogoName:false,
         }
       },
       // 预览表单
@@ -56,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
             name: "statistical-details",
             component: () => import("@/views/AppView/NewformResult/StatisticalDetails/index.vue"),
             meta:{
-              showLogo:true,
+              showLogo:false,
               showLogoName:false,
             }
           },
@@ -66,7 +66,7 @@ const routes: Array<RouteRecordRaw> = [
             name: "form-question",
             component: () => import("@/views/AppView/NewformResult/FormQuestion/index.vue"),
             meta:{
-              showLogo:true,
+              showLogo:false,
               showLogoName:false,
             }
           },
@@ -76,7 +76,7 @@ const routes: Array<RouteRecordRaw> = [
             name: "share",
             component: () => import("@/views/AppView/NewformResult/FormShare/index.vue"),
             meta:{
-              showLogo:true,
+              showLogo:false,
               showLogoName:false,
             }
           },

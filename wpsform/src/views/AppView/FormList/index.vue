@@ -10,7 +10,11 @@
       <span class="form-list-title">表单列表</span>
     </el-aside>
     <!-- 主要内容 -->
-    <el-main class="form-list-container">
+    <el-main
+      class="form-list-container"
+      @scroll="showMore($event)"
+      ref="mobileFormList"
+    >
       <!-- 过滤表单中带星 -->
       <div
         class="form-list-filter"
@@ -26,6 +30,7 @@
         cell-class-name="form-table-cell"
         @row-click="goFormDetail"
         v-loading="formCollectNumArr.length === 0"
+        v-if="windowWidth > 426"
       >
         <!-- 表单名称 -->
         <el-table-column label="表单名称" class-name="form-title" width="150">
@@ -147,6 +152,97 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 移动版表单 -->
+      <ul class="mobile-form-list" @click="goDetial($event)" v-else>
+        <li
+          :class="`mobile-form-list-item ${
+            showBtns === form.id ? 'is-active' : ''
+          }`"
+          v-for="form in formList"
+          :key="form.id"
+          :formid="form.id"
+          option="godetial"
+        >
+          <div class="form-item-list" :formid="form.id" option="godetial">
+            <div class="left-info" :formid="form.id" option="godetial">
+              <div class="status-icon" :formid="form.id" option="godetial">
+                <el-icon :size="20">
+                  <Document v-if="form.status === 2" color="#E6A23C" />
+                  <Promotion v-else-if="form.status === 3" color="#67C23A" />
+                  <Lock v-else-if="form.status === 4" color=" #f89898" />
+                  <div class="form-title-collection"></div>
+                </el-icon>
+              </div>
+              <div class="title-collection">
+                <span class="title" :formid="form.id" option="godetial">{{
+                  form.title
+                }}</span>
+                <span class="collection" :formid="form.id" option="gocolldetial"
+                  ><el-icon size="12" color=" #eebe77"
+                    ><Star v-if="form.isStar" /><StarFilled v-else /></el-icon
+                  >{{ collectFormNumFormatter(form) }}</span
+                >
+              </div>
+            </div>
+            <div class="right-option" :formid="form.id" option="moreoption">
+              <el-icon
+                ><MoreFilled :formid="form.id" option="moreoption"
+              /></el-icon>
+            </div>
+          </div>
+          <div class="opeator-btns">
+            <el-button
+              @click.stop="startCollect(form.id)"
+              v-if="form.status == 2 || form.status == 4"
+              type="primary"
+              icon="Promotion"
+              title="发布"
+            >
+            </el-button>
+            <el-button
+              @click.stop="editForm(form)"
+              icon="edit"
+              type="success"
+              title="编辑"
+            >
+            </el-button>
+            <!-- 收集中状态按钮 -->
+            <el-button
+              @click.stop="goSharePage(form.id)"
+              v-if="form.status == 3"
+              icon="Share"
+              title="分享"
+            ></el-button>
+            <el-button
+              @click.stop="showResult(form.id)"
+              v-if="form.status == 3 || form.status == 4"
+              icon="View"
+              type="info"
+              title="详情"
+            ></el-button>
+            <el-button
+              @click.stop="endCollect(form.id)"
+              v-if="form.status == 3"
+              icon="SwitchButton"
+              title="停止"
+              type="warning"
+            ></el-button>
+            <el-button
+              @click.stop="deleteForm(form.id)"
+              icon="close"
+              type="danger"
+              title="删除"
+            ></el-button>
+            <el-button
+              @click.stop="showBtns = ''"
+              icon="Fold"
+              type="default"
+              title="取消"
+            ></el-button>
+          </div>
+        </li>
+      </ul>
+
       <!-- 分页器 -->
       <div class="paging-container">
         <el-pagination
@@ -155,7 +251,9 @@
           v-model:page-size="searchParams.pageSize"
           :page-sizes="[5, 10, 15, 20]"
           :pager-count="5"
-          layout=" sizes, prev, pager, next,total"
+          :layout="`${windowWidth > 425 ? 'sizes,' : ''} prev, pager, next,${
+            windowWidth > 425 ? 'total,' : ''
+          }`"
           :background="true"
         ></el-pagination>
       </div>
@@ -190,7 +288,6 @@ export default defineComponent({
   name: "FormList",
   components: {},
   props: {},
-  emits: ["showFormTitle"],
   setup(props, ctx) {
     const store = useStore();
     const router = useRouter();
@@ -204,12 +301,18 @@ export default defineComponent({
         index + (searchParams.currentIndex - 1) * searchParams.pageSize + 1
       );
     };
+    // 检测窗口大小
+    const windowWidth = ref(document.body.clientWidth);
+
+    const mobileFormList = ref();
+
     // 搜索参数
     const searchParams = reactive({
       currentIndex: 1,
       pageSize: 10,
       isStar: false,
     });
+
     // 获取表单列表
     const getFormList = async () => {
       store.dispatch("form/getFormList", {
@@ -226,10 +329,50 @@ export default defineComponent({
       },
       { immediate: true }
     );
+    // 移动端下滑至一定高度，展示更多
+    const showMore = (() => {
+      let timer: any = null;
+      let lastScrollTop = 0;
+      if (windowWidth.value <= 425) {
+        return (event: Event) => {
+          if (!timer) {
+            timer = setTimeout(() => {
+              const target = event.target as HTMLElement;
+              if (
+                target.scrollHeight - target.scrollTop - target.clientHeight <=
+                  100 &&
+                target.scrollTop - lastScrollTop >= 0
+              ) {
+                if (searchParams.pageSize + 8 >= formTotal.value) {
+                  searchParams.pageSize = formTotal.value as number;
+                  ElMessage({
+                    message: "没有更多了",
+                    center: true,
+                    type: "warning",
+                    grouping: true,
+                  });
+                } else {
+                  searchParams.pageSize += 10;
+                  ElMessage({
+                    message: "正在加载",
+                    center: true,
+                    type: "success",
+                    grouping: true,
+                  });
+                }
+              }
+              clearTimeout(timer);
+              timer = null;
+              lastScrollTop = target.scrollTop;
+            }, 300);
+          }
+        };
+      } else {
+        return () => {};
+      }
+    })();
     //前往表单详情页面
-    const goFormDetail = async (row: any) => {
-      //修改app上方logo位置为表单标题
-      ctx.emit("showFormTitle", row.title);
+    const goFormDetail = async (row: { id: string }) => {
       //跳转到表单详情页面
       router.push({
         name: "form-question",
@@ -334,15 +477,42 @@ export default defineComponent({
         ElMessage.error("请先登录！");
       }
     };
-    // 检测窗口大小
-    const windowWidth = ref(document.body.clientWidth);
-    const timer = ref();
+    // 展示操作按钮
+    const showBtns = ref("");
+    // 移动端表单项点击事件
+    const goDetial = (event: Event) => {
+      const target = event.target as HTMLElement;
+      const formId = target.getAttribute("formid");
+      const option = target.getAttribute("option");
+      if (formId && option) {
+        switch (option) {
+          case "godetial": {
+            goFormDetail({ id: formId });
+            break;
+          }
+          case "gocolldetial": {
+            showResult(formId);
+            break;
+          }
+          case "moreoption": {
+            if (showBtns.value === formId) {
+              showBtns.value = "";
+            } else {
+              showBtns.value = formId;
+            }
+            break;
+          }
+        }
+      }
+    };
     return {
       store,
       dayjs,
       goFormDetail,
       indexMethod,
+      mobileFormList,
       searchParams,
+      showMore,
       getFormList,
       formList,
       formTotal,
@@ -358,19 +528,24 @@ export default defineComponent({
       editForm,
       deleteForm,
       windowWidth,
-      timer,
+      goDetial,
+      showBtns,
     };
   },
-  created() {
+  mounted() {
     // 监听窗口大小
-    window.onresize = () => {
-      if (!this.timer) {
-        this.timer = setTimeout(() => {
-          this.windowWidth = document.body.clientWidth;
-          this.timer = null;
-        }, 300);
-      }
-    };
+    window.onresize = (() => {
+      let timer: any = null;
+      return () => {
+        if (!timer) {
+          timer = setTimeout(() => {
+            this.windowWidth = document.body.clientWidth;
+            timer = null;
+          }, 300);
+        }
+      };
+    })();
+    this.showMore({ target: this.mobileFormList.$el } as Event);
   },
 });
 </script>
@@ -476,7 +651,52 @@ span.form {
 .form-list >>> .form-operations .cell {
   display: flex;
 }
-
+.mobile-form-list {
+  color: #606266;
+  overflow: hidden;
+}
+.mobile-form-list-item {
+  line-height: 60px;
+  position: relative;
+}
+.opeator-btns {
+  position: absolute;
+  left: 100vw;
+  transition: all 0.3s;
+  top: 0;
+  height: 100%;
+  width: 100vw;
+  padding: 0 30px;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.is-active .opeator-btns {
+  left: -20px;
+}
+.form-item-list,
+.left-info {
+  display: flex;
+  justify-content: space-between;
+}
+.status-icon {
+  margin-right: 8px;
+}
+.title-collection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #cdd0d6;
+}
+.title-collection .title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #606266;
+}
 .paging-container {
   display: flex;
   justify-content: right;
@@ -535,12 +755,24 @@ span.form {
     height: 60px;
   }
 }
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 426px) {
   .form-list >>> .form-star {
     display: none;
   }
   .form-list >>> .form-title {
     width: 160px;
+  }
+  .form-list-container {
+    padding: 10px 20px;
+  }
+  .form-list-filter {
+    display: none;
+  }
+  .paging-container {
+    display: none;
+  }
+  .el-message {
+    width: 400px;
   }
 }
 </style>

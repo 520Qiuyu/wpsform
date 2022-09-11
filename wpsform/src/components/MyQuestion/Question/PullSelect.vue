@@ -167,6 +167,9 @@ export default defineComponent({
   align-items: center;
   margin-bottom: -15px;
 }
+.problem-answer-set >>> .el-dialog{
+  min-width:300px;
+}
 .problem-answer-set > button {
   font-size: 13px;
   color: #439ff0;
