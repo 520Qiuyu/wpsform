@@ -150,7 +150,7 @@ export default defineComponent({
               result: {
                 value: props.problem.setting?.options
                   ?.filter((item) => item.status === 1)
-                  .map((item) => ({ id: item.id, title: item.title }))[0],
+                  .map((item) => ({ id: item.id, title: item.title }))[0] ?? "",
               },
             },
             props.problem.id
@@ -226,7 +226,7 @@ export default defineComponent({
               result: {
                 value: props.problem.setting?.options
                   ?.filter((item) => item.status === 1)
-                  .map((item) => ({ id: item.id, title: item.title }))[0],
+                  .map((item) => ({ id: item.id, title: item.title }))[0] ?? "",
               },
             },
             props.problem.id
