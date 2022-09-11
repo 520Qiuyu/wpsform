@@ -21,7 +21,7 @@
     <div class="problem-answer-set" v-if="selected">
       <el-button @click="addSelect" link>+选项</el-button>
       <el-button @click="defaultAnswerVisible = true" link>预设答案</el-button>
-      <el-dialog v-model="defaultAnswerVisible" title="预设答案" width="30%">
+      <el-dialog v-model="defaultAnswerVisible" title="预设答案" width="30%" top="40vh">
         <!-- 对话框的主体部分 -->
         <el-select v-model="defaultAnswer" :multiple="true">
           <el-option

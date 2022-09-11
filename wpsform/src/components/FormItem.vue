@@ -28,7 +28,7 @@
         提交
       </el-button>
     </div>
-    <el-dialog v-model="dialogVisible" title="提交内容" width="80%" top="60%">
+    <el-dialog v-model="dialogVisible" title="提交内容" width="80%" top="40vh">
       <span>提交后不可修改，确定提交？</span>
       <template #footer>
         <span class="dialog-footer">

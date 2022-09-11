@@ -472,6 +472,7 @@ export default defineComponent({
     //新建表单
     const createForm = async () => {
       if (store.state.user.loginState) {
+        store.commit("form/clearFormList");
         router.push("/app/new-form-create");
       } else {
         ElMessage.error("请先登录！");
