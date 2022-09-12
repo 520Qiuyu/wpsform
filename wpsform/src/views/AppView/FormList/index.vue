@@ -12,8 +12,9 @@
     <!-- 主要内容 -->
     <el-main
       class="form-list-container"
-      @scroll="showMore($event)"
-      ref="mobileFormList"
+      @touchstart="touchStart($event)"
+      @touchmove="touchMove($event)"
+      @touchend="touchEnd($event)"
     >
       <!-- 过滤表单中带星 -->
       <div
@@ -152,7 +153,14 @@
         </el-table-column>
       </el-table>
       <!-- 移动版表单 -->
-      <ul class="mobile-form-list" @click="goDetial($event)" v-else>
+
+      <ul
+        class="mobile-form-list"
+        @click="goDetial($event)"
+        v-else
+        ref="mobileFormList"
+      >
+        <li class="refresh" ref="refresh"></li>
         <li
           :class="`mobile-form-list-item ${
             showBtns === form.id ? 'is-active' : ''
@@ -178,7 +186,16 @@
                 }}</span>
                 <span class="collection" :formid="form.id" option="gocolldetial"
                   ><el-icon size="12" color=" #eebe77"
-                    ><Star v-if="form.isStar" /><StarFilled v-else /></el-icon
+                    ><Star
+                      v-show="!form.isStar"
+                      :formid="form.id"
+                      option="star"
+                    />
+                    <StarFilled
+                      v-show="form.isStar"
+                      :formid="form.id"
+                      option="cancelStar"
+                    /> </el-icon
                   >{{ collectFormNumFormatter(form) }}</span
                 >
               </div>
@@ -291,6 +308,7 @@ import { IUser, IForm, IProblem } from "@/types/types";
 import { useStore } from "vuex";
 import dayjs from "dayjs";
 import { ElMessage } from "element-plus";
+import lodash from "lodash";
 
 export default defineComponent({
   name: "FormList",
@@ -337,46 +355,60 @@ export default defineComponent({
       },
       { immediate: true }
     );
-    // 移动端下滑至一定高度，展示更多
-    const showMore = (() => {
-      let timer: any = null;
-      let lastScrollTop = 0;
-      if (windowWidth.value <= 425) {
-        return (event: Event) => {
-          if (!timer) {
-            timer = setTimeout(() => {
-              const target = event.target as HTMLElement;
-              // 向下滑至底部刷新更多
-              if (
-                target.scrollHeight - target.scrollTop - target.clientHeight <=
-                  100 &&
-                target.scrollTop - lastScrollTop >= 0
-              ) {
-                if (searchParams.pageSize + 8 >= formTotal.value) {
-                  searchParams.pageSize = formTotal.value as number;
-                } else {
-                  searchParams.pageSize += 10;
-                }
-              }
-              // 向上滑刷新
-              else if(target.scrollTop - lastScrollTop <= 0){
-                if()
-                console.log("向上滑到顶了")
-                console.log(event)
-                requestAnimationFrame(()=>{
 
-                })
-              }
-              clearTimeout(timer);
-              timer = null;
-              lastScrollTop = target.scrollTop;
-            }, 300);
-          }
-        };
-      } else {
-        return () => {};
+    // 纵向偏移量
+    const pageY = ref<number>(0);
+    // 是否刷新
+    const isRefresh = ref(false);
+    // 是否加载更多
+    const isMore = ref(false);
+    // 刷新文本
+    const refresh = ref();
+    const touchStart = (event: TouchEvent) => {
+      // 记录偏移量
+      pageY.value = event.touches[0].pageY;
+    };
+    const touchMove = (event: TouchEvent) => {
+      const target = event.target as HTMLElement;
+      let scrollHeight = event.touches[0].pageY - pageY.value;
+      // 下拉刷新
+      if (scrollHeight > 0 && target.scrollTop === 0) {
+        refresh.value.innerHTML = "继续下拉";
+        if (scrollHeight < 60) {
+          mobileFormList.value.style.transform = `translateY(${scrollHeight}px)`;
+        } else {
+          refresh.value.innerHTML = "释放刷新";
+          isRefresh.value = true;
+        }
       }
-    })();
+      // 拖至最底部加载更多
+      if (
+        scrollHeight < 0 &&
+        target.scrollHeight - target.scrollTop - target.clientHeight <= 100
+      ) {
+        if (-scrollHeight < 60) {
+          mobileFormList.value.style.transform = `translateY(${scrollHeight}px)`;
+        } else {
+          isMore.value = true;
+        }
+      }
+    };
+    const touchEnd = (event: TouchEvent) => {
+      if (isRefresh.value) {
+        refresh.value.innerHTML = "";
+        mobileFormList.value.style.transform = `translateY(0px)`;
+        searchParams.pageSize = 10;
+        isRefresh.value = false;
+      }
+      if (isMore.value) {
+        searchParams.pageSize =
+          searchParams.pageSize + 10 > formTotal.value
+            ? (formTotal.value as number)
+            : searchParams.pageSize + 10;
+        mobileFormList.value.style.transform = `translateY(0px)`;
+        isMore.value = false;
+      }
+    };
     //前往表单详情页面
     const goFormDetail = async (row: { id: string }) => {
       //跳转到表单详情页面
@@ -509,6 +541,14 @@ export default defineComponent({
             }
             break;
           }
+          case "star": {
+            starForm(formId);
+            break;
+          }
+          case "cancelStar": {
+            cancelStarForm(formId);
+            break;
+          }
         }
       }
     };
@@ -519,7 +559,10 @@ export default defineComponent({
       indexMethod,
       mobileFormList,
       searchParams,
-      showMore,
+      touchStart,
+      refresh,
+      touchMove,
+      touchEnd,
       getFormList,
       formList,
       formTotal,
@@ -552,7 +595,6 @@ export default defineComponent({
         }
       };
     })();
-    this.showMore({ target: this.mobileFormList.$el } as Event);
   },
 });
 </script>
@@ -661,6 +703,12 @@ span.form {
 .mobile-form-list {
   color: #606266;
   overflow: hidden;
+  transition: all 0.2s;
+}
+.refresh {
+  color: #a8abb2;
+  text-align: center;
+  font-size: 12px;
 }
 .mobile-form-list-item {
   line-height: 60px;
