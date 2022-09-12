@@ -69,7 +69,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const ruleFormRef = ref<FormInstance>();
-    const ruleForm = reactive(<ILoginReq>{ account: "", password: "" });
+    const ruleForm = reactive<ILoginReq>({ account: "", password: "" });
 
     //验证规则
     const rules = reactive({
@@ -132,7 +132,7 @@ export default defineComponent({
 .page {
   display: flex;
   background-color: #fff;
-  height: 100%;
+  height: 100vh;
 }
 .page-left {
   width: 580px;

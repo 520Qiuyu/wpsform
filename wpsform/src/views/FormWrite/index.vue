@@ -74,6 +74,7 @@ export default defineComponent({
 .form-write-main {
   background-color: #f2f4f7;
   margin-top: 56px;
+  min-height: 100vh;
 }
 .form-write-content {
   width: 100%;

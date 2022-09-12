@@ -98,7 +98,7 @@ export default defineComponent({
     const ruleFormRef = ref<FormInstance>();
     const usernameInput = ref<HTMLInputElement>();
     const passwordInput = ref<HTMLInputElement>();
-    const ruleForm = reactive(<IRegisterReq>{
+    const ruleForm = reactive<IRegisterReq>({
       account: "",
       password: "",
       confirm_password: "",
@@ -237,7 +237,7 @@ export default defineComponent({
 .page {
   display: flex;
   background-color: #fff;
-  height: 100%;
+  height: 100vh;
 }
 .page-left {
   width: 580px;

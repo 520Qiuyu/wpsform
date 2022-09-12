@@ -181,7 +181,7 @@ export default defineComponent({
     const upload = ref();
     const ruleFormRef = ref<FormInstance>();
     const router = useRouter();
-    const userInfo = reactive(<IUser>{
+    const userInfo = reactive<IUser>({
       account: "",
       pwd: "",
       nickname: "",
@@ -195,7 +195,7 @@ export default defineComponent({
     const showOperate = ref(0);
     const passwordTip = ref(false);
     const confirmPwdTip = ref(false);
-    const ruleForm = reactive(<IChangePwdReq>{
+    const ruleForm = reactive<IChangePwdReq>({
       old_password: "",
       new_password: "",
       confirm_password: "",

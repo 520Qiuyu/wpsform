@@ -29,7 +29,6 @@
         :data="formList"
         cell-class-name="form-table-cell"
         @row-click="goFormDetail"
-        v-loading="formCollectNumArr.length === 0"
         v-if="windowWidth > 426"
       >
         <!-- 表单名称 -->
@@ -241,7 +240,16 @@
             ></el-button>
           </div>
         </li>
+        <li class="end-line" v-show="formList.length === formTotal">
+          <span class="line"></span>
+          <span class="end">End</span>
+          <span class="line"></span>
+        </li>
       </ul>
+      <!-- No Data -->
+      <div class="no-data" v-if="windowWidth <= 426 && formList.length === 0">
+        No Data
+      </div>
 
       <!-- 分页器 -->
       <div class="paging-container">
@@ -338,6 +346,7 @@ export default defineComponent({
           if (!timer) {
             timer = setTimeout(() => {
               const target = event.target as HTMLElement;
+              // 向下滑至底部刷新更多
               if (
                 target.scrollHeight - target.scrollTop - target.clientHeight <=
                   100 &&
@@ -345,21 +354,18 @@ export default defineComponent({
               ) {
                 if (searchParams.pageSize + 8 >= formTotal.value) {
                   searchParams.pageSize = formTotal.value as number;
-                  ElMessage({
-                    message: "没有更多了",
-                    center: true,
-                    type: "warning",
-                    grouping: true,
-                  });
                 } else {
                   searchParams.pageSize += 10;
-                  ElMessage({
-                    message: "正在加载",
-                    center: true,
-                    type: "success",
-                    grouping: true,
-                  });
                 }
+              }
+              // 向上滑刷新
+              else if(target.scrollTop - lastScrollTop <= 0){
+                if()
+                console.log("向上滑到顶了")
+                console.log(event)
+                requestAnimationFrame(()=>{
+
+                })
               }
               clearTimeout(timer);
               timer = null;
@@ -697,6 +703,27 @@ span.form {
   font-size: 14px;
   font-weight: 600;
   color: #606266;
+}
+.end-line {
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  align-items: center;
+  margin: 10px 0;
+}
+.line {
+  border: 1px dashed #e7e9eb;
+  flex: 1 1 auto;
+  margin: 0 10px;
+}
+.end {
+  line-height: 1;
+  color: #767c85;
+}
+.no-data {
+  height: 100%;
+  text-align: center;
+  color: #909399;
 }
 .paging-container {
   display: flex;
