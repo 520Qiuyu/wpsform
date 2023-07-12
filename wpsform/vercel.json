@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source":"/api/:match*",
-            "destination":"http:/wpsform-2duw.vercel.app:3000/api/:match*"
+            "destination":"http:/wpsform-2duw.vercel.app/api/:match*"
         }
     ]
 }
