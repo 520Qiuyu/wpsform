@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source":"/api/:match*",
-            "destination":"http:/wpsform-2duw.vercel.app/api/:match*"
+            "destination":"http:/www.qiuyu.love:8080/api/:match*"
         }
     ]
 }
